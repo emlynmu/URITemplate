@@ -10,6 +10,10 @@ import Foundation
 
 public typealias URITemplateValues = [String : String]
 
+public protocol URITemplateExpandable {
+    func expand(values: URITemplateValues) -> String
+}
+
 public struct URITemplate: URITemplateExpandable {
     private let tokens: [Token]
 

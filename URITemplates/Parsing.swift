@@ -8,18 +8,15 @@
 
 import Foundation
 
-public protocol URITemplateExpandable {
-    func expand(values: URITemplateValues) -> String
-}
-
-public enum Token: Printable, URITemplateExpandable {
+public enum Token: DebugPrintable, URITemplateExpandable {
     case Text(String)
     case Expression(String)
 
-    public var description: String {
+    public var debugDescription: String {
         switch self {
         case .Text(let value):
             return "text(\"\(value)\")"
+
         case .Expression(let value):
             return "expression(\"\(value)\")"
         }
