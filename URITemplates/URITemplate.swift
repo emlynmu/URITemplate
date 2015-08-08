@@ -13,7 +13,7 @@ public typealias URITemplateValues = [String : String]
 enum ExpressionCharacter: Character {
     case Start = "{"
     case End = "}"
-    case AllowReserved = "+"
+    case Reserved = "+"
     case Fragment = "#"
 }
 

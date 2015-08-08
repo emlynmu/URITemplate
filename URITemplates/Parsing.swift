@@ -11,7 +11,7 @@ import Foundation
 public enum Token: DebugPrintable, URITemplateExpandable {
     case Text(String)
     case Expression(String)
-    case AllowReservedExpression(String)
+    case Reserved(String)
     case Fragment(String)
 
     public var debugDescription: String {
@@ -22,8 +22,8 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .Expression(let value):
             return "expression(\"\(value)\")"
 
-        case .AllowReservedExpression(let value):
-            return "allow_reserved_expression(\"\(value)\")"
+        case .Reserved(let value):
+            return "reserved(\"\(value)\")"
 
         case .Fragment(let value):
             return "fragment(\"\(value)\")"
@@ -39,7 +39,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             return percentEncodeString((values[String(variable)] ?? ""),
                 allowCharacters: .Unreserved)
 
-        case .AllowReservedExpression(let variable):
+        case .Reserved(let variable):
             return percentEncodeString((values[String(variable)] ?? ""),
                 allowCharacters: [.Unreserved, .Reserved])
 
@@ -79,16 +79,16 @@ public func consumeFragment(string: String) -> ConsumeResult? {
     return consumeFragment(Remainder(string))
 }
 
-public func consumeAllowReservedExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+public func consumeReserved(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
     if templateSlice.count >= 4,
         let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0]),
         secondExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[1])
-        where firstExpressionCharacter == .Start && secondExpressionCharacter == .AllowReserved {
+        where firstExpressionCharacter == .Start && secondExpressionCharacter == .Reserved {
             for (index, currentCharacter) in enumerate(templateSlice) {
                 if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
                     where currentExpressionCharacter == .End && index > 1 {
                         let (token, remainder) = split(templateSlice, atIndex: index)
-                        return (Token.AllowReservedExpression(
+                        return (Token.Reserved(
                             String(token[2 ..< (token.count - 1)])), remainder)
                 }
             }
@@ -97,8 +97,8 @@ public func consumeAllowReservedExpression(templateSlice: ArraySlice<Character>)
     return nil
 }
 
-public func consumeAllowReservedExpression(string: String) -> ConsumeResult? {
-    return consumeAllowReservedExpression(Remainder(string))
+public func consumeReserved(string: String) -> ConsumeResult? {
+    return consumeReserved(Remainder(string))
 }
 
 public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -148,7 +148,7 @@ public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remain
     if let result = consumeFragment(templateSlice) {
         return result
     }
-    else if let result = consumeAllowReservedExpression(templateSlice) {
+    else if let result = consumeReserved(templateSlice) {
         return result
     }
     else if let result = consumeExpression(templateSlice) {

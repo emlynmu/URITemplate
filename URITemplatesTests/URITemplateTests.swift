@@ -36,9 +36,9 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    // MARK: - Allow Reserved
+    // MARK: - Reserved
 
-    func testAllowReservedExpressionEncoding() {
+    func testReservedEncoding() {
         let template = URITemplate(string: "here?ref={+path}")
         let expected = "here?ref=/foo/bar"
         let result = template.expand(["path": "/foo/bar"])
@@ -54,7 +54,7 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testMixedReservedExpressionEncoding() {
+    func testMixedReservedEncoding() {
         let template = URITemplate(string: "here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff/g/h/i"
         let result = template.expand(["path": "/foo/bar", "b": "/d/e/f", "c": "/g/h/i"])

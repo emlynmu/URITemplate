@@ -54,47 +54,47 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
     
-    // MARK: - consumeAllowReservedExpression
+    // MARK: - consumeReserved
 
-    func testConsumeAllowReservedExpressionOnly() {
+    func testConsumeReservedOnly() {
         let template = "{+hello}"
-        let result = consumeAllowReservedExpression(template)
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "hello"))
+        let result = consumeReserved(template)
+        XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeAllowReservedExpressionWithText() {
+    func testConsumeReservedWithText() {
         let template = "{+abc}def"
-        let result = consumeAllowReservedExpression(template)
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "abc"))
+        let result = consumeReserved(template)
+        XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
-    func testConsumeFirstOfTwoAllowReservedExpressions() {
+    func testConsumeFirstOfTwoReserveds() {
         let template = "{+abc}{+def}"
-        let result = consumeAllowReservedExpression(template)
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "abc"))
+        let result = consumeReserved(template)
+        XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
 
-    func testConsumeAllowReservedExpressionFail() {
-        let result = consumeAllowReservedExpression("abc{+def}")
+    func testConsumeReservedFail() {
+        let result = consumeReserved("abc{+def}")
         XCTAssert(result == nil)
     }
 
-    func testConsumeAllowReservedExpressionEmpty() {
-        let result = consumeAllowReservedExpression("")
+    func testConsumeReservedEmpty() {
+        let result = consumeReserved("")
         XCTAssert(result == nil)
     }
 
-    func testConsumeAllowReservedExpressionEmptyAllowReservedExpression() {
-        let result = consumeAllowReservedExpression("{+}")
+    func testConsumeReservedEmptyReserved() {
+        let result = consumeReserved("{+}")
         XCTAssert(result == nil)
     }
 
-    func testConsumeAllowReservedExpressionSingleCharacterAllowReservedExpression() {
-        let result = consumeAllowReservedExpression("{+x}")
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "x"))
+    func testConsumeReservedSingleCharacterReserved() {
+        let result = consumeReserved("{+x}")
+        XCTAssert(consumeResultIsReserved(result, withText: "x"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
     
@@ -200,36 +200,36 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    // MARK: - consumeToken: Allow Reserved Expression
+    // MARK: - consumeToken: Reserved Expression
 
-    func testConsumeTokenAllowReservedExpression() {
+    func testConsumeTokenReserved() {
         let template = "{+hello}"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "hello"))
+        XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeTokenAllowReservedExpressionWithText() {
+    func testConsumeTokenReservedWithText() {
         let template = "{+abc}def"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "abc"))
+        XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
-    func testConsumeTokenFirstOfTwoAllowReservedExpressions() {
+    func testConsumeTokenFirstOfTwoReserveds() {
         let template = "{+abc}{+def}"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "abc"))
+        XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
 
-    func testConsumeTokenTextAndAllowReservedExpression() {
+    func testConsumeTokenTextAndReserved() {
         let result = consumeToken(ArraySlice("abc{+def}"))
         XCTAssert(consumeResultIsText(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
 
-    func testConsumeTokenEmptyAllowReservedExpression() {
+    func testConsumeTokenEmptyReserved() {
         let result = consumeToken(ArraySlice("{+}"))
         XCTAssert(consumeResultIsText(result, withValue: "{+}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
@@ -354,11 +354,11 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsExpression(result[0], withText:"hello"))
     }
 
-    func testTokenizeWithAllowReservedExpressionOnly() {
+    func testTokenizeWithReservedOnly() {
         let template = "{+hello}"
         let result = tokenize(template)
         XCTAssert(result.count == 1)
-        XCTAssert(tokenIsAllowReservedExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsReserved(result[0], withText:"hello"))
     }
 
     func testTokenizeTextWithExpression() {
@@ -370,13 +370,13 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsExpression(result[1], withText:"there"))
     }
 
-    func testTokenizeTextWithAllowReservedExpression() {
+    func testTokenizeTextWithReserved() {
         let template = "hello{+there}"
         let result = tokenize(template)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsText(result[0], withValue:"hello"))
-        XCTAssert(tokenIsAllowReservedExpression(result[1], withText:"there"))
+        XCTAssert(tokenIsReserved(result[1], withText:"there"))
     }
 
     func testTokenizeExpressionWithText() {
@@ -388,12 +388,12 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsText(result[1], withValue:"there"))
     }
 
-    func testTokenizeAllowReservedExpressionWithText() {
+    func testTokenizeReservedWithText() {
         let template = "{+hello}there"
         let result = tokenize(template)
 
         XCTAssert(result.count == 2)
-        XCTAssert(tokenIsAllowReservedExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsReserved(result[0], withText:"hello"))
         XCTAssert(tokenIsText(result[1], withValue:"there"))
     }
 
@@ -407,14 +407,14 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsExpression(result[2], withText:"monkey"))
     }
 
-    func testTokenizeAllowReservedExpressionTextAllowReservedExpression() {
+    func testTokenizeReservedTextReserved() {
         let template = "{+hello}there{+monkey}"
         let result = tokenize(template)
 
         XCTAssert(result.count == 3)
-        XCTAssert(tokenIsAllowReservedExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsReserved(result[0], withText:"hello"))
         XCTAssert(tokenIsText(result[1], withValue:"there"))
-        XCTAssert(tokenIsAllowReservedExpression(result[2], withText:"monkey"))
+        XCTAssert(tokenIsReserved(result[2], withText:"monkey"))
     }
 
     func testTokenizeTextExpressionText() {
@@ -427,13 +427,13 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsText(result[2], withValue:"monkey"))
     }
 
-    func testTokenizeTextAllowReservedExpressionText() {
+    func testTokenizeTextReservedText() {
         let template = "hello{+there}monkey"
         let result = tokenize(template)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsText(result[0], withValue:"hello"))
-        XCTAssert(tokenIsAllowReservedExpression(result[1], withText:"there"))
+        XCTAssert(tokenIsReserved(result[1], withText:"there"))
         XCTAssert(tokenIsText(result[2], withValue:"monkey"))
     }
 
@@ -499,9 +499,9 @@ class ParsingTests: XCTestCase {
         return false
     }
 
-    func consumeResultIsAllowReservedExpression(result: ConsumeResult?, withText text: String) -> Bool {
+    func consumeResultIsReserved(result: ConsumeResult?, withText text: String) -> Bool {
         if let result = result {
-            return tokenIsAllowReservedExpression(result.0, withText: text)
+            return tokenIsReserved(result.0, withText: text)
         }
 
         return false
@@ -535,9 +535,9 @@ class ParsingTests: XCTestCase {
         }
     }
 
-    func tokenIsAllowReservedExpression(token: Token, withText text: String) -> Bool {
+    func tokenIsReserved(token: Token, withText text: String) -> Bool {
         switch token {
-        case .AllowReservedExpression(let value):
+        case .Reserved(let value):
             return text == String(value)
 
         default:
