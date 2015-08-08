@@ -13,7 +13,7 @@ class URITemplateTests: XCTestCase {
     // MARK: - Simple String
 
     func testSimpleExpansion() {
-        let template = URITemplate(string: "my{adjective}template")
+        let template = URITemplate("my{adjective}template")
         let expected = "myfunkytemplate"
         let result = template.expand(["adjective": "funky"])
 
@@ -21,7 +21,7 @@ class URITemplateTests: XCTestCase {
     }
 
     func testMissingValueExpansion() {
-        let template = URITemplate(string: "my{adjective}template")
+        let template = URITemplate("my{adjective}template")
         let expected = "mytemplate"
         let result = template.expand([:])
 
@@ -29,7 +29,7 @@ class URITemplateTests: XCTestCase {
     }
 
     func testPercentEncodedValueExpansion() {
-        let template = URITemplate(string: "my {adjective} template")
+        let template = URITemplate("my {adjective} template")
         let expected = "my super%20funky template"
         let result = template.expand(["adjective": "super funky"])
 
@@ -39,7 +39,7 @@ class URITemplateTests: XCTestCase {
     // MARK: - Reserved
 
     func testReservedEncoding() {
-        let template = URITemplate(string: "here?ref={+path}")
+        let template = URITemplate("here?ref={+path}")
         let expected = "here?ref=/foo/bar"
         let result = template.expand(["path": "/foo/bar"])
 
@@ -47,7 +47,7 @@ class URITemplateTests: XCTestCase {
     }
 
     func testSimpleStringEncoding() {
-        let template = URITemplate(string: "here?ref={path}")
+        let template = URITemplate("here?ref={path}")
         let expected = "here?ref=%2Ffoo%2Fbar"
         let result = template.expand(["path": "/foo/bar"])
 
@@ -55,7 +55,7 @@ class URITemplateTests: XCTestCase {
     }
 
     func testMixedReservedEncoding() {
-        let template = URITemplate(string: "here?ref={+path}{b}{+c}")
+        let template = URITemplate("here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff/g/h/i"
         let result = template.expand(["path": "/foo/bar", "b": "/d/e/f", "c": "/g/h/i"])
 
@@ -65,7 +65,7 @@ class URITemplateTests: XCTestCase {
     // MARK: - Fragment
 
     func testFragmentExpansion() {
-        let template = URITemplate(string: "X{#var}")
+        let template = URITemplate("X{#var}")
         let expected = "X#value"
         let result = template.expand(["var": "value"])
 
@@ -73,7 +73,7 @@ class URITemplateTests: XCTestCase {
     }
 
     func testFragmentEncoding() {
-        let template = URITemplate(string: "X{#var}")
+        let template = URITemplate("X{#var}")
         let expected = "X#Hello%20World!"
         let result = template.expand(["var": "Hello World!"])
 

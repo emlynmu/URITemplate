@@ -25,8 +25,8 @@ public protocol URITemplateExpandable {
 public struct URITemplate: URITemplateExpandable {
     private let tokens: [Token]
 
-    public init(string: String) {
-        tokens = tokenize(string)
+    public init(_ value: Printable) {
+        tokens = tokenize(value.description)
     }
 
     public func expand(values: URITemplateValues) -> String {
