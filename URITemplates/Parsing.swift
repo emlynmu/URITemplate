@@ -9,14 +9,14 @@
 import Foundation
 
 public enum Token: DebugPrintable, URITemplateExpandable {
-    case Text(String)
+    case Literal(String)
     case SimpleString(String)
     case Reserved(String)
     case Fragment(String)
 
     public var debugDescription: String {
         switch self {
-        case .Text(let value):
+        case .Literal(let value):
             return "text(\"\(value)\")"
 
         case .SimpleString(let value):
@@ -32,7 +32,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
     public func expand(values: URITemplateValues) -> String {
         switch self {
-        case .Text(let value):
+        case .Literal(let value):
             return String(value)
 
         case .SimpleString(let variable):
@@ -122,7 +122,7 @@ public func consumeSimpleString(string: String) -> ConsumeResult? {
     return consumeSimpleString(Remainder(string))
 }
 
-public func consumeText(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
     if templateSlice.count <= 0 {
         return nil
     }
@@ -132,16 +132,16 @@ public func consumeText(templateSlice: ArraySlice<Character>) -> ConsumeResult? 
             where currentExpressionCharacter == .Start {
                 if consumeSimpleString(templateSlice[index..<templateSlice.count]) != nil {
                     let (token, remainder) = split(templateSlice, atIndex: index - 1)
-                    return (Token.Text(String(token)), remainder)
+                    return (Token.Literal(String(token)), remainder)
                 }
         }
     }
 
-    return (Token.Text(String(templateSlice)), ArraySlice(""))
+    return (Token.Literal(String(templateSlice)), ArraySlice(""))
 }
 
-public func consumeText(string: String) -> ConsumeResult? {
-    return consumeText(ArraySlice<Character>(string))
+public func consumeLiteral(string: String) -> ConsumeResult? {
+    return consumeLiteral(ArraySlice<Character>(string))
 }
 
 public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
@@ -154,7 +154,7 @@ public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remain
     else if let result = consumeSimpleString(templateSlice) {
         return result
     }
-    else if let result = consumeText(templateSlice) {
+    else if let result = consumeLiteral(templateSlice) {
         return result
     }
 
