@@ -10,7 +10,7 @@ import Foundation
 
 public enum Token: DebugPrintable, URITemplateExpandable {
     case Text(String)
-    case Expression(String)
+    case SimpleString(String)
     case Reserved(String)
     case Fragment(String)
 
@@ -19,8 +19,8 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .Text(let value):
             return "text(\"\(value)\")"
 
-        case .Expression(let value):
-            return "expression(\"\(value)\")"
+        case .SimpleString(let value):
+            return "simple_string(\"\(value)\")"
 
         case .Reserved(let value):
             return "reserved(\"\(value)\")"
@@ -35,7 +35,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .Text(let value):
             return String(value)
 
-        case .Expression(let variable):
+        case .SimpleString(let variable):
             return percentEncodeString((values[String(variable)] ?? ""),
                 allowCharacters: .Unreserved)
 
@@ -101,7 +101,7 @@ public func consumeReserved(string: String) -> ConsumeResult? {
     return consumeReserved(Remainder(string))
 }
 
-public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+public func consumeSimpleString(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
     if templateSlice.count >= 3,
         let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0])
         where firstExpressionCharacter == .Start &&
@@ -110,7 +110,7 @@ public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeRe
                     if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
                         where currentExpressionCharacter == .End && index > 1 {
                             let (token, remainder) = split(templateSlice, atIndex: index)
-                            return (Token.Expression(String(token[1 ..< (token.count - 1)])), remainder)
+                            return (Token.SimpleString(String(token[1 ..< (token.count - 1)])), remainder)
                     }
                 }
     }
@@ -118,8 +118,8 @@ public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeRe
     return nil
 }
 
-public func consumeExpression(string: String) -> ConsumeResult? {
-    return consumeExpression(Remainder(string))
+public func consumeSimpleString(string: String) -> ConsumeResult? {
+    return consumeSimpleString(Remainder(string))
 }
 
 public func consumeText(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -130,7 +130,7 @@ public func consumeText(templateSlice: ArraySlice<Character>) -> ConsumeResult? 
     for (index, currentCharacter) in enumerate(templateSlice) {
         if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
             where currentExpressionCharacter == .Start {
-                if consumeExpression(templateSlice[index..<templateSlice.count]) != nil {
+                if consumeSimpleString(templateSlice[index..<templateSlice.count]) != nil {
                     let (token, remainder) = split(templateSlice, atIndex: index - 1)
                     return (Token.Text(String(token)), remainder)
                 }
@@ -151,7 +151,7 @@ public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remain
     else if let result = consumeReserved(templateSlice) {
         return result
     }
-    else if let result = consumeExpression(templateSlice) {
+    else if let result = consumeSimpleString(templateSlice) {
         return result
     }
     else if let result = consumeText(templateSlice) {

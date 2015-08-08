@@ -10,7 +10,7 @@ import XCTest
 import URITemplates
 
 class URITemplateTests: XCTestCase {
-    // MARK: - Expression
+    // MARK: - Simple String
 
     func testSimpleExpansion() {
         let template = URITemplate(string: "my{adjective}template")
@@ -46,7 +46,7 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testExpressionEncoding() {
+    func testSimpleStringEncoding() {
         let template = URITemplate(string: "here?ref={path}")
         let expected = "here?ref=%2Ffoo%2Fbar"
         let result = template.expand(["path": "/foo/bar"])

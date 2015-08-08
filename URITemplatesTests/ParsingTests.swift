@@ -98,41 +98,41 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
     
-    // MARK: - consumeExpression
+    // MARK: - consumeSimpleString
 
-    func testConsumeExpressionOnly() {
+    func testConsumeSimpleStringOnly() {
         let template = "{hello}"
-        let result = consumeExpression(template)
-        XCTAssert(consumeResultIsExpression(result, withText: "hello"))
+        let result = consumeSimpleString(template)
+        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeExpressionWithText() {
+    func testConsumeSimpleStringWithText() {
         let template = "{abc}def"
-        let result = consumeExpression(template)
-        XCTAssert(consumeResultIsExpression(result, withText: "abc"))
+        let result = consumeSimpleString(template)
+        XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
-    func testConsumeFirstOfTwoExpressions() {
+    func testConsumeFirstOfTwoSimpleStrings() {
         let template = "{abc}{def}"
-        let result = consumeExpression(template)
-        XCTAssert(consumeResultIsExpression(result, withText: "abc"))
+        let result = consumeSimpleString(template)
+        XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
 
-    func testConsumeExpressionFail() {
-        let result = consumeExpression("abc{def}")
+    func testConsumeSimpleStringFail() {
+        let result = consumeSimpleString("abc{def}")
         XCTAssert(result == nil)
     }
 
-    func testConsumeExpressionEmpty() {
-        let result = consumeExpression("")
+    func testConsumeSimpleStringEmpty() {
+        let result = consumeSimpleString("")
         XCTAssert(result == nil)
     }
 
-    func testConsumeExpressionEmptyExpression() {
-        let result = consumeExpression("{}")
+    func testConsumeSimpleStringEmptyExpression() {
+        let result = consumeSimpleString("{}")
         XCTAssert(result == nil)
     }
 
@@ -145,7 +145,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeTextWithExpression() {
+    func testConsumeTextWithSimpleString() {
         let template = "hello{there}"
         let result = consumeText(template)
         XCTAssert(consumeResultIsText(result, withValue: "hello"))
@@ -200,7 +200,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    // MARK: - consumeToken: Reserved Expression
+    // MARK: - consumeToken: Reserved
 
     func testConsumeTokenReserved() {
         let template = "{+hello}"
@@ -235,30 +235,30 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    // MARK: - consumeToken: Expression
+    // MARK: - consumeToken: Simple String
 
-    func testConsumeTokenExpression() {
+    func testConsumeTokenSimpleString() {
         let template = "{hello}"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsExpression(result, withText: "hello"))
+        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeTokenExpressionWithText() {
+    func testConsumeTokenSimpleStringWithText() {
         let template = "{abc}def"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsExpression(result, withText: "abc"))
+        XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
-    func testConsumeTokenFirstOfTwoExpressions() {
+    func testConsumeTokenFirstOfTwoSimpleStrings() {
         let template = "{abc}{def}"
         let result = consumeToken(ArraySlice(template))
-        XCTAssert(consumeResultIsExpression(result, withText: "abc"))
+        XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
 
-    func testConsumeTokenTextAndExpression() {
+    func testConsumeTokenTextAndSimpleString() {
         let result = consumeToken(ArraySlice("abc{def}"))
         XCTAssert(consumeResultIsText(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
@@ -269,7 +269,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
-    func testConsumeTokenEmptyExpression() {
+    func testConsumeTokenEmptySimpleString() {
         let result = consumeToken(ArraySlice("{}"))
         XCTAssert(consumeResultIsText(result, withValue: "{}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
@@ -284,7 +284,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    func testConsumeTokenTextWithExpression() {
+    func testConsumeTokenTextWithSimpleString() {
         let template = "hello{there}"
         let result = consumeToken(ArraySlice(template))
         XCTAssert(consumeResultIsText(result, withValue: "hello"))
@@ -347,11 +347,11 @@ class ParsingTests: XCTestCase {
         XCTAssert(result.count == 0)
     }
 
-    func testTokenizeWithExpressionOnly() {
+    func testTokenizeWithSimpleStringOnly() {
         let template = "{hello}"
         let result = tokenize(template)
         XCTAssert(result.count == 1)
-        XCTAssert(tokenIsExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
     }
 
     func testTokenizeWithReservedOnly() {
@@ -361,13 +361,13 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsReserved(result[0], withText:"hello"))
     }
 
-    func testTokenizeTextWithExpression() {
+    func testTokenizeTextWithSimpleString() {
         let template = "hello{there}"
         let result = tokenize(template)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsText(result[0], withValue:"hello"))
-        XCTAssert(tokenIsExpression(result[1], withText:"there"))
+        XCTAssert(tokenIsSimpleString(result[1], withText:"there"))
     }
 
     func testTokenizeTextWithReserved() {
@@ -379,12 +379,12 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsReserved(result[1], withText:"there"))
     }
 
-    func testTokenizeExpressionWithText() {
+    func testTokenizeSimpleStringWithText() {
         let template = "{hello}there"
         let result = tokenize(template)
 
         XCTAssert(result.count == 2)
-        XCTAssert(tokenIsExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
         XCTAssert(tokenIsText(result[1], withValue:"there"))
     }
 
@@ -397,14 +397,14 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsText(result[1], withValue:"there"))
     }
 
-    func testTokenizeExpressionTextExpression() {
+    func testTokenizeSimpleStringTextSimpleString() {
         let template = "{hello}there{monkey}"
         let result = tokenize(template)
 
         XCTAssert(result.count == 3)
-        XCTAssert(tokenIsExpression(result[0], withText:"hello"))
+        XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
         XCTAssert(tokenIsText(result[1], withValue:"there"))
-        XCTAssert(tokenIsExpression(result[2], withText:"monkey"))
+        XCTAssert(tokenIsSimpleString(result[2], withText:"monkey"))
     }
 
     func testTokenizeReservedTextReserved() {
@@ -417,13 +417,13 @@ class ParsingTests: XCTestCase {
         XCTAssert(tokenIsReserved(result[2], withText:"monkey"))
     }
 
-    func testTokenizeTextExpressionText() {
+    func testTokenizeTextSimpleStringText() {
         let template = "hello{there}monkey"
         let result = tokenize(template)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsText(result[0], withValue:"hello"))
-        XCTAssert(tokenIsExpression(result[1], withText:"there"))
+        XCTAssert(tokenIsSimpleString(result[1], withText:"there"))
         XCTAssert(tokenIsText(result[2], withValue:"monkey"))
     }
 
@@ -491,9 +491,9 @@ class ParsingTests: XCTestCase {
         return false
     }
 
-    func consumeResultIsExpression(result: ConsumeResult?, withText text: String) -> Bool {
+    func consumeResultIsSimpleString(result: ConsumeResult?, withText text: String) -> Bool {
         if let result = result {
-            return tokenIsExpression(result.0, withText: text)
+            return tokenIsSimpleString(result.0, withText: text)
         }
 
         return false
@@ -525,9 +525,9 @@ class ParsingTests: XCTestCase {
         }
     }
 
-    func tokenIsExpression(token: Token, withText text: String) -> Bool {
+    func tokenIsSimpleString(token: Token, withText text: String) -> Bool {
         switch token {
-        case .Expression(let value):
+        case .SimpleString(let value):
             return text == String(value)
 
         default:
