@@ -12,6 +12,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
     case Text(String)
     case Expression(String)
     case AllowReservedExpression(String)
+    case Fragment(String)
 
     public var debugDescription: String {
         switch self {
@@ -23,6 +24,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .AllowReservedExpression(let value):
             return "allow_reserved_expression(\"\(value)\")"
+
+        case .Fragment(let value):
+            return "fragment(\"\(value)\")"
         }
     }
 
@@ -38,6 +42,10 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .AllowReservedExpression(let variable):
             return percentEncodeString((values[String(variable)] ?? ""),
                 allowCharacters: [.Unreserved, .Reserved])
+
+        case .Fragment(let variable):
+            return "#" + percentEncodeString((values[String(variable)] ?? ""),
+                allowCharacters: [.Unreserved, .Reserved])
         }
     }
 }
@@ -45,14 +53,30 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 public typealias Remainder = ArraySlice<Character>
 public typealias ConsumeResult = (Token, Remainder)
 
-enum ExpressionCharacter: Character {
-    case Start = "{"
-    case End = "}"
-    case AllowReserved = "+"
-}
-
 func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, ArraySlice<T>) {
     return (slice[0...index], slice[(index + 1)..<slice.count])
+}
+
+public func consumeFragment(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if templateSlice.count >= 4,
+        let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0]),
+        secondExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[1])
+        where firstExpressionCharacter == .Start && secondExpressionCharacter == .Fragment {
+            for (index, currentCharacter) in enumerate(templateSlice) {
+                if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
+                    where currentExpressionCharacter == .End && index > 1 {
+                        let (token, remainder) = split(templateSlice, atIndex: index)
+                        return (Token.Fragment(
+                            String(token[2 ..< (token.count - 1)])), remainder)
+                }
+            }
+    }
+
+    return nil
+}
+
+public func consumeFragment(string: String) -> ConsumeResult? {
+    return consumeFragment(Remainder(string))
 }
 
 public func consumeAllowReservedExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -121,7 +145,10 @@ public func consumeText(string: String) -> ConsumeResult? {
 }
 
 public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
-    if let result = consumeAllowReservedExpression(templateSlice) {
+    if let result = consumeFragment(templateSlice) {
+        return result
+    }
+    else if let result = consumeAllowReservedExpression(templateSlice) {
         return result
     }
     else if let result = consumeExpression(templateSlice) {

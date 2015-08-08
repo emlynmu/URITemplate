@@ -10,6 +10,8 @@ import XCTest
 import URITemplates
 
 class URITemplateTests: XCTestCase {
+    // MARK: - Expression
+
     func testSimpleExpansion() {
         let template = URITemplate(string: "my{adjective}template")
         let expected = "myfunkytemplate"
@@ -34,6 +36,8 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
+    // MARK: - Allow Reserved
+
     func testAllowReservedExpressionEncoding() {
         let template = URITemplate(string: "here?ref={+path}")
         let expected = "here?ref=/foo/bar"
@@ -54,6 +58,24 @@ class URITemplateTests: XCTestCase {
         let template = URITemplate(string: "here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff/g/h/i"
         let result = template.expand(["path": "/foo/bar", "b": "/d/e/f", "c": "/g/h/i"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    // MARK: - Fragment
+
+    func testFragmentExpansion() {
+        let template = URITemplate(string: "X{#var}")
+        let expected = "X#value"
+        let result = template.expand(["var": "value"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testFragmentEncoding() {
+        let template = URITemplate(string: "X{#var}")
+        let expected = "X#Hello%20World!"
+        let result = template.expand(["var": "Hello World!"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }

@@ -10,12 +10,55 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
+    // MARK: - consumeFragment
+
+    func testConsumeFragmentOnly() {
+        let template = "{#hello}"
+        let result = consumeFragment(template)
+        XCTAssert(consumeResultIsFragment(result, withText: "hello"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
+    func testConsumeFragmentWithText() {
+        let template = "{#abc}def"
+        let result = consumeFragment(template)
+        XCTAssert(consumeResultIsFragment(result, withText: "abc"))
+        XCTAssert(consumeResult(result, hasRemainder: "def"))
+    }
+
+    func testConsumeFirstOfTwoFragments() {
+        let template = "{#abc}{#def}"
+        let result = consumeFragment(template)
+        XCTAssert(consumeResultIsFragment(result, withText: "abc"))
+        XCTAssert(consumeResult(result, hasRemainder: "{#def}"))
+    }
+
+    func testConsumeFragmentFail() {
+        let result = consumeFragment("abc{#def}")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeFragmentEmpty() {
+        let result = consumeFragment("")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeFragmentEmptyFragment() {
+        let result = consumeFragment("{#}")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeFragmentSingleCharacterFragment() {
+        let result = consumeFragment("{#x}")
+        XCTAssert(consumeResultIsFragment(result, withText: "x"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+    
     // MARK: - consumeAllowReservedExpression
 
     func testConsumeAllowReservedExpressionOnly() {
         let template = "{+hello}"
         let result = consumeAllowReservedExpression(template)
-        println("result: \(result)")
         XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -54,7 +97,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResultIsAllowReservedExpression(result, withText: "x"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
-
+    
     // MARK: - consumeExpression
 
     func testConsumeExpressionOnly() {
@@ -157,7 +200,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
-    // MARK: - consumeToken: AllowReserved Expression
+    // MARK: - consumeToken: Allow Reserved Expression
 
     func testConsumeTokenAllowReservedExpression() {
         let template = "{+hello}"
@@ -463,7 +506,15 @@ class ParsingTests: XCTestCase {
 
         return false
     }
+    
+    func consumeResultIsFragment(result: ConsumeResult?, withText text: String) -> Bool {
+        if let result = result {
+            return tokenIsFragment(result.0, withText: text)
+        }
 
+        return false
+    }
+    
     func tokenIsText(token: Token, withValue text: String) -> Bool {
         switch token {
         case .Text(let value):
@@ -493,7 +544,17 @@ class ParsingTests: XCTestCase {
             return false
         }
     }
-    
+
+    func tokenIsFragment(token: Token, withText text: String) -> Bool {
+        switch token {
+        case .Fragment(let value):
+            return text == String(value)
+
+        default:
+            return false
+        }
+    }
+
     func consumeResult(result: ConsumeResult?, hasRemainder remainder: String) -> Bool {
         if let result = result {
             return String(result.1) == remainder

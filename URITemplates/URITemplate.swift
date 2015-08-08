@@ -10,6 +10,13 @@ import Foundation
 
 public typealias URITemplateValues = [String : String]
 
+enum ExpressionCharacter: Character {
+    case Start = "{"
+    case End = "}"
+    case AllowReserved = "+"
+    case Fragment = "#"
+}
+
 public protocol URITemplateExpandable {
     func expand(values: URITemplateValues) -> String
 }
