@@ -11,6 +11,7 @@ import Foundation
 public enum Token: DebugPrintable, URITemplateExpandable {
     case Text(String)
     case Expression(String)
+    case AllowReservedExpression(String)
 
     public var debugDescription: String {
         switch self {
@@ -19,6 +20,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .Expression(let value):
             return "expression(\"\(value)\")"
+
+        case .AllowReservedExpression(let value):
+            return "expression_with_reserved_uri_characters(\"\(value)\")"
         }
     }
 
@@ -30,6 +34,10 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .Expression(let variable):
             return percentEncodeString((values[String(variable)] ?? ""),
                 allowCharacters: .Unreserved)
+
+        case .AllowReservedExpression(let variable):
+            return percentEncodeString((values[String(variable)] ?? ""),
+                allowCharacters: [.Unreserved, .Reserved])
         }
     }
 }
@@ -40,23 +48,47 @@ public typealias ConsumeResult = (Token, Remainder)
 enum ExpressionCharacter: Character {
     case Start = "{"
     case End = "}"
+    case AllowReserved = "+"
 }
 
 func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, ArraySlice<T>) {
     return (slice[0...index], slice[(index + 1)..<slice.count])
 }
 
-public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
-    if let firstCharacter = templateSlice.first,
-        firstExpressionCharacter = ExpressionCharacter(rawValue: firstCharacter)
-        where firstExpressionCharacter == .Start {
+public func consumeAllowReservedExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if templateSlice.count >= 4,
+        let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0]),
+        secondExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[1])
+        where firstExpressionCharacter == .Start && secondExpressionCharacter == .AllowReserved {
             for (index, currentCharacter) in enumerate(templateSlice) {
                 if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
                     where currentExpressionCharacter == .End && index > 1 {
                         let (token, remainder) = split(templateSlice, atIndex: index)
-                        return (Token.Expression(String(token[1 ..< (token.count - 1)])), remainder)
+                        return (Token.AllowReservedExpression(
+                            String(token[2 ..< (token.count - 1)])), remainder)
                 }
             }
+    }
+
+    return nil
+}
+
+public func consumeAllowReservedExpression(string: String) -> ConsumeResult? {
+    return consumeAllowReservedExpression(Remainder(string))
+}
+
+public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if templateSlice.count >= 3,
+        let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0])
+        where firstExpressionCharacter == .Start &&
+            (templateSlice.count >= 4 || ExpressionCharacter(rawValue: templateSlice[1]) == nil) {
+                for (index, currentCharacter) in enumerate(templateSlice) {
+                    if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
+                        where currentExpressionCharacter == .End && index > 1 {
+                            let (token, remainder) = split(templateSlice, atIndex: index)
+                            return (Token.Expression(String(token[1 ..< (token.count - 1)])), remainder)
+                    }
+                }
     }
 
     return nil
@@ -89,7 +121,10 @@ public func consumeText(string: String) -> ConsumeResult? {
 }
 
 public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
-    if let result = consumeExpression(templateSlice) {
+    if let result = consumeAllowReservedExpression(templateSlice) {
+        return result
+    }
+    else if let result = consumeExpression(templateSlice) {
         return result
     }
     else if let result = consumeText(templateSlice) {

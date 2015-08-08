@@ -29,7 +29,15 @@ public func percentEncodeUnicodeScalar(scalar: UnicodeScalar) -> String {
 }
 
 public func percentEncodeString(string: String, allowCharacters allowed: CharacterClass) -> String {
-    return map(string.unicodeScalars, {
-        allowed.contains($0) ? String($0) : percentEncodeUnicodeScalar($0)
-    }).reduce("", combine: { $0 + $1 })
+    return percentEncodeString(string, allowCharacters: [allowed])
+}
+
+public func percentEncodeString(string: String,
+    allowCharacters allowed: [CharacterClass]) -> String {
+        return map(string.unicodeScalars, { (scalar) -> String in
+            return allowed.reduce(false, combine: { (result, characterClass) in
+                result ||
+                    characterClass.contains(scalar) } ) ?
+                    String(scalar) : percentEncodeUnicodeScalar(scalar)
+        }).reduce("", combine: { $0 + $1 })
 }
