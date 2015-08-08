@@ -8,7 +8,8 @@
 
 import Foundation
 
-public typealias URITemplateValues = [String : String]
+public typealias URITemplateValue = Printable
+public typealias URITemplateValues = [String : URITemplateValue]
 
 enum ExpressionCharacter: Character {
     case Start = "{"
