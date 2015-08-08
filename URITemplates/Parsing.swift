@@ -22,7 +22,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             return "expression(\"\(value)\")"
 
         case .AllowReservedExpression(let value):
-            return "expression_with_reserved_uri_characters(\"\(value)\")"
+            return "allow_reserved_expression(\"\(value)\")"
         }
     }
 
