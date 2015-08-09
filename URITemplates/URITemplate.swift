@@ -15,6 +15,7 @@ enum ExpressionCharacter: Character {
     case End = "}"
     case Reserved = "+"
     case Fragment = "#"
+    case Label = "."
 }
 
 public protocol URITemplateExpandable {

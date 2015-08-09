@@ -13,6 +13,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
     case SimpleString(String)
     case Reserved(String)
     case Fragment(String)
+    case Label(String)
 
     public var debugDescription: String {
         switch self {
@@ -27,6 +28,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .Fragment(let value):
             return "fragment(\"\(value)\")"
+
+        case .Label(let value):
+            return "label(\"\(value)\")"
         }
     }
 
@@ -60,6 +64,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .Fragment(let variable):
             return "#" + expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
+
+        case .Label(let variable):
+            return "." + expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
         }
     }
 }
@@ -69,6 +76,28 @@ public typealias ConsumeResult = (Token, Remainder)
 
 func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, ArraySlice<T>) {
     return (slice[0...index], slice[(index + 1)..<slice.count])
+}
+
+public func consumeLabel(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if templateSlice.count >= 4,
+        let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0]),
+        secondExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[1])
+        where firstExpressionCharacter == .Start && secondExpressionCharacter == .Label {
+            for (index, currentCharacter) in enumerate(templateSlice) {
+                if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
+                    where currentExpressionCharacter == .End && index > 1 {
+                        let (token, remainder) = split(templateSlice, atIndex: index)
+                        return (Token.Label(
+                            String(token[2 ..< (token.count - 1)])), remainder)
+                }
+            }
+    }
+
+    return nil
+}
+
+public func consumeLabel(string: String) -> ConsumeResult? {
+    return consumeLabel(Remainder(string))
 }
 
 public func consumeFragment(templateSlice: ArraySlice<Character>) -> ConsumeResult? {

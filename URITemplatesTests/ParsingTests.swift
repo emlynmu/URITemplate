@@ -10,6 +10,50 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
+    // MARK: - consumeLabel
+
+    func testConsumeLabelOnly() {
+        let template = "{.hello}"
+        let result = consumeLabel(template)
+        XCTAssert(consumeResultIsLabel(result, withText: "hello"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
+    func testConsumeLabelWithText() {
+        let template = "{.abc}def"
+        let result = consumeLabel(template)
+        XCTAssert(consumeResultIsLabel(result, withText: "abc"))
+        XCTAssert(consumeResult(result, hasRemainder: "def"))
+    }
+
+    func testConsumeFirstOfTwoLabels() {
+        let template = "{.abc}{.def}"
+        let result = consumeLabel(template)
+        XCTAssert(consumeResultIsLabel(result, withText: "abc"))
+        XCTAssert(consumeResult(result, hasRemainder: "{.def}"))
+    }
+
+    func testConsumeLabelFail() {
+        let result = consumeLabel("abc{.def}")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeLabelEmpty() {
+        let result = consumeLabel("")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeLabelEmptyLabel() {
+        let result = consumeLabel("{.}")
+        XCTAssert(result == nil)
+    }
+
+    func testConsumeLabelSingleCharacterLabel() {
+        let result = consumeLabel("{.x}")
+        XCTAssert(consumeResultIsLabel(result, withText: "x"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+    
     // MARK: - consumeFragment
 
     func testConsumeFragmentOnly() {
@@ -506,7 +550,15 @@ class ParsingTests: XCTestCase {
 
         return false
     }
-    
+
+    func consumeResultIsLabel(result: ConsumeResult?, withText text: String) -> Bool {
+        if let result = result {
+            return tokenIsLabel(result.0, withText: text)
+        }
+
+        return false
+    }
+
     func consumeResultIsFragment(result: ConsumeResult?, withText text: String) -> Bool {
         if let result = result {
             return tokenIsFragment(result.0, withText: text)
@@ -514,7 +566,7 @@ class ParsingTests: XCTestCase {
 
         return false
     }
-    
+
     func tokenIsLiteral(token: Token, withValue text: String) -> Bool {
         switch token {
         case .Literal(let value):
@@ -538,6 +590,16 @@ class ParsingTests: XCTestCase {
     func tokenIsReserved(token: Token, withText text: String) -> Bool {
         switch token {
         case .Reserved(let value):
+            return text == String(value)
+
+        default:
+            return false
+        }
+    }
+
+    func tokenIsLabel(token: Token, withText text: String) -> Bool {
+        switch token {
+        case .Label(let value):
             return text == String(value)
 
         default:
