@@ -80,6 +80,23 @@ func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, Array
     return (slice[0...index], slice[(index + 1)..<slice.count])
 }
 
+func findExpressionBoundaryCharacter(character: ExpressionBoundary,
+    inTemplateSlice templateSlice: ArraySlice<Character>) -> Int? {
+        return find(templateSlice, character.rawValue)
+}
+
+public func findExpressionBoundary(templateSlice: ArraySlice<Character>) ->
+    (start: Int, end: Int)? {
+        if let start = findExpressionBoundaryCharacter(.Start,
+            inTemplateSlice: templateSlice),
+            end = findExpressionBoundaryCharacter(.End,
+                inTemplateSlice: templateSlice[(start + 1)..<templateSlice.count]) {
+                    return (start: start, end: start + end + 1)
+        }
+
+        return nil
+}
+
 public func consumeLabel(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
     if templateSlice.count >= 4,
         let firstExpressionCharacter = ExpressionCharacter(rawValue: templateSlice[0]),

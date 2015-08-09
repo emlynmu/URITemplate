@@ -10,6 +10,11 @@ import Foundation
 
 public typealias URITemplateValues = [NSObject : AnyObject]
 
+enum ExpressionBoundary: Character {
+    case Start = "{"
+    case End = "}"
+}
+
 enum ExpressionCharacter: Character {
     case Start = "{"
     case End = "}"
