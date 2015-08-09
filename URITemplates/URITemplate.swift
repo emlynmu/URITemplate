@@ -8,8 +8,7 @@
 
 import Foundation
 
-public typealias URITemplateValue = Printable
-public typealias URITemplateValues = [String : URITemplateValue]
+public typealias URITemplateValues = [NSObject : NSObject]
 
 enum ExpressionCharacter: Character {
     case Start = "{"
