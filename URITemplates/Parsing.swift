@@ -35,9 +35,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
     }
 
     private func expandValue(variable: String, values: URITemplateValues,
-        allowCharacters: [CharacterClass]) -> String {
+        allowCharacters: [CharacterClass], separator: String = ",") -> String {
             if let values = values[variable] as? [AnyObject] {
-                return join(",", map(values, { percentEncodeString(($0.description ?? ""),
+                return join(separator, map(values, { percentEncodeString(($0.description ?? ""),
                     allowCharacters: allowCharacters) }))
             }
             else {
@@ -63,10 +63,12 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             return expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
 
         case .Fragment(let variable):
-            return "#" + expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
+            return "#" + expandValue(variable, values: values,
+                allowCharacters: [.Unreserved, .Reserved])
 
         case .Label(let variable):
-            return "." + expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
+            return "." + expandValue(variable, values: values,
+                allowCharacters: [.Unreserved, .Reserved], separator: ".")
         }
     }
 }
