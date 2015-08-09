@@ -30,22 +30,36 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         }
     }
 
+    private func expandValue(variable: String, values: URITemplateValues,
+        allowCharacters: [CharacterClass]) -> String {
+            if let values = values[variable] as? [AnyObject] {
+                return join(",", map(values, { percentEncodeString(($0.description ?? ""),
+                    allowCharacters: allowCharacters) }))
+            }
+            else {
+                return percentEncodeString((values[variable]?.description ?? ""),
+                    allowCharacters: allowCharacters)
+            }
+    }
+
+    private func expandValue(variable: String, values: URITemplateValues,
+        allowCharacters: CharacterClass) -> String {
+            return expandValue(variable, values: values, allowCharacters: [allowCharacters])
+    }
+
     public func expand(values: URITemplateValues) -> String {
         switch self {
         case .Literal(let value):
             return String(value)
 
         case .SimpleString(let variable):
-            return percentEncodeString((values[variable]?.description ?? ""),
-                allowCharacters: .Unreserved)
+            return expandValue(variable, values: values, allowCharacters: .Unreserved)
 
         case .Reserved(let variable):
-            return percentEncodeString((values[variable]?.description ?? ""),
-                allowCharacters: [.Unreserved, .Reserved])
+            return expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
 
         case .Fragment(let variable):
-            return "#" + percentEncodeString((values[variable]?.description ?? ""),
-                allowCharacters: [.Unreserved, .Reserved])
+            return "#" + expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
         }
     }
 }

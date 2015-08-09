@@ -12,10 +12,18 @@ import URITemplates
 class URITemplateTests: XCTestCase {
     // MARK: - Simple String
 
-    func testSimpleExpansion() {
+    func testSimpleStringExpansion() {
         let template = URITemplate("my{adjective}template")
         let expected = "myfunkytemplate"
         let result = template.expand(["adjective": "funky"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleSimpleStringExpansion() {
+        let template = URITemplate("my{adjective}template")
+        let expected = "myfunky,freshtemplate"
+        let result = template.expand(["adjective": ["funky", "fresh"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
