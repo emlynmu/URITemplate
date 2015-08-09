@@ -36,15 +36,15 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             return String(value)
 
         case .SimpleString(let variable):
-            return percentEncodeString((values[String(variable)]?.description ?? ""),
+            return percentEncodeString((values[variable]?.description ?? ""),
                 allowCharacters: .Unreserved)
 
         case .Reserved(let variable):
-            return percentEncodeString((values[String(variable)]?.description ?? ""),
+            return percentEncodeString((values[variable]?.description ?? ""),
                 allowCharacters: [.Unreserved, .Reserved])
 
         case .Fragment(let variable):
-            return "#" + percentEncodeString((values[String(variable)]?.description ?? ""),
+            return "#" + percentEncodeString((values[variable]?.description ?? ""),
                 allowCharacters: [.Unreserved, .Reserved])
         }
     }
