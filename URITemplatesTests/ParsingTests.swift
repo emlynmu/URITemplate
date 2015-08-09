@@ -10,124 +10,6 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
-    // MARK - findExpressionBoundary
-
-    func testFindExpressionBoundaryOnly() {
-        let template = "{hello}"
-        let expected = (start: 0, end: 6)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindEmptyExpressionBoundary() {
-        let template = "{}"
-        let expected = (start: 0, end: 1)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindExpressionBoundaryNoClose() {
-        let template = "{hello"
-        let result = findExpressionBoundary(ArraySlice(template))
-        XCTAssert(result == nil)
-    }
-
-    func testFindExpressionBoundaryOpenOnly() {
-        let template = "{"
-        let result = findExpressionBoundary(ArraySlice(template))
-        XCTAssert(result == nil)
-    }
-
-    func testFindExpressionBoundaryCloseOnly() {
-        let template = "}"
-        let result = findExpressionBoundary(ArraySlice(template))
-        XCTAssert(result == nil)
-    }
-
-    func testFindExpressionBoundaryWithLiteral() {
-        let template = "{hello}abc"
-        let expected = (start: 0, end: 6)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindLiteralWithExpressionBoundary() {
-        let template = "abc{hello}"
-        let expected = (start: 3, end: 9)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindExpressionBoundaryBetweenLiterals() {
-        let template = "abc{hello}def"
-        let expected = (start: 3, end: 9)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindExpressionBoundaryBetweenLiteralsWithStrayOpen() {
-        let template = "abc{hel{lo}def"
-        let expected = (start: 3, end: 10)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
-    func testFindExpressionBoundaryBetweenLiteralsWithStrayClose() {
-        let template = "a}bc{hello}def"
-        let expected = (start: 4, end: 10)
-
-        if let result = findExpressionBoundary(ArraySlice(template)) {
-            XCTAssert(expected.start == result.start && expected.end == result.end,
-                "expected (start: \(expected.start), end: \(expected.end)); " +
-                "got (start: \(result.start), end: \(result.end))")
-        }
-        else {
-            XCTFail("failed to find expression boundary")
-        }
-    }
-
     // MARK: - consumeLabel
 
     func testConsumeLabelOnly() {
@@ -698,7 +580,7 @@ class ParsingTests: XCTestCase {
     func tokenIsSimpleString(token: Token, withText text: String) -> Bool {
         switch token {
         case .SimpleString(let value):
-            return text == String(value)
+            return text == value[0]
 
         default:
             return false
@@ -708,7 +590,7 @@ class ParsingTests: XCTestCase {
     func tokenIsReserved(token: Token, withText text: String) -> Bool {
         switch token {
         case .Reserved(let value):
-            return text == String(value)
+            return text == value[0]
 
         default:
             return false
@@ -718,7 +600,7 @@ class ParsingTests: XCTestCase {
     func tokenIsLabel(token: Token, withText text: String) -> Bool {
         switch token {
         case .Label(let value):
-            return text == String(value)
+            return text == value[0]
 
         default:
             return false
@@ -728,7 +610,7 @@ class ParsingTests: XCTestCase {
     func tokenIsFragment(token: Token, withText text: String) -> Bool {
         switch token {
         case .Fragment(let value):
-            return text == String(value)
+            return text == value[0]
 
         default:
             return false

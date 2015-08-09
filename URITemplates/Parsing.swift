@@ -10,10 +10,10 @@ import Foundation
 
 public enum Token: DebugPrintable, URITemplateExpandable {
     case Literal(String)
-    case SimpleString(String)
-    case Reserved(String)
-    case Fragment(String)
-    case Label(String)
+    case SimpleString([String])
+    case Reserved([String])
+    case Fragment([String])
+    case Label([String])
 
     public var debugDescription: String {
         switch self {
@@ -56,19 +56,25 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         case .Literal(let value):
             return String(value)
 
-        case .SimpleString(let variable):
-            return expandValue(variable, values: values, allowCharacters: .Unreserved)
+        case .SimpleString(let variables):
+            let values = variables.map({ self.expandValue($0, values: values,
+                allowCharacters: .Unreserved) })
+            return join(",", values)
 
-        case .Reserved(let variable):
-            return expandValue(variable, values: values, allowCharacters: [.Unreserved, .Reserved])
+        case .Reserved(let variables):
+            let values = variables.map({ self.expandValue($0, values: values,
+                allowCharacters: [.Unreserved, .Reserved]) })
+            return join(",", values)
 
-        case .Fragment(let variable):
-            return "#" + expandValue(variable, values: values,
-                allowCharacters: [.Unreserved, .Reserved])
+        case .Fragment(let variables):
+            let values = variables.map({ self.expandValue($0, values: values,
+                allowCharacters: [.Unreserved, .Reserved]) })
+            return "#" + join(",", values)
 
-        case .Label(let variable):
-            return "." + expandValue(variable, values: values,
-                allowCharacters: [.Unreserved, .Reserved], separator: ".")
+        case .Label(let variables):
+            let values = variables.map({ self.expandValue($0, values: values,
+                allowCharacters: [.Unreserved, .Reserved])})
+            return "." + join(".", values)
         }
     }
 }
@@ -80,21 +86,58 @@ func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, Array
     return (slice[0...index], slice[(index + 1)..<slice.count])
 }
 
-func findExpressionBoundaryCharacter(character: ExpressionBoundary,
-    inTemplateSlice templateSlice: ArraySlice<Character>) -> Int? {
-        return find(templateSlice, character.rawValue)
+func findExpressionEnd(templateSlice: ArraySlice<Character>) -> Int? {
+    if let end = find(templateSlice, ExpressionBoundary.End.rawValue) {
+        return end
+    }
+
+    return nil
 }
 
-public func findExpressionBoundary(templateSlice: ArraySlice<Character>) ->
-    (start: Int, end: Int)? {
-        if let start = findExpressionBoundaryCharacter(.Start,
-            inTemplateSlice: templateSlice),
-            end = findExpressionBoundaryCharacter(.End,
-                inTemplateSlice: templateSlice[(start + 1)..<templateSlice.count]) {
-                    return (start: start, end: start + end + 1)
+func splitVariables(templateSlice: ArraySlice<Character>) -> [String] {
+    let variables =  split(templateSlice, isSeparator: { $0 == "," })
+    return variables.map({ return String($0) })
+}
+
+public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? {
+    if templateSlice.count < 1 {
+        return nil
+    }
+
+    if let expressionOperator = ExpressionOperator(rawValue: templateSlice[0]) {
+        if templateSlice.count < 2 {
+            return nil
         }
 
-        return nil
+        switch expressionOperator {
+        case .Reserved:
+            break
+
+        case .Fragment:
+            break
+
+        case .Label:
+            break
+        }
+    }
+
+    return Token.SimpleString(splitVariables(templateSlice))
+}
+
+public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if let first = templateSlice.first,
+        boundary = ExpressionBoundary(rawValue: first) where boundary == .Start {
+            if let end = findExpressionEnd(templateSlice) where end > 2 {
+                let (token, remainder) = split(templateSlice, atIndex: end)
+                let tokenBody = token[1 ..< (token.count - 1)]
+
+                if let token = parseExpressionBody(token) {
+                    return (token, remainder)
+                }
+            }
+    }
+
+    return nil
 }
 
 public func consumeLabel(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -107,7 +150,7 @@ public func consumeLabel(templateSlice: ArraySlice<Character>) -> ConsumeResult?
                     where currentExpressionCharacter == .End && index > 1 {
                         let (token, remainder) = split(templateSlice, atIndex: index)
                         return (Token.Label(
-                            String(token[2 ..< (token.count - 1)])), remainder)
+                            splitVariables(token[2 ..< (token.count - 1)])), remainder)
                 }
             }
     }
@@ -129,7 +172,7 @@ public func consumeFragment(templateSlice: ArraySlice<Character>) -> ConsumeResu
                     where currentExpressionCharacter == .End && index > 1 {
                         let (token, remainder) = split(templateSlice, atIndex: index)
                         return (Token.Fragment(
-                            String(token[2 ..< (token.count - 1)])), remainder)
+                            splitVariables(token[2 ..< (token.count - 1)])), remainder)
                 }
             }
     }
@@ -151,7 +194,7 @@ public func consumeReserved(templateSlice: ArraySlice<Character>) -> ConsumeResu
                     where currentExpressionCharacter == .End && index > 1 {
                         let (token, remainder) = split(templateSlice, atIndex: index)
                         return (Token.Reserved(
-                            String(token[2 ..< (token.count - 1)])), remainder)
+                            splitVariables(token[2 ..< (token.count - 1)])), remainder)
                 }
             }
     }
@@ -172,7 +215,7 @@ public func consumeSimpleString(templateSlice: ArraySlice<Character>) -> Consume
                     if let currentExpressionCharacter = ExpressionCharacter(rawValue: currentCharacter)
                         where currentExpressionCharacter == .End && index > 1 {
                             let (token, remainder) = split(templateSlice, atIndex: index)
-                            return (Token.SimpleString(String(token[1 ..< (token.count - 1)])), remainder)
+                            return (Token.SimpleString(splitVariables(token[1 ..< (token.count - 1)])), remainder)
                     }
                 }
     }

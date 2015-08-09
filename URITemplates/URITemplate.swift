@@ -15,6 +15,12 @@ enum ExpressionBoundary: Character {
     case End = "}"
 }
 
+enum ExpressionOperator: Character {
+    case Reserved = "+"
+    case Fragment = "#"
+    case Label = "."
+}
+
 enum ExpressionCharacter: Character {
     case Start = "{"
     case End = "}"
