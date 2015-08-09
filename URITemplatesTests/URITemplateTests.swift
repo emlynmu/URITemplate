@@ -44,6 +44,14 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
+    func testMultiplePercentEncodedValueExpansion() {
+        let template = URITemplate("my {adjective} template")
+        let expected = "my super%20funky,super%20freaky template"
+        let result = template.expand(["adjective": ["super funky", "super freaky"]])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
     // MARK: - Reserved
 
     func testReservedEncoding() {
@@ -66,6 +74,14 @@ class URITemplateTests: XCTestCase {
         let template = URITemplate("here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff/g/h/i"
         let result = template.expand(["path": "/foo/bar", "b": "/d/e/f", "c": "/g/h/i"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleMixedReservedEncoding() {
+        let template = URITemplate("here?ref={+path}{b}{+c}")
+        let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff,%2Fg%2Fh%2Fi/j/k/l"
+        let result = template.expand(["path": "/foo/bar", "b": ["/d/e/f", "/g/h/i"], "c": "/j/k/l"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
