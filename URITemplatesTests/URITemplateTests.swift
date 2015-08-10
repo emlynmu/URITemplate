@@ -28,6 +28,25 @@ class URITemplateTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
+    func testMultiVariableSimpleStringExpansion() {
+        let template = URITemplate("coordinates:({x,y})")
+        let expected = "coordinates:(1,2)"
+        let result = template.expand([
+            "x": 1,
+            "y": 2 ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultiVariableOneEmptySimpleStringExpansion() {
+        let template = URITemplate("coordinates:({x,y})")
+        let expected = "coordinates:(1,)"
+        let result = template.expand([
+            "x": 1])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
     func testMissingValueExpansion() {
         let template = URITemplate("my{adjective}template")
         let expected = "mytemplate"
