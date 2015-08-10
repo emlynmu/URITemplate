@@ -10,46 +10,69 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
+    // MARK: - consumeExpression
+
+    func testConsumeExpression() {
+        let template = "{hello}"
+        let result = consumeExpression(ArraySlice(template))
+        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
+    func testConsumeExpressionWithRemainder() {
+        let template = "{hello}def"
+        let result = consumeExpression(ArraySlice(template))
+        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
+        XCTAssert(consumeResult(result, hasRemainder: "def"))
+    }
+
+    func testConsumeExpressionLabelOnly() {
+        let template = "{.hello}"
+        let result = consumeExpression(ArraySlice(template))
+        XCTAssert(consumeResultIsLabel(result, withText: "hello"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
     // MARK: - consumeLabel
 
     func testConsumeLabelOnly() {
         let template = "{.hello}"
-        let result = consumeLabel(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsLabel(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeLabelWithText() {
         let template = "{.abc}def"
-        let result = consumeLabel(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsLabel(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoLabels() {
         let template = "{.abc}{.def}"
-        let result = consumeLabel(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsLabel(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{.def}"))
     }
 
     func testConsumeLabelFail() {
-        let result = consumeLabel("abc{.def}")
+        let result = consumeExpression("abc{.def}")
         XCTAssert(result == nil)
     }
 
     func testConsumeLabelEmpty() {
-        let result = consumeLabel("")
+        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
     func testConsumeLabelEmptyLabel() {
-        let result = consumeLabel("{.}")
+        let result = consumeExpression("{.}")
         XCTAssert(result == nil)
     }
 
     func testConsumeLabelSingleCharacterLabel() {
-        let result = consumeLabel("{.x}")
+        let result = consumeExpression("{.x}")
         XCTAssert(consumeResultIsLabel(result, withText: "x"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -58,42 +81,42 @@ class ParsingTests: XCTestCase {
 
     func testConsumeFragmentOnly() {
         let template = "{#hello}"
-        let result = consumeFragment(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsFragment(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeFragmentWithText() {
         let template = "{#abc}def"
-        let result = consumeFragment(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsFragment(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoFragments() {
         let template = "{#abc}{#def}"
-        let result = consumeFragment(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsFragment(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{#def}"))
     }
 
     func testConsumeFragmentFail() {
-        let result = consumeFragment("abc{#def}")
+        let result = consumeExpression("abc{#def}")
         XCTAssert(result == nil)
     }
 
     func testConsumeFragmentEmpty() {
-        let result = consumeFragment("")
+        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
     func testConsumeFragmentEmptyFragment() {
-        let result = consumeFragment("{#}")
+        let result = consumeExpression("{#}")
         XCTAssert(result == nil)
     }
 
     func testConsumeFragmentSingleCharacterFragment() {
-        let result = consumeFragment("{#x}")
+        let result = consumeExpression("{#x}")
         XCTAssert(consumeResultIsFragment(result, withText: "x"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -102,42 +125,42 @@ class ParsingTests: XCTestCase {
 
     func testConsumeReservedOnly() {
         let template = "{+hello}"
-        let result = consumeReserved(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeReservedWithText() {
         let template = "{+abc}def"
-        let result = consumeReserved(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoReserveds() {
         let template = "{+abc}{+def}"
-        let result = consumeReserved(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
 
     func testConsumeReservedFail() {
-        let result = consumeReserved("abc{+def}")
+        let result = consumeExpression("abc{+def}")
         XCTAssert(result == nil)
     }
 
     func testConsumeReservedEmpty() {
-        let result = consumeReserved("")
+        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
     func testConsumeReservedEmptyReserved() {
-        let result = consumeReserved("{+}")
+        let result = consumeExpression("{+}")
         XCTAssert(result == nil)
     }
 
     func testConsumeReservedSingleCharacterReserved() {
-        let result = consumeReserved("{+x}")
+        let result = consumeExpression("{+x}")
         XCTAssert(consumeResultIsReserved(result, withText: "x"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -146,37 +169,37 @@ class ParsingTests: XCTestCase {
 
     func testConsumeSimpleStringOnly() {
         let template = "{hello}"
-        let result = consumeSimpleString(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeSimpleStringWithText() {
         let template = "{abc}def"
-        let result = consumeSimpleString(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoSimpleStrings() {
         let template = "{abc}{def}"
-        let result = consumeSimpleString(template)
+        let result = consumeExpression(template)
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
 
     func testConsumeSimpleStringFail() {
-        let result = consumeSimpleString("abc{def}")
+        let result = consumeExpression("abc{def}")
         XCTAssert(result == nil)
     }
 
     func testConsumeSimpleStringEmpty() {
-        let result = consumeSimpleString("")
+        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
     func testConsumeSimpleStringEmptyExpression() {
-        let result = consumeSimpleString("{}")
+        let result = consumeExpression("{}")
         XCTAssert(result == nil)
     }
 
