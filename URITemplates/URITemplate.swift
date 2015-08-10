@@ -21,14 +21,6 @@ enum ExpressionOperator: Character {
     case Label = "."
 }
 
-enum ExpressionCharacter: Character {
-    case Start = "{"
-    case End = "}"
-    case Reserved = "+"
-    case Fragment = "#"
-    case Label = "."
-}
-
 public protocol URITemplateExpandable {
     func expand(values: URITemplateValues) -> String
 }
