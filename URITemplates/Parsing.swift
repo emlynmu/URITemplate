@@ -46,11 +46,6 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             }
     }
 
-    private func expandValue(variable: String, values: URITemplateValues,
-        allowCharacters: CharacterClass) -> String {
-            return expandValue(variable, values: values, allowCharacters: [allowCharacters])
-    }
-
     public func expand(values: URITemplateValues) -> String {
         switch self {
         case .Literal(let value):
@@ -58,7 +53,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .SimpleString(let variables):
             let values = variables.map({ self.expandValue($0, values: values,
-                allowCharacters: .Unreserved) })
+                allowCharacters: [.Unreserved]) })
             return join(",", values)
 
         case .Reserved(let variables):
@@ -73,7 +68,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .Label(let variables):
             let values = variables.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved, .Reserved])})
+                allowCharacters: [.Unreserved, .Reserved], separator: ".")})
             return "." + join(".", values)
         }
     }
