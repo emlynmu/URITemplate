@@ -10,6 +10,13 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
+    // MARK: - consumeExpression
+
+    func testExpressionEmpty() {
+        let result = consumeExpression("")
+        XCTAssert(result == nil)
+    }
+
     // MARK: - consumeLabel
 
     func testConsumeLabelOnly() {
@@ -35,11 +42,6 @@ class ParsingTests: XCTestCase {
 
     func testConsumeLabelFail() {
         let result = consumeExpression("abc{.def}")
-        XCTAssert(result == nil)
-    }
-
-    func testConsumeLabelEmpty() {
-        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
@@ -82,11 +84,6 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
-    func testConsumeFragmentEmpty() {
-        let result = consumeExpression("")
-        XCTAssert(result == nil)
-    }
-
     func testConsumeFragmentEmptyFragment() {
         let result = consumeExpression("{#}")
         XCTAssert(result == nil)
@@ -126,11 +123,6 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
-    func testConsumeReservedEmpty() {
-        let result = consumeExpression("")
-        XCTAssert(result == nil)
-    }
-
     func testConsumeReservedEmptyReserved() {
         let result = consumeExpression("{+}")
         XCTAssert(result == nil)
@@ -167,11 +159,6 @@ class ParsingTests: XCTestCase {
 
     func testConsumeSimpleStringFail() {
         let result = consumeExpression("abc{def}")
-        XCTAssert(result == nil)
-    }
-
-    func testConsumeSimpleStringEmpty() {
-        let result = consumeExpression("")
         XCTAssert(result == nil)
     }
 
@@ -306,11 +293,6 @@ class ParsingTests: XCTestCase {
         let result = consumeToken(ArraySlice("abc{def}"))
         XCTAssert(consumeResultIsLiteral(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
-    }
-
-    func testConsumeTokenEmpty() {
-        let result = consumeToken(ArraySlice(""))
-        XCTAssert(result == nil)
     }
 
     func testConsumeTokenEmptySimpleString() {
