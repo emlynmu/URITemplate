@@ -17,6 +17,11 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
+    func testExpressionEmptyDelimiters() {
+        let result = consumeExpression("{}")
+        XCTAssert(result == nil)
+    }
+
     // MARK: - consumeLabel
 
     func testConsumeLabelOnly() {
@@ -159,11 +164,6 @@ class ParsingTests: XCTestCase {
 
     func testConsumeSimpleStringFail() {
         let result = consumeExpression("abc{def}")
-        XCTAssert(result == nil)
-    }
-
-    func testConsumeSimpleStringEmptyExpression() {
-        let result = consumeExpression("{}")
         XCTAssert(result == nil)
     }
 
