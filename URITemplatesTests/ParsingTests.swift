@@ -24,6 +24,11 @@ class ParsingTests: XCTestCase {
 
     // MARK: - consumeLabel
 
+    func testConsumeLabelEmptyLabel() {
+        let result = consumeExpression("{.}")
+        XCTAssert(result == nil)
+    }
+
     func testConsumeLabelOnly() {
         let template = "{.hello}"
         let result = consumeExpression(template)
@@ -50,11 +55,6 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
-    func testConsumeLabelEmptyLabel() {
-        let result = consumeExpression("{.}")
-        XCTAssert(result == nil)
-    }
-
     func testConsumeLabelSingleCharacterLabel() {
         let result = consumeExpression("{.x}")
         XCTAssert(consumeResultIsLabel(result, withText: "x"))
@@ -62,6 +62,11 @@ class ParsingTests: XCTestCase {
     }
     
     // MARK: - consumeFragment
+
+    func testConsumeFragmentEmptyFragment() {
+        let result = consumeExpression("{#}")
+        XCTAssert(result == nil)
+    }
 
     func testConsumeFragmentOnly() {
         let template = "{#hello}"
@@ -89,11 +94,6 @@ class ParsingTests: XCTestCase {
         XCTAssert(result == nil)
     }
 
-    func testConsumeFragmentEmptyFragment() {
-        let result = consumeExpression("{#}")
-        XCTAssert(result == nil)
-    }
-
     func testConsumeFragmentSingleCharacterFragment() {
         let result = consumeExpression("{#x}")
         XCTAssert(consumeResultIsFragment(result, withText: "x"))
@@ -101,6 +101,11 @@ class ParsingTests: XCTestCase {
     }
     
     // MARK: - consumeReserved
+
+    func testConsumeReservedEmptyReserved() {
+        let result = consumeExpression("{+}")
+        XCTAssert(result == nil)
+    }
 
     func testConsumeReservedOnly() {
         let template = "{+hello}"
@@ -125,11 +130,6 @@ class ParsingTests: XCTestCase {
 
     func testConsumeReservedFail() {
         let result = consumeExpression("abc{+def}")
-        XCTAssert(result == nil)
-    }
-
-    func testConsumeReservedEmptyReserved() {
-        let result = consumeExpression("{+}")
         XCTAssert(result == nil)
     }
 
@@ -233,6 +233,12 @@ class ParsingTests: XCTestCase {
 
     // MARK: - consumeToken: Reserved
 
+    func testConsumeTokenEmptyReserved() {
+        let result = consumeToken(ArraySlice("{+}"))
+        XCTAssert(consumeResultIsLiteral(result, withValue: "{+}"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
     func testConsumeTokenReserved() {
         let template = "{+hello}"
         let result = consumeToken(ArraySlice(template))
@@ -258,12 +264,6 @@ class ParsingTests: XCTestCase {
         let result = consumeToken(ArraySlice("abc{+def}"))
         XCTAssert(consumeResultIsLiteral(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
-    }
-
-    func testConsumeTokenEmptyReserved() {
-        let result = consumeToken(ArraySlice("{+}"))
-        XCTAssert(consumeResultIsLiteral(result, withValue: "{+}"))
-        XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     // MARK: - consumeToken: Simple String
@@ -302,6 +302,20 @@ class ParsingTests: XCTestCase {
     }
 
     // MARK: - consumeToken: Literal
+
+    func testConsumeTokenOnlyOpenExpression() {
+        let template = "{"
+        let result = consumeToken(ArraySlice(template))
+        XCTAssert(consumeResultIsLiteral(result, withValue: "{"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
+
+    func testConsumeTokenOnlyCloseExpression() {
+        let template = "}"
+        let result = consumeToken(ArraySlice(template))
+        XCTAssert(consumeResultIsLiteral(result, withValue: "}"))
+        XCTAssert(consumeResult(result, hasRemainder: ""))
+    }
 
     func testConsumeTokenLiteralOnlySucceed() {
         let template = "hello"
