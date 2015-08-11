@@ -10,29 +10,6 @@ import XCTest
 import URITemplates
 
 class ParsingTests: XCTestCase {
-    // MARK: - consumeExpression
-
-    func testConsumeExpression() {
-        let template = "{hello}"
-        let result = consumeExpression(ArraySlice(template))
-        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
-        XCTAssert(consumeResult(result, hasRemainder: ""))
-    }
-
-    func testConsumeExpressionWithRemainder() {
-        let template = "{hello}def"
-        let result = consumeExpression(ArraySlice(template))
-        XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
-        XCTAssert(consumeResult(result, hasRemainder: "def"))
-    }
-
-    func testConsumeExpressionLabelOnly() {
-        let template = "{.hello}"
-        let result = consumeExpression(ArraySlice(template))
-        XCTAssert(consumeResultIsLabel(result, withText: "hello"))
-        XCTAssert(consumeResult(result, hasRemainder: ""))
-    }
-
     // MARK: - consumeLabel
 
     func testConsumeLabelOnly() {
