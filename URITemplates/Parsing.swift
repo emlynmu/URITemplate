@@ -14,6 +14,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
     case Reserved([String])
     case Fragment([String])
     case Label([String])
+    case Path([String])
 
     public var debugDescription: String {
         switch self {
@@ -31,6 +32,9 @@ public enum Token: DebugPrintable, URITemplateExpandable {
 
         case .Label(let value):
             return "label(\"\(value)\")"
+
+        case .Path(let value):
+            return "path(\"\(value)\")"
         }
     }
 
@@ -70,6 +74,13 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             let values = variables.map({ self.expandValue($0, values: values,
                 allowCharacters: [.Unreserved, .Reserved], separator: ".")})
             return "." + join(".", values)
+
+        case .Path(let variables):
+            let values = variables.map({
+                ";" + $0 + (values[$0] != nil ? "=" : "") +
+                    self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+            })
+            return join("", values)
         }
     }
 }
