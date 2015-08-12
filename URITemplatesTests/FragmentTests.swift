@@ -25,4 +25,12 @@ class FragmentTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    func testFragmentValueIncludesNumberSymbol() {
+        let template = URITemplate("fragment{#value}")
+        let expected = "%231%232and%233"
+        let result = template.expand(["value": "#1#2and#3"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }
