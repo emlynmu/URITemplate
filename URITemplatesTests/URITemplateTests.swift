@@ -10,24 +10,6 @@ import XCTest
 import URITemplates
 
 class URITemplateTests: XCTestCase {
-    // MARK: - Fragment
-
-    func testFragmentExpansion() {
-        let template = URITemplate("X{#var}")
-        let expected = "X#value"
-        let result = template.expand(["var": "value"])
-
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
-    func testFragmentEncoding() {
-        let template = URITemplate("X{#var}")
-        let expected = "X#Hello%20World!"
-        let result = template.expand(["var": "Hello World!"])
-
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
     // MARK: - Label
 
     func testSimpleLabelExpansion() {
