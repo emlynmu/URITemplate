@@ -33,4 +33,12 @@ class FragmentTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    func testFragmentValueNeedsEncoding() {
+        let template = URITemplate("fragment{#value}")
+        let expected = "fragment#%5E1abc"
+        let result = template.expand(["value": "^1abc"])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }
