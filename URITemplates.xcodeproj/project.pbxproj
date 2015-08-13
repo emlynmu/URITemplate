@@ -89,11 +89,11 @@
 		75E93D371B76928E00BAB4E3 /* URITemplates */ = {
 			isa = PBXGroup;
 			children = (
-				75E93D3A1B76928E00BAB4E3 /* URITemplates.h */,
-				75E93D571B7692A800BAB4E3 /* URITemplate.swift */,
+				75E93D591B7692A800BAB4E3 /* CharacterEncoding.swift */,
 				75E93D581B7692A800BAB4E3 /* Parsing.swift */,
 				75CCD9391B7C37E000A508F1 /* Token.swift */,
-				75E93D591B7692A800BAB4E3 /* CharacterEncoding.swift */,
+				75E93D571B7692A800BAB4E3 /* URITemplate.swift */,
+				75E93D3A1B76928E00BAB4E3 /* URITemplates.h */,
 				75E93D381B76928E00BAB4E3 /* Supporting Files */,
 			);
 			path = URITemplates;
@@ -110,12 +110,12 @@
 		75E93D441B76928E00BAB4E3 /* URITemplatesTests */ = {
 			isa = PBXGroup;
 			children = (
-				75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */,
-				75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */,
+				75E93D5F1B7692B400BAB4E3 /* CharacterEncodingTests.swift */,
 				75CCD9351B7BFFD900A508F1 /* FragmentTests.swift */,
 				75CCD9371B7C005000A508F1 /* LabelTests.swift */,
 				75E93D5E1B7692B400BAB4E3 /* ParsingTests.swift */,
-				75E93D5F1B7692B400BAB4E3 /* CharacterEncodingTests.swift */,
+				75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */,
+				75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */,
 				75E93D451B76928E00BAB4E3 /* Supporting Files */,
 			);
 			path = URITemplatesTests;
