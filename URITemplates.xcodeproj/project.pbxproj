@@ -12,6 +12,7 @@
 		75CCD9361B7BFFD900A508F1 /* FragmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9351B7BFFD900A508F1 /* FragmentTests.swift */; };
 		75CCD9381B7C005000A508F1 /* LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9371B7C005000A508F1 /* LabelTests.swift */; };
 		75CCD93A1B7C37E000A508F1 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9391B7C37E000A508F1 /* Token.swift */; };
+		75CCD93C1B7CA91100A508F1 /* ExpressionCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */; };
 		75E93D3B1B76928E00BAB4E3 /* URITemplates.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E93D3A1B76928E00BAB4E3 /* URITemplates.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75E93D411B76928E00BAB4E3 /* URITemplates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E93D351B76928E00BAB4E3 /* URITemplates.framework */; };
 		75E93D5A1B7692A800BAB4E3 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D571B7692A800BAB4E3 /* URITemplate.swift */; };
@@ -37,6 +38,7 @@
 		75CCD9351B7BFFD900A508F1 /* FragmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentTests.swift; sourceTree = "<group>"; };
 		75CCD9371B7C005000A508F1 /* LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTests.swift; sourceTree = "<group>"; };
 		75CCD9391B7C37E000A508F1 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionCharacters.swift; sourceTree = "<group>"; };
 		75E93D351B76928E00BAB4E3 /* URITemplates.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URITemplates.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E93D391B76928E00BAB4E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E93D3A1B76928E00BAB4E3 /* URITemplates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URITemplates.h; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				75E93D581B7692A800BAB4E3 /* Parsing.swift */,
 				75CCD9391B7C37E000A508F1 /* Token.swift */,
 				75E93D571B7692A800BAB4E3 /* URITemplate.swift */,
+				75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */,
 				75E93D3A1B76928E00BAB4E3 /* URITemplates.h */,
 				75E93D381B76928E00BAB4E3 /* Supporting Files */,
 			);
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75E93D5B1B7692A800BAB4E3 /* Parsing.swift in Sources */,
+				75CCD93C1B7CA91100A508F1 /* ExpressionCharacters.swift in Sources */,
 				75E93D5C1B7692A800BAB4E3 /* CharacterEncoding.swift in Sources */,
 				75E93D5A1B7692A800BAB4E3 /* URITemplate.swift in Sources */,
 				75CCD93A1B7C37E000A508F1 /* Token.swift in Sources */,

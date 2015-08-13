@@ -10,17 +10,6 @@ import Foundation
 
 public typealias URITemplateValues = [NSObject : AnyObject]
 
-enum ExpressionBoundary: Character {
-    case Start = "{"
-    case End = "}"
-}
-
-enum ExpressionOperator: Character {
-    case Reserved = "+"
-    case Fragment = "#"
-    case Label = "."
-}
-
 public protocol URITemplateExpandable {
     func expand(values: URITemplateValues) -> String
 }
