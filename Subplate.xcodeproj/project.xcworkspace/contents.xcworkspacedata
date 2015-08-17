@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:URITemplates.xcodeproj">
+      location = "self:/Users/emlyn/Desktop/URITemplates/Subplate.xcodeproj">
    </FileRef>
 </Workspace>

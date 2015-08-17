@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import URITemplates
+import Subplate
 
 class ParsingTests: XCTestCase {
     // MARK: - consumeExpression

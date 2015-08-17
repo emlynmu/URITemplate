@@ -14,7 +14,7 @@
 		75CCD93A1B7C37E000A508F1 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9391B7C37E000A508F1 /* Token.swift */; };
 		75CCD93C1B7CA91100A508F1 /* ExpressionCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */; };
 		75E93D3B1B76928E00BAB4E3 /* URITemplates.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E93D3A1B76928E00BAB4E3 /* URITemplates.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		75E93D411B76928E00BAB4E3 /* URITemplates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E93D351B76928E00BAB4E3 /* URITemplates.framework */; };
+		75E93D411B76928E00BAB4E3 /* Subplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E93D351B76928E00BAB4E3 /* Subplate.framework */; };
 		75E93D5A1B7692A800BAB4E3 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D571B7692A800BAB4E3 /* URITemplate.swift */; };
 		75E93D5B1B7692A800BAB4E3 /* Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D581B7692A800BAB4E3 /* Parsing.swift */; };
 		75E93D5C1B7692A800BAB4E3 /* CharacterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D591B7692A800BAB4E3 /* CharacterEncoding.swift */; };
@@ -39,10 +39,10 @@
 		75CCD9371B7C005000A508F1 /* LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTests.swift; sourceTree = "<group>"; };
 		75CCD9391B7C37E000A508F1 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionCharacters.swift; sourceTree = "<group>"; };
-		75E93D351B76928E00BAB4E3 /* URITemplates.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URITemplates.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75E93D351B76928E00BAB4E3 /* Subplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Subplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E93D391B76928E00BAB4E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E93D3A1B76928E00BAB4E3 /* URITemplates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URITemplates.h; sourceTree = "<group>"; };
-		75E93D401B76928E00BAB4E3 /* URITemplatesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URITemplatesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		75E93D401B76928E00BAB4E3 /* SubplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SubplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E93D461B76928E00BAB4E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E93D571B7692A800BAB4E3 /* URITemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URITemplate.swift; sourceTree = "<group>"; };
 		75E93D581B7692A800BAB4E3 /* Parsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Parsing.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75E93D411B76928E00BAB4E3 /* URITemplates.framework in Frameworks */,
+				75E93D411B76928E00BAB4E3 /* Subplate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,8 +73,8 @@
 		75E93D2B1B76928E00BAB4E3 = {
 			isa = PBXGroup;
 			children = (
-				75E93D371B76928E00BAB4E3 /* URITemplates */,
-				75E93D441B76928E00BAB4E3 /* URITemplatesTests */,
+				75E93D371B76928E00BAB4E3 /* Subplate */,
+				75E93D441B76928E00BAB4E3 /* SubplateTests */,
 				75E93D361B76928E00BAB4E3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,23 +82,24 @@
 		75E93D361B76928E00BAB4E3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75E93D351B76928E00BAB4E3 /* URITemplates.framework */,
-				75E93D401B76928E00BAB4E3 /* URITemplatesTests.xctest */,
+				75E93D351B76928E00BAB4E3 /* Subplate.framework */,
+				75E93D401B76928E00BAB4E3 /* SubplateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		75E93D371B76928E00BAB4E3 /* URITemplates */ = {
+		75E93D371B76928E00BAB4E3 /* Subplate */ = {
 			isa = PBXGroup;
 			children = (
+				75E93D3A1B76928E00BAB4E3 /* URITemplates.h */,
 				75E93D591B7692A800BAB4E3 /* CharacterEncoding.swift */,
 				75E93D581B7692A800BAB4E3 /* Parsing.swift */,
 				75CCD9391B7C37E000A508F1 /* Token.swift */,
 				75E93D571B7692A800BAB4E3 /* URITemplate.swift */,
 				75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */,
-				75E93D3A1B76928E00BAB4E3 /* URITemplates.h */,
 				75E93D381B76928E00BAB4E3 /* Supporting Files */,
 			);
+			name = Subplate;
 			path = URITemplates;
 			sourceTree = "<group>";
 		};
@@ -110,7 +111,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		75E93D441B76928E00BAB4E3 /* URITemplatesTests */ = {
+		75E93D441B76928E00BAB4E3 /* SubplateTests */ = {
 			isa = PBXGroup;
 			children = (
 				75E93D5F1B7692B400BAB4E3 /* CharacterEncodingTests.swift */,
@@ -121,6 +122,7 @@
 				75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */,
 				75E93D451B76928E00BAB4E3 /* Supporting Files */,
 			);
+			name = SubplateTests;
 			path = URITemplatesTests;
 			sourceTree = "<group>";
 		};
@@ -146,9 +148,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		75E93D341B76928E00BAB4E3 /* URITemplates */ = {
+		75E93D341B76928E00BAB4E3 /* Subplate */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75E93D4B1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "URITemplates" */;
+			buildConfigurationList = 75E93D4B1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "Subplate" */;
 			buildPhases = (
 				75E93D301B76928E00BAB4E3 /* Sources */,
 				75E93D311B76928E00BAB4E3 /* Frameworks */,
@@ -159,14 +161,14 @@
 			);
 			dependencies = (
 			);
-			name = URITemplates;
+			name = Subplate;
 			productName = URITemplates;
-			productReference = 75E93D351B76928E00BAB4E3 /* URITemplates.framework */;
+			productReference = 75E93D351B76928E00BAB4E3 /* Subplate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		75E93D3F1B76928E00BAB4E3 /* URITemplatesTests */ = {
+		75E93D3F1B76928E00BAB4E3 /* SubplateTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75E93D4E1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "URITemplatesTests" */;
+			buildConfigurationList = 75E93D4E1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "SubplateTests" */;
 			buildPhases = (
 				75E93D3C1B76928E00BAB4E3 /* Sources */,
 				75E93D3D1B76928E00BAB4E3 /* Frameworks */,
@@ -177,9 +179,9 @@
 			dependencies = (
 				75E93D431B76928E00BAB4E3 /* PBXTargetDependency */,
 			);
-			name = URITemplatesTests;
+			name = SubplateTests;
 			productName = URITemplatesTests;
-			productReference = 75E93D401B76928E00BAB4E3 /* URITemplatesTests.xctest */;
+			productReference = 75E93D401B76928E00BAB4E3 /* SubplateTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +201,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 75E93D2F1B76928E00BAB4E3 /* Build configuration list for PBXProject "URITemplates" */;
+			buildConfigurationList = 75E93D2F1B76928E00BAB4E3 /* Build configuration list for PBXProject "Subplate" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -211,8 +213,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				75E93D341B76928E00BAB4E3 /* URITemplates */,
-				75E93D3F1B76928E00BAB4E3 /* URITemplatesTests */,
+				75E93D341B76928E00BAB4E3 /* Subplate */,
+				75E93D3F1B76928E00BAB4E3 /* SubplateTests */,
 			);
 		};
 /* End PBXProject section */
@@ -265,7 +267,7 @@
 /* Begin PBXTargetDependency section */
 		75E93D431B76928E00BAB4E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 75E93D341B76928E00BAB4E3 /* URITemplates */;
+			target = 75E93D341B76928E00BAB4E3 /* Subplate */;
 			targetProxy = 75E93D421B76928E00BAB4E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -371,7 +373,7 @@
 				INFOPLIST_FILE = URITemplates/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Subplate;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -388,7 +390,7 @@
 				INFOPLIST_FILE = URITemplates/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Subplate;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -406,7 +408,7 @@
 				);
 				INFOPLIST_FILE = URITemplatesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SubplateTests;
 			};
 			name = Debug;
 		};
@@ -419,14 +421,14 @@
 				);
 				INFOPLIST_FILE = URITemplatesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SubplateTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		75E93D2F1B76928E00BAB4E3 /* Build configuration list for PBXProject "URITemplates" */ = {
+		75E93D2F1B76928E00BAB4E3 /* Build configuration list for PBXProject "Subplate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75E93D491B76928E00BAB4E3 /* Debug */,
@@ -435,7 +437,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75E93D4B1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "URITemplates" */ = {
+		75E93D4B1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "Subplate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75E93D4C1B76928E00BAB4E3 /* Debug */,
@@ -444,7 +446,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75E93D4E1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "URITemplatesTests" */ = {
+		75E93D4E1B76928E00BAB4E3 /* Build configuration list for PBXNativeTarget "SubplateTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75E93D4F1B76928E00BAB4E3 /* Debug */,
