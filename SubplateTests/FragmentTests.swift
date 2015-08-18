@@ -11,7 +11,7 @@ import Subplate
 
 class FragmentTests: XCTestCase {
     func testFragmentExpansion() {
-        let template = URITemplate("X{#var}")
+        let template = Subplate("X{#var}")
         let expected = "X#value"
         let result = template.expand(["var": "value"])
 
@@ -19,7 +19,7 @@ class FragmentTests: XCTestCase {
     }
 
     func testFragmentEncoding() {
-        let template = URITemplate("X{#var}")
+        let template = Subplate("X{#var}")
         let expected = "X#Hello%20World!"
         let result = template.expand(["var": "Hello World!"])
 
@@ -27,7 +27,7 @@ class FragmentTests: XCTestCase {
     }
 
     func testFragmentValueIncludesNumberSymbol() {
-        let template = URITemplate("fragment{#value}")
+        let template = Subplate("fragment{#value}")
         let expected = "fragment##1#2and#3"
         let result = template.expand(["value": "#1#2and#3"])
 
@@ -35,7 +35,7 @@ class FragmentTests: XCTestCase {
     }
 
     func testFragmentValueNeedsEncoding() {
-        let template = URITemplate("fragment{#value}")
+        let template = Subplate("fragment{#value}")
         let expected = "fragment#%5E1abc"
         let result = template.expand(["value": "^1abc"])
 

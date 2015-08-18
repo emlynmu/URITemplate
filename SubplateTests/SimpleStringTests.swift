@@ -11,7 +11,7 @@ import Subplate
 
 class SimpleStringTests: XCTestCase {
     func testSimpleStringExpansion() {
-        let template = URITemplate("my{adjective}template")
+        let template = Subplate("my{adjective}template")
         let expected = "myfunkytemplate"
         let result = template.expand(["adjective": "funky"])
 
@@ -19,7 +19,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMultipleSimpleStringExpansion() {
-        let template = URITemplate("my{adjective}template")
+        let template = Subplate("my{adjective}template")
         let expected = "myfunky,freshtemplate"
         let result = template.expand(["adjective": ["funky", "fresh"]])
 
@@ -27,7 +27,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMultiVariableSimpleStringExpansion() {
-        let template = URITemplate("coordinates:({x,y})")
+        let template = Subplate("coordinates:({x,y})")
         let expected = "coordinates:(1,2)"
         let result = template.expand([
             "x": 1,
@@ -37,7 +37,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMultiVariableOneEmptySimpleStringExpansion() {
-        let template = URITemplate("coordinates:({x,y})")
+        let template = Subplate("coordinates:({x,y})")
         let expected = "coordinates:(1,)"
         let result = template.expand([
             "x": 1])
@@ -46,7 +46,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMissingValueExpansion() {
-        let template = URITemplate("my{adjective}template")
+        let template = Subplate("my{adjective}template")
         let expected = "mytemplate"
         let result = template.expand([:])
 
@@ -54,7 +54,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testPercentEncodedValueExpansion() {
-        let template = URITemplate("my {adjective} template")
+        let template = Subplate("my {adjective} template")
         let expected = "my super%20funky template"
         let result = template.expand(["adjective": "super funky"])
 
@@ -62,7 +62,7 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMultiplePercentEncodedValueExpansion() {
-        let template = URITemplate("my {adjective} template")
+        let template = Subplate("my {adjective} template")
         let expected = "my super%20funky,super%20freaky template"
         let result = template.expand(["adjective": ["super funky", "super freaky"]])
 

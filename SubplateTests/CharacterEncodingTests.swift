@@ -1,6 +1,6 @@
 //
 //  CharacterEncodingTests.swift
-//  URITemplate
+//  Subplate
 //
 //  Created by Emlyn Murphy on 8/8/15.
 //  Copyright (c) 2015 Emlyn Murphy. All rights reserved.

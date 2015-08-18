@@ -11,7 +11,7 @@ import Subplate
 
 class LabelTests: XCTestCase {
     func testSimpleLabelExpansion() {
-        let template = URITemplate("{.who}")
+        let template = Subplate("{.who}")
         let expected = ".fred"
         let result = template.expand(["who": "fred"])
 
@@ -19,7 +19,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDoubleSimpleLabelExpansion() {
-        let template = URITemplate("{.who,who}")
+        let template = Subplate("{.who,who}")
         let expected = ".fred.fred"
         let result = template.expand(["who": "fred"])
 
@@ -27,7 +27,7 @@ class LabelTests: XCTestCase {
     }
 
     func testFileExtensionExpansion() {
-        let template = URITemplate("something{.ext}")
+        let template = Subplate("something{.ext}")
         let expected = "something.tar"
         let result = template.expand(["ext": "tar"])
 
@@ -35,7 +35,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDoubleFileExtensionExpansion() {
-        let template = URITemplate("something{.ext}")
+        let template = Subplate("something{.ext}")
         let expected = "something.tar.gz"
         let result = template.expand(["ext": ["tar", "gz"]])
 
@@ -43,7 +43,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDomainNameLabelValueExpansion() {
-        let template = URITemplate("www{.host}.com")
+        let template = Subplate("www{.host}.com")
         let expected = "www.monkey.com"
     }
 }

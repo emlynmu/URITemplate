@@ -1,6 +1,6 @@
 //
-//  URITemplate.swift
-//  URITemplate
+//  Subplate.swift
+//  Subplate
 //
 //  Created by Emlyn Murphy on 8/7/15.
 //  Copyright (c) 2015 Emlyn Murphy. All rights reserved.
@@ -8,20 +8,20 @@
 
 import Foundation
 
-public typealias URITemplateValues = [NSObject : AnyObject]
+public typealias SubplateValues = [NSObject : AnyObject]
 
-public protocol URITemplateExpandable {
-    func expand(values: URITemplateValues) -> String
+public protocol SubplateExpandable {
+    func expand(values: SubplateValues) -> String
 }
 
-public struct URITemplate: URITemplateExpandable {
+public struct Subplate: SubplateExpandable {
     private let tokens: [Token]
 
     public init(_ value: Printable) {
         tokens = tokenize(value.description)
     }
 
-    public func expand(values: URITemplateValues) -> String {
+    public func expand(values: SubplateValues) -> String {
         return tokens.reduce("") { (result, token) -> String in
             return result + token.expand(values)
         }

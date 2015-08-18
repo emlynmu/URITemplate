@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Token: DebugPrintable, URITemplateExpandable {
+public enum Token: DebugPrintable, SubplateExpandable {
     case Literal(String)
     case SimpleString([String])
     case Reserved([String])
@@ -38,7 +38,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
         }
     }
 
-    private func expandValue(variable: String, values: URITemplateValues,
+    private func expandValue(variable: String, values: SubplateValues,
         allowCharacters: [CharacterClass], separator: String = ",") -> String {
             if let values = values[variable] as? [AnyObject] {
                 return join(separator, map(values, { percentEncodeString(($0.description ?? ""),
@@ -50,7 +50,7 @@ public enum Token: DebugPrintable, URITemplateExpandable {
             }
     }
 
-    public func expand(values: URITemplateValues) -> String {
+    public func expand(values: SubplateValues) -> String {
         switch self {
         case .Literal(let value):
             return String(value)
