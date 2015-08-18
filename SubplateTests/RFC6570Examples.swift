@@ -69,7 +69,7 @@ class RFC6570Examples: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testSimpleString() {
+    func testLevel1Examples() {
         let values = [
             "var": "value",
             "hello": "Hello World!"
@@ -79,12 +79,44 @@ class RFC6570Examples: XCTestCase {
         let result1 = subplate1.expand(values)
         let expected1 = "value"
 
-        XCTAssert(result1 == expected1, "expected \"\(result1)\"; got \"\(result1)\"")
+        XCTAssert(expected1 == result1, "expected \"\(expected1)\"; got \"\(result1)\"")
 
         let subplate2 = Subplate("{hello}")
         let expected2 = "Hello%20World%21"
         let result2 = subplate2.expand(values)
 
-        XCTAssert(result2 == expected2, "expected \"\(result2)\"; got \"\(expected2)\"")
+        XCTAssert(expected2 == result2, "expected \"\(expected2)\"; got \"\(result2)\"")
+    }
+
+    func testLevel2Examples() {
+        let values = [
+            "var": "value",
+            "hello": "Hello World!",
+            "path": "/foo/bar"
+        ]
+
+        let reservedStringSubplate1 = Subplate("{+var}")
+        let reservedStringExpected1 = "value"
+        let reservedStringResult1 = reservedStringSubplate1.expand(values)
+
+        XCTAssert(reservedStringExpected1 == reservedStringResult1, "expected \"\(reservedStringExpected1)\"; got \"\(reservedStringResult1)\"")
+
+        let reservedStringSubplate2 = Subplate("{+hello}")
+        let reservedStringExpected2 = "Hello%20World!"
+        let reservedStringResult2 = reservedStringSubplate2.expand(values)
+
+        XCTAssert(reservedStringExpected2 == reservedStringResult2, "expected \"\(reservedStringExpected2)\"; got \"\(reservedStringResult2)\"")
+
+        let reservedStringSubplate3 = Subplate("{+path}/here")
+        let reservedStringExpected3 = "/foo/bar/here"
+        let reservedStringResult3 = reservedStringSubplate3.expand(values)
+
+        XCTAssert(reservedStringExpected3 == reservedStringResult3, "expected \"\(reservedStringExpected3)\"; got \"\(reservedStringResult3)\"")
+
+        let reservedStringSubplate4 = Subplate("here?ref={+path}")
+        let reservedStringExpected4 = "here?ref=/foo/bar"
+        let reservedStringResult4 = reservedStringSubplate4.expand(values)
+
+        XCTAssert(reservedStringExpected4 == reservedStringResult4, "expected \"\(reservedStringExpected4)\"; got \"\(reservedStringResult4)\"")
     }
 }
