@@ -11,39 +11,39 @@ import Subplate
 
 class LabelTests: XCTestCase {
     func testSimpleLabelExpansion() {
-        let template = Subplate("{.who}")
+        let subplate = Subplate("{.who}")
         let expected = ".fred"
-        let result = template.expand(["who": "fred"])
+        let result = subplate.expand(["who": "fred"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testDoubleSimpleLabelExpansion() {
-        let template = Subplate("{.who,who}")
+        let subplate = Subplate("{.who,who}")
         let expected = ".fred.fred"
-        let result = template.expand(["who": "fred"])
+        let result = subplate.expand(["who": "fred"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testFileExtensionExpansion() {
-        let template = Subplate("something{.ext}")
+        let subplate = Subplate("something{.ext}")
         let expected = "something.tar"
-        let result = template.expand(["ext": "tar"])
+        let result = subplate.expand(["ext": "tar"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testDoubleFileExtensionExpansion() {
-        let template = Subplate("something{.ext}")
+        let subplate = Subplate("something{.ext}")
         let expected = "something.tar.gz"
-        let result = template.expand(["ext": ["tar", "gz"]])
+        let result = subplate.expand(["ext": ["tar", "gz"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testDomainNameLabelValueExpansion() {
-        let template = Subplate("www{.host}.com")
+        let subplate = Subplate("www{.host}.com")
         let expected = "www.monkey.com"
     }
 }

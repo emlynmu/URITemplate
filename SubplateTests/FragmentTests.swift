@@ -11,33 +11,33 @@ import Subplate
 
 class FragmentTests: XCTestCase {
     func testFragmentExpansion() {
-        let template = Subplate("X{#var}")
+        let subplate = Subplate("X{#var}")
         let expected = "X#value"
-        let result = template.expand(["var": "value"])
+        let result = subplate.expand(["var": "value"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testFragmentEncoding() {
-        let template = Subplate("X{#var}")
+        let subplate = Subplate("X{#var}")
         let expected = "X#Hello%20World!"
-        let result = template.expand(["var": "Hello World!"])
+        let result = subplate.expand(["var": "Hello World!"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testFragmentValueIncludesNumberSymbol() {
-        let template = Subplate("fragment{#value}")
+        let subplate = Subplate("fragment{#value}")
         let expected = "fragment##1#2and#3"
-        let result = template.expand(["value": "#1#2and#3"])
+        let result = subplate.expand(["value": "#1#2and#3"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testFragmentValueNeedsEncoding() {
-        let template = Subplate("fragment{#value}")
+        let subplate = Subplate("fragment{#value}")
         let expected = "fragment#%5E1abc"
-        let result = template.expand(["value": "^1abc"])
+        let result = subplate.expand(["value": "^1abc"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }

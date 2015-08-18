@@ -15,18 +15,18 @@ func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, Array
     return (slice[0...index], slice[(index + 1)..<slice.count])
 }
 
-func findExpressionBoundary(templateSlice: ArraySlice<Character>,
+func findExpressionBoundary(subplateSlice: ArraySlice<Character>,
     character: ExpressionBoundary) -> Int? {
-        if let end = find(templateSlice, character.rawValue) {
+        if let end = find(subplateSlice, character.rawValue) {
             return end
         }
 
         return nil
 }
 
-func findExpressionBoundary(templateSlice: ArraySlice<Character>) -> (start: Int, end: Int)? {
-    if let s = findExpressionBoundary(templateSlice, ExpressionBoundary.Start) {
-        if let e = findExpressionBoundary(templateSlice[1..<templateSlice.count], .End) {
+func findExpressionBoundary(subplateSlice: ArraySlice<Character>) -> (start: Int, end: Int)? {
+    if let s = findExpressionBoundary(subplateSlice, ExpressionBoundary.Start) {
+        if let e = findExpressionBoundary(subplateSlice[1..<subplateSlice.count], .End) {
             return (start: s, end: e)
         }
     }
@@ -34,22 +34,22 @@ func findExpressionBoundary(templateSlice: ArraySlice<Character>) -> (start: Int
     return nil
 }
 
-func splitVariables(templateSlice: ArraySlice<Character>) -> [String] {
-    let variables =  split(templateSlice, isSeparator: { $0 == "," })
+func splitVariables(subplateSlice: ArraySlice<Character>) -> [String] {
+    let variables =  split(subplateSlice, isSeparator: { $0 == "," })
     return variables.map({ return String($0) })
 }
 
-public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? {
-    if templateSlice.count < 1 {
+public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? {
+    if subplateSlice.count < 1 {
         return nil
     }
 
-    if let expressionOperator = ExpressionOperator(rawValue: templateSlice[0]) {
-        if templateSlice.count < 2 {
+    if let expressionOperator = ExpressionOperator(rawValue: subplateSlice[0]) {
+        if subplateSlice.count < 2 {
             return nil
         }
 
-        let variables = splitVariables(templateSlice[1 ..< templateSlice.count])
+        let variables = splitVariables(subplateSlice[1 ..< subplateSlice.count])
 
         switch expressionOperator {
         case .Reserved:
@@ -63,14 +63,14 @@ public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? 
         }
     }
 
-    return Token.SimpleString(splitVariables(templateSlice))
+    return Token.SimpleString(splitVariables(subplateSlice))
 }
 
-public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
-    if let first = templateSlice.first,
+public func consumeExpression(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if let first = subplateSlice.first,
         boundary = ExpressionBoundary(rawValue: first) where boundary == .Start {
-            if let end = findExpressionBoundary(templateSlice, .End) where end >= 2 {
-                let (token, remainder) = split(templateSlice, atIndex: end)
+            if let end = findExpressionBoundary(subplateSlice, .End) where end >= 2 {
+                let (token, remainder) = split(subplateSlice, atIndex: end)
                 let tokenBody = token[1 ..< (token.count - 1)]
 
                 if let token = parseExpressionBody(tokenBody) {
@@ -86,24 +86,24 @@ public func consumeExpression(string: String) -> ConsumeResult? {
     return consumeExpression(Remainder(string))
 }
 
-public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
-    if templateSlice.count <= 0 {
+public func consumeLiteral(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {
+    if subplateSlice.count <= 0 {
         return nil
     }
 
     let literalSlice: ArraySlice<Character>
 
-    if let boundary = findExpressionBoundary(templateSlice[1 ..< templateSlice.count]) {
-        literalSlice = templateSlice[0 ..< boundary.start + 1]
+    if let boundary = findExpressionBoundary(subplateSlice[1 ..< subplateSlice.count]) {
+        literalSlice = subplateSlice[0 ..< boundary.start + 1]
     }
     else {
-        literalSlice = templateSlice
+        literalSlice = subplateSlice
     }
 
     let remainder: ArraySlice<Character>
 
-    if literalSlice.count < templateSlice.count {
-        remainder = templateSlice[literalSlice.count ..< templateSlice.count]
+    if literalSlice.count < subplateSlice.count {
+        remainder = subplateSlice[literalSlice.count ..< subplateSlice.count]
     }
     else {
         remainder = ArraySlice("")
@@ -116,25 +116,25 @@ public func consumeLiteral(string: String) -> ConsumeResult? {
     return consumeLiteral(ArraySlice<Character>(string))
 }
 
-public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
-    if let result = consumeExpression(templateSlice) {
+public func consumeToken(subplateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
+    if let result = consumeExpression(subplateSlice) {
         return result
     }
-    else if let result = consumeLiteral(templateSlice) {
+    else if let result = consumeLiteral(subplateSlice) {
         return result
     }
 
     return nil
 }
 
-public func tokenize(templateSlice: ArraySlice<Character>, tokens: [Token] = []) -> [Token] {
-    if let (token, remainder) = consumeToken(templateSlice) {
+public func tokenize(subplateSlice: ArraySlice<Character>, tokens: [Token] = []) -> [Token] {
+    if let (token, remainder) = consumeToken(subplateSlice) {
         return tokenize(remainder, tokens: tokens + [token])
     }
 
     return tokens
 }
 
-public func tokenize(templateString: String) -> [Token] {
-    return tokenize(ArraySlice<Character>(templateString))
+public func tokenize(subplateString: String) -> [Token] {
+    return tokenize(ArraySlice<Character>(subplateString))
 }

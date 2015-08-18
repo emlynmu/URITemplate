@@ -11,25 +11,25 @@ import Subplate
 
 class SimpleStringTests: XCTestCase {
     func testSimpleStringExpansion() {
-        let template = Subplate("my{adjective}template")
-        let expected = "myfunkytemplate"
-        let result = template.expand(["adjective": "funky"])
+        let subplate = Subplate("my{adjective}subplate")
+        let expected = "myfunkysubplate"
+        let result = subplate.expand(["adjective": "funky"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testMultipleSimpleStringExpansion() {
-        let template = Subplate("my{adjective}template")
-        let expected = "myfunky,freshtemplate"
-        let result = template.expand(["adjective": ["funky", "fresh"]])
+        let subplate = Subplate("my{adjective}subplate")
+        let expected = "myfunky,freshsubplate"
+        let result = subplate.expand(["adjective": ["funky", "fresh"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testMultiVariableSimpleStringExpansion() {
-        let template = Subplate("coordinates:({x,y})")
+        let subplate = Subplate("coordinates:({x,y})")
         let expected = "coordinates:(1,2)"
-        let result = template.expand([
+        let result = subplate.expand([
             "x": 1,
             "y": 2 ])
 
@@ -37,34 +37,34 @@ class SimpleStringTests: XCTestCase {
     }
 
     func testMultiVariableOneEmptySimpleStringExpansion() {
-        let template = Subplate("coordinates:({x,y})")
+        let subplate = Subplate("coordinates:({x,y})")
         let expected = "coordinates:(1,)"
-        let result = template.expand([
+        let result = subplate.expand([
             "x": 1])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testMissingValueExpansion() {
-        let template = Subplate("my{adjective}template")
-        let expected = "mytemplate"
-        let result = template.expand([:])
+        let subplate = Subplate("my{adjective}subplate")
+        let expected = "mysubplate"
+        let result = subplate.expand([:])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testPercentEncodedValueExpansion() {
-        let template = Subplate("my {adjective} template")
-        let expected = "my super%20funky template"
-        let result = template.expand(["adjective": "super funky"])
+        let subplate = Subplate("my {adjective} subplate")
+        let expected = "my super%20funky subplate"
+        let result = subplate.expand(["adjective": "super funky"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testMultiplePercentEncodedValueExpansion() {
-        let template = Subplate("my {adjective} template")
-        let expected = "my super%20funky,super%20freaky template"
-        let result = template.expand(["adjective": ["super funky", "super freaky"]])
+        let subplate = Subplate("my {adjective} subplate")
+        let expected = "my super%20funky,super%20freaky subplate"
+        let result = subplate.expand(["adjective": ["super funky", "super freaky"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }

@@ -30,22 +30,22 @@ class ParsingTests: XCTestCase {
     }
 
     func testConsumeLabelOnly() {
-        let template = "{.hello}"
-        let result = consumeExpression(template)
+        let subplate = "{.hello}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsLabel(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeLabelWithText() {
-        let template = "{.abc}def"
-        let result = consumeExpression(template)
+        let subplate = "{.abc}def"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsLabel(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoLabels() {
-        let template = "{.abc}{.def}"
-        let result = consumeExpression(template)
+        let subplate = "{.abc}{.def}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsLabel(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{.def}"))
     }
@@ -69,22 +69,22 @@ class ParsingTests: XCTestCase {
     }
 
     func testConsumeFragmentOnly() {
-        let template = "{#hello}"
-        let result = consumeExpression(template)
+        let subplate = "{#hello}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsFragment(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeFragmentWithText() {
-        let template = "{#abc}def"
-        let result = consumeExpression(template)
+        let subplate = "{#abc}def"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsFragment(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoFragments() {
-        let template = "{#abc}{#def}"
-        let result = consumeExpression(template)
+        let subplate = "{#abc}{#def}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsFragment(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{#def}"))
     }
@@ -108,22 +108,22 @@ class ParsingTests: XCTestCase {
     }
 
     func testConsumeReservedOnly() {
-        let template = "{+hello}"
-        let result = consumeExpression(template)
+        let subplate = "{+hello}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeReservedWithText() {
-        let template = "{+abc}def"
-        let result = consumeExpression(template)
+        let subplate = "{+abc}def"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoReserveds() {
-        let template = "{+abc}{+def}"
-        let result = consumeExpression(template)
+        let subplate = "{+abc}{+def}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
@@ -142,22 +142,22 @@ class ParsingTests: XCTestCase {
     // MARK: - consumeSimpleString
 
     func testConsumeSimpleStringOnly() {
-        let template = "{hello}"
-        let result = consumeExpression(template)
+        let subplate = "{hello}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeSimpleStringWithText() {
-        let template = "{abc}def"
-        let result = consumeExpression(template)
+        let subplate = "{abc}def"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeFirstOfTwoSimpleStrings() {
-        let template = "{abc}{def}"
-        let result = consumeExpression(template)
+        let subplate = "{abc}{def}"
+        let result = consumeExpression(subplate)
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
@@ -170,63 +170,63 @@ class ParsingTests: XCTestCase {
     // MARK: - consumeLiteral
 
     func testConsumeLiteralOnlySucceed() {
-        let template = "hello"
-        let result = consumeLiteral(template)
+        let subplate = "hello"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeLiteralWithSimpleString() {
-        let template = "hello{there}"
-        let result = consumeLiteral(template)
+        let subplate = "hello{there}"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: "{there}"))
     }
 
     func testConsumeLiteralEmpty() {
-        let template = ""
-        let result = consumeLiteral(template)
+        let subplate = ""
+        let result = consumeLiteral(subplate)
         XCTAssert(result == nil)
     }
 
     func testConsumeLiteralWithStrayExpressionOpen() {
-        let template = "hello{there"
-        let result = consumeLiteral(template)
+        let subplate = "hello{there"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeBeginLiteralWithStrayExpressionOpen() {
-        let template = "{hello"
-        let result = consumeLiteral(template)
+        let subplate = "{hello"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "{hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeEndLiteralWithStrayExpressionOpen() {
-        let template = "hello{"
-        let result = consumeLiteral(template)
+        let subplate = "hello{"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeLiteralWithStrayExpressionClose() {
-        let template = "hello}there"
-        let result = consumeLiteral(template)
+        let subplate = "hello}there"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeBeginLiteralWithStrayExpressionClose() {
-        let template = "}hello"
-        let result = consumeLiteral(template)
+        let subplate = "}hello"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "}hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeEndLiteralWithStrayExpressionClose() {
-        let template = "hello}"
-        let result = consumeLiteral(template)
+        let subplate = "hello}"
+        let result = consumeLiteral(subplate)
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -240,22 +240,22 @@ class ParsingTests: XCTestCase {
     }
 
     func testConsumeTokenReserved() {
-        let template = "{+hello}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{+hello}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenReservedWithLiteral() {
-        let template = "{+abc}def"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{+abc}def"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeTokenFirstOfTwoReserveds() {
-        let template = "{+abc}{+def}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{+abc}{+def}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
@@ -269,22 +269,22 @@ class ParsingTests: XCTestCase {
     // MARK: - consumeToken: Simple String
 
     func testConsumeTokenSimpleString() {
-        let template = "{hello}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{hello}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenSimpleStringWithLiteral() {
-        let template = "{abc}def"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{abc}def"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeTokenFirstOfTwoSimpleStrings() {
-        let template = "{abc}{def}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{abc}{def}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
@@ -304,77 +304,77 @@ class ParsingTests: XCTestCase {
     // MARK: - consumeToken: Literal
 
     func testConsumeTokenOnlyOpenExpression() {
-        let template = "{"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenOnlyCloseExpression() {
-        let template = "}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralOnlySucceed() {
-        let template = "hello"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralWithSimpleString() {
-        let template = "hello{there}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello{there}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: "{there}"))
     }
 
     func testConsumeTokenLiteralEmpty() {
-        let template = ""
-        let result = consumeToken(ArraySlice(template))
+        let subplate = ""
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(result == nil)
     }
 
     func testConsumeTokenLiteralWithStrayExpressionOpen() {
-        let template = "hello{there"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello{there"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenBeginLiteralWithStrayExpressionOpen() {
-        let template = "{hello"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "{hello"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenEndLiteralWithStrayExpressionOpen() {
-        let template = "hello{"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello{"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralWithStrayExpressionClose() {
-        let template = "hello}there"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello}there"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenBeginLiteralWithStrayExpressionClose() {
-        let template = "}hello"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "}hello"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "}hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenEndLiteralWithStrayExpressionClose() {
-        let template = "hello}"
-        let result = consumeToken(ArraySlice(template))
+        let subplate = "hello}"
+        let result = consumeToken(ArraySlice(subplate))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -382,28 +382,28 @@ class ParsingTests: XCTestCase {
     // MARK: - Tokenize: Balanced
 
     func testTokenizeEmpty() {
-        let template = ""
-        let result = tokenize(template)
+        let subplate = ""
+        let result = tokenize(subplate)
         XCTAssert(result.count == 0)
     }
 
     func testTokenizeWithSimpleStringOnly() {
-        let template = "{hello}"
-        let result = tokenize(template)
+        let subplate = "{hello}"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
     }
 
     func testTokenizeWithReservedOnly() {
-        let template = "{+hello}"
-        let result = tokenize(template)
+        let subplate = "{+hello}"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsReserved(result[0], withText:"hello"))
     }
 
     func testTokenizeLiteralWithSimpleString() {
-        let template = "hello{there}"
-        let result = tokenize(template)
+        let subplate = "hello{there}"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello"))
@@ -411,8 +411,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeLiteralWithReserved() {
-        let template = "hello{+there}"
-        let result = tokenize(template)
+        let subplate = "hello{+there}"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello"))
@@ -420,8 +420,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeSimpleStringWithLiteral() {
-        let template = "{hello}there"
-        let result = tokenize(template)
+        let subplate = "{hello}there"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
@@ -429,8 +429,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeReservedWithLiteral() {
-        let template = "{+hello}there"
-        let result = tokenize(template)
+        let subplate = "{+hello}there"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 2)
         XCTAssert(tokenIsReserved(result[0], withText:"hello"))
@@ -438,8 +438,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeSimpleStringLiteralSimpleString() {
-        let template = "{hello}there{monkey}"
-        let result = tokenize(template)
+        let subplate = "{hello}there{monkey}"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsSimpleString(result[0], withText:"hello"))
@@ -448,8 +448,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeReservedLiteralReserved() {
-        let template = "{+hello}there{+monkey}"
-        let result = tokenize(template)
+        let subplate = "{+hello}there{+monkey}"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsReserved(result[0], withText:"hello"))
@@ -458,8 +458,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeLiteralSimpleStringLiteral() {
-        let template = "hello{there}monkey"
-        let result = tokenize(template)
+        let subplate = "hello{there}monkey"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello"))
@@ -468,8 +468,8 @@ class ParsingTests: XCTestCase {
     }
 
     func testTokenizeLiteralReservedLiteral() {
-        let template = "hello{+there}monkey"
-        let result = tokenize(template)
+        let subplate = "hello{+there}monkey"
+        let result = tokenize(subplate)
 
         XCTAssert(result.count == 3)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello"))
@@ -480,43 +480,43 @@ class ParsingTests: XCTestCase {
     // MARK: - Tokenize: Unbalanced
 
     func testTokenizeLiteralWithStrayExpressionOpen() {
-        let template = "hello{there"
-        let result = tokenize(template)
+        let subplate = "hello{there"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello{there"))
     }
 
     func testTokenizeBeginLiteralWithStrayExpressionOpen() {
-        let template = "{hello"
-        let result = tokenize(template)
+        let subplate = "{hello"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"{hello"))
     }
 
     func testTokenizeEndLiteralWithStrayExpressionOpen() {
-        let template = "hello{"
-        let result = tokenize(template)
+        let subplate = "hello{"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello{"))
     }
 
     func testTokenizeLiteralWithStrayExpressionClose() {
-        let template = "hello}there"
-        let result = tokenize(template)
+        let subplate = "hello}there"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello}there"))
     }
 
     func testTokenizeBeginLiteralWithStrayExpressionClose() {
-        let template = "}hello"
-        let result = tokenize(template)
+        let subplate = "}hello"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"}hello"))
     }
 
     func testTokenizeEndLiteralWithStrayExpressionClose() {
-        let template = "hello}"
-        let result = tokenize(template)
+        let subplate = "hello}"
+        let result = tokenize(subplate)
         XCTAssert(result.count == 1)
         XCTAssert(tokenIsLiteral(result[0], withValue:"hello}"))
     }
