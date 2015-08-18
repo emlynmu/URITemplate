@@ -68,4 +68,23 @@ class RFC6570Examples: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    func testSimpleString() {
+        let values = [
+            "var": "value",
+            "hello": "Hello World!"
+        ]
+
+        let subplate1 = Subplate("{var}")
+        let result1 = subplate1.expand(values)
+        let expected1 = "value"
+
+        XCTAssert(result1 == expected1, "expected \"\(result1)\"; got \"\(result1)\"")
+
+        let subplate2 = Subplate("{hello}")
+        let expected2 = "Hello%20World%21"
+        let result2 = subplate2.expand(values)
+
+        XCTAssert(result2 == expected2, "expected \"\(result2)\"; got \"\(expected2)\"")
+    }
 }
