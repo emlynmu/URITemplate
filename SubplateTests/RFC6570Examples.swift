@@ -33,6 +33,20 @@ class RFC6570Examples: XCTestCase {
         XCTAssert(expectedMark == resultMark, "expected \"\(expectedMark)\"; got \"\(resultMark)\"")
     }
 
+    func testDictionary() {
+        let subplate = Subplate("http://example.com/dictionary/{term:1}/{term}")
+
+        let expectedCat = "http://example.com/dictionary/c/cat"
+        let resultCat = subplate.expand(["term": "cat"])
+
+        XCTAssert(expectedCat == resultCat, "expected \"\(expectedCat)\"; got \"\(resultCat)\"")
+
+        let expectedDog = "http://example.com/dictionary/d/dog"
+        let resultDog = subplate.expand(["term": "dog"])
+
+        XCTAssert(expectedDog == resultDog, "expected \"\(expectedDog)\"; got \"\(resultDog)\"")
+    }
+
     func testFirst() {
         let subplate = Subplate("http://www.example.com/foo{?query,number}")
         let expected = "http://www.example.com/foo?query=mycelium&number=100"
