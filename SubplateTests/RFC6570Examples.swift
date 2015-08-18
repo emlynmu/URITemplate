@@ -5,6 +5,10 @@
 //  Created by Emlyn Murphy on 8/17/15.
 //  Copyright (c) 2015 Emlyn Murphy. All rights reserved.
 //
+//  All of the examples from RFC 6570
+//
+//  URL: https://tools.ietf.org/html/rfc6570
+//
 
 import UIKit
 import XCTest
