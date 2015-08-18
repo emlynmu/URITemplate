@@ -47,7 +47,17 @@ class RFC6570Examples: XCTestCase {
         XCTAssert(expectedDog == resultDog, "expected \"\(expectedDog)\"; got \"\(resultDog)\"")
     }
 
-    func testFirst() {
+    func testExampleSearch() {
+        let subplate = Subplate("http://example.com/search{?q,lang}")
+
+        let expectedEnglish = "http://example.com/search?q=cat&lang=en"
+        let resultEnglish = subplate.expand(["q": "cat", "lang": "en"])
+
+        let expectedFrench = "http://example.com/search?q=chien&lang=fr"
+        let resultFrench = subplate.expand(["q": "chien", "lang": "fr"])
+    }
+
+    func testExampleQueryNumber() {
         let subplate = Subplate("http://www.example.com/foo{?query,number}")
         let expected = "http://www.example.com/foo?query=mycelium&number=100"
 
