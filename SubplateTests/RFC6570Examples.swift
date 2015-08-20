@@ -99,24 +99,81 @@ class RFC6570Examples: XCTestCase {
         let reservedStringExpected1 = "value"
         let reservedStringResult1 = reservedStringSubplate1.expand(values)
 
-        XCTAssert(reservedStringExpected1 == reservedStringResult1, "expected \"\(reservedStringExpected1)\"; got \"\(reservedStringResult1)\"")
+        XCTAssert(reservedStringExpected1 == reservedStringResult1,
+            "expected \"\(reservedStringExpected1)\"; got \"\(reservedStringResult1)\"")
 
         let reservedStringSubplate2 = Subplate("{+hello}")
         let reservedStringExpected2 = "Hello%20World!"
         let reservedStringResult2 = reservedStringSubplate2.expand(values)
 
-        XCTAssert(reservedStringExpected2 == reservedStringResult2, "expected \"\(reservedStringExpected2)\"; got \"\(reservedStringResult2)\"")
+        XCTAssert(reservedStringExpected2 == reservedStringResult2,
+            "expected \"\(reservedStringExpected2)\"; got \"\(reservedStringResult2)\"")
 
         let reservedStringSubplate3 = Subplate("{+path}/here")
         let reservedStringExpected3 = "/foo/bar/here"
         let reservedStringResult3 = reservedStringSubplate3.expand(values)
 
-        XCTAssert(reservedStringExpected3 == reservedStringResult3, "expected \"\(reservedStringExpected3)\"; got \"\(reservedStringResult3)\"")
+        XCTAssert(reservedStringExpected3 == reservedStringResult3,
+            "expected \"\(reservedStringExpected3)\"; got \"\(reservedStringResult3)\"")
 
         let reservedStringSubplate4 = Subplate("here?ref={+path}")
         let reservedStringExpected4 = "here?ref=/foo/bar"
         let reservedStringResult4 = reservedStringSubplate4.expand(values)
 
-        XCTAssert(reservedStringExpected4 == reservedStringResult4, "expected \"\(reservedStringExpected4)\"; got \"\(reservedStringResult4)\"")
+        XCTAssert(reservedStringExpected4 == reservedStringResult4,
+            "expected \"\(reservedStringExpected4)\"; got \"\(reservedStringResult4)\"")
+    }
+
+    func testLevel3Examples() {
+        let values = [
+            "var": "value",
+            "hello": "Hello World!",
+            "empty": "",
+            "path": "/foo/bar",
+            "x": "1024",
+            "y": "768"
+        ]
+
+        let multipleVariableSubplate1 = Subplate("map?{x,y}")
+        let multipleVariableExpected1 = "map?1024,768"
+        let multipleVariableResult1 = multipleVariableSubplate1.expand(values)
+
+        XCTAssert(multipleVariableExpected1 == multipleVariableResult1,
+            "expected \"\(multipleVariableExpected1)\"; got \"\(multipleVariableResult1)\"")
+
+        let multipleVariableSubplate2 = Subplate("{x,hello,y}")
+        let multipleVariableExpected2 = "1024,Hello%20World%21,768"
+        let multipleVariableResult2 = multipleVariableSubplate2.expand(values)
+
+        XCTAssert(multipleVariableExpected2 == multipleVariableResult2,
+            "expected \"\(multipleVariableExpected2)\"; got \"\(multipleVariableResult2)\"")
+
+        let reservedMultipleVariablesSubplate1 = Subplate("{+x,hello,y}")
+        let reservedMultipleVariablesExpected1 = "1024,Hello%20World!,768"
+        let reservedMultipleVariablesResult1 = reservedMultipleVariablesSubplate1.expand(values)
+
+        XCTAssert(reservedMultipleVariablesExpected1 == reservedMultipleVariablesResult1,
+            "expected \"\(reservedMultipleVariablesExpected1)\"; got \"\(reservedMultipleVariablesResult1)\"")
+
+        let reservedMultipleVariablesSubplate2 = Subplate("{+path,x}/here")
+        let reservedMultipleVariablesExpected2 = "/foo/bar,1024/here"
+        let reservedMultipleVariablesResult2 = reservedMultipleVariablesSubplate2.expand(values)
+
+        XCTAssert(reservedMultipleVariablesExpected2 == reservedMultipleVariablesResult2,
+            "expected \"\(reservedMultipleVariablesExpected2)\"; got \"\(reservedMultipleVariablesResult2)\"")
+
+        let fragmentMultipleVariablesSubplate1 = Subplate("{#x,hello,y}")
+        let fragmentMultipleVariablesExpected1 = "#1024,Hello%20World!,768"
+        let fragmentMultipleVariablesResult1 = fragmentMultipleVariablesSubplate1.expand(values)
+
+        XCTAssert(fragmentMultipleVariablesExpected1 == fragmentMultipleVariablesResult1,
+            "expected \"\(fragmentMultipleVariablesExpected1)\"; got \"\(fragmentMultipleVariablesResult1)\"")
+
+        let fragmentMultipleVariablesSubplate2 = Subplate("{#x,hello,y}")
+        let fragmentMultipleVariablesExpected2 = "#1024,Hello%20World!,768"
+        let fragmentMultipleVariablesResult2 = fragmentMultipleVariablesSubplate2.expand(values)
+
+        XCTAssert(fragmentMultipleVariablesExpected2 == fragmentMultipleVariablesResult2,
+            "expected \"\(fragmentMultipleVariablesExpected2)\"; got \"\(fragmentMultipleVariablesResult2)\"")
     }
 }
