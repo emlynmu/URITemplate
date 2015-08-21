@@ -165,19 +165,19 @@ class RFC6570Examples: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testLevel3Examples() {
-        let fragmentMultipleVariablesSubplate1 = Subplate("{#x,hello,y}")
-        let fragmentMultipleVariablesExpected1 = "#1024,Hello%20World!,768"
-        let fragmentMultipleVariablesResult1 = fragmentMultipleVariablesSubplate1.expand(level3ExampleValues)
+    func testFragmentMultipleVariablesSubplate1() {
+        let subplate = Subplate("{#x,hello,y}")
+        let expected = "#1024,Hello%20World!,768"
+        let result = subplate.expand(level3ExampleValues)
 
-        XCTAssert(fragmentMultipleVariablesExpected1 == fragmentMultipleVariablesResult1,
-            "expected \"\(fragmentMultipleVariablesExpected1)\"; got \"\(fragmentMultipleVariablesResult1)\"")
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 
-        let fragmentMultipleVariablesSubplate2 = Subplate("{#x,hello,y}")
-        let fragmentMultipleVariablesExpected2 = "#1024,Hello%20World!,768"
-        let fragmentMultipleVariablesResult2 = fragmentMultipleVariablesSubplate2.expand(level3ExampleValues)
+    func testFragmentMultipleVariablesSubplate2() {
+        let subplate = Subplate("{#x,hello,y}")
+        let expected = "#1024,Hello%20World!,768"
+        let result = subplate.expand(level3ExampleValues)
 
-        XCTAssert(fragmentMultipleVariablesExpected2 == fragmentMultipleVariablesResult2,
-            "expected \"\(fragmentMultipleVariablesExpected2)\"; got \"\(fragmentMultipleVariablesResult2)\"")
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 }
