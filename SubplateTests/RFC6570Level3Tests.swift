@@ -78,4 +78,84 @@ class RFC6570Level3Tests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    func testLabelSubplate1() {
+        let subplate = Subplate("X{.var}")
+        let expected = "X.value"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testLabelSubplate2() {
+        let subplate = Subplate("X{.x,y}")
+        let expected = "X.1024.768"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testPathSegments1() {
+        let subplate = Subplate("{/var}")
+        let expected = "/value"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testPathSegments2() {
+        let subplate = Subplate("{/var,x}/here")
+        let expected = "/value/1024/here"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testPathStyleParameters1() {
+        let subplate = Subplate("{;x,y}")
+        let expected = ";x=1024;y=768"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testPathStyleParameters2() {
+        let subplate = Subplate("{;x,y,empty}")
+        let expected = ";x=1024;y=768;empty"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testFormStyleQueryAmpersandSeparated1() {
+        let subplate = Subplate("{?x,y}")
+        let expected = "?x=1024&y=768"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testFormStyleQueryAmpersandSeparated2() {
+        let subplate = Subplate("{?x,y,empty}")
+        let expected = "?x=1024&y=768&empty="
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testFormStyleQueryContinuation1() {
+        let subplate = Subplate("?fixed=yes{&x}")
+        let expected = "?fixed=yes&x=1024"
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testFormStyleQueryContinuation2() {
+        let subplate = Subplate("{&x,y,empty}")
+        let expected = "&x=1024&y=768&empty="
+        let result = subplate.expand(values)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }
