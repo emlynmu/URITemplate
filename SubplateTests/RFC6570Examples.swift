@@ -133,14 +133,15 @@ class RFC6570Examples: XCTestCase {
         "y": "768"
     ]
 
+    func testMultipleVariableSubplate1() {
+        let subplate = Subplate("map?{x,y}")
+        let expected = "map?1024,768"
+        let result = subplate.expand(level3ExampleValues)
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
     func testLevel3Examples() {
-        let multipleVariableSubplate1 = Subplate("map?{x,y}")
-        let multipleVariableExpected1 = "map?1024,768"
-        let multipleVariableResult1 = multipleVariableSubplate1.expand(level3ExampleValues)
-
-        XCTAssert(multipleVariableExpected1 == multipleVariableResult1,
-            "expected \"\(multipleVariableExpected1)\"; got \"\(multipleVariableResult1)\"")
-
         let multipleVariableSubplate2 = Subplate("{x,hello,y}")
         let multipleVariableExpected2 = "1024,Hello%20World%21,768"
         let multipleVariableResult2 = multipleVariableSubplate2.expand(level3ExampleValues)
