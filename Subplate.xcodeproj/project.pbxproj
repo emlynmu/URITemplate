@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75BB06401B873BEC008C9ADC /* RFC6570Level3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB063F1B873BEC008C9ADC /* RFC6570Level3Tests.swift */; };
 		75BDD1BA1B82AEF00073FA5E /* RFC6570Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BDD1B91B82AEF00073FA5E /* RFC6570Examples.swift */; };
 		75CCD9321B7BFEDE00A508F1 /* SimpleStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */; };
 		75CCD9341B7BFF7100A508F1 /* ReservedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		75BB063F1B873BEC008C9ADC /* RFC6570Level3Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RFC6570Level3Tests.swift; sourceTree = "<group>"; };
 		75BDD1B91B82AEF00073FA5E /* RFC6570Examples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RFC6570Examples.swift; sourceTree = "<group>"; };
 		75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SimpleStringTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReservedTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -121,6 +123,7 @@
 				75E93D5E1B7692B400BAB4E3 /* ParsingTests.swift */,
 				75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */,
 				75BDD1B91B82AEF00073FA5E /* RFC6570Examples.swift */,
+				75BB063F1B873BEC008C9ADC /* RFC6570Level3Tests.swift */,
 				75CCD9311B7BFEDE00A508F1 /* SimpleStringTests.swift */,
 				75E93D451B76928E00BAB4E3 /* Supporting Files */,
 			);
@@ -260,6 +263,7 @@
 				75CCD9381B7C005000A508F1 /* LabelTests.swift in Sources */,
 				75CCD9361B7BFFD900A508F1 /* FragmentTests.swift in Sources */,
 				75CCD9321B7BFEDE00A508F1 /* SimpleStringTests.swift in Sources */,
+				75BB06401B873BEC008C9ADC /* RFC6570Level3Tests.swift in Sources */,
 				75E93D611B7692B400BAB4E3 /* ParsingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
