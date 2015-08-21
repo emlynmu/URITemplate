@@ -15,7 +15,7 @@ import UIKit
 import XCTest
 import Subplate
 
-class RFC6570Level3Tests: XCTestCase {
+class RFC6570Level3ExampleTests: XCTestCase {
     var values: [String : String]!
 
     override func setUp() {
