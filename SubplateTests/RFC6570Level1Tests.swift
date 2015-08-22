@@ -15,7 +15,18 @@ import UIKit
 import XCTest
 import Subplate
 
-class RFC6570Examples: XCTestCase {
+class RFC6570Level1Tests: XCTestCase {
+    var values: [String : String]!
+
+    override func setUp() {
+        super.setUp()
+
+        values = [
+            "var": "value",
+            "hello": "Hello World!"
+        ]
+    }
+
     func testUserName() {
         let subplate = Subplate("http://example.com/~{username}/")
 
@@ -71,11 +82,6 @@ class RFC6570Examples: XCTestCase {
     }
 
     func testLevel1Examples() {
-        let values = [
-            "var": "value",
-            "hello": "Hello World!"
-        ]
-
         let subplate1 = Subplate("{var}")
         let result1 = subplate1.expand(values)
         let expected1 = "value"
