@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Emlyn Murphy. All rights reserved.
 //
 //
-//  Level 3examples from RFC 6570
+//  Level 3 examples from RFC 6570
 //
 //  URL: https://tools.ietf.org/html/rfc6570
 //
