@@ -17,4 +17,6 @@ enum ExpressionOperator: Character {
     case Reserved = "+"
     case Fragment = "#"
     case Label = "."
+    case PathSegment = "/"
+    case PathStyle = ";"
 }

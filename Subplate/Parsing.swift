@@ -60,6 +60,12 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
 
         case .Label:
             return Token.Label(variables)
+
+        case .PathSegment:
+            return Token.PathSegment(variables)
+
+        case .PathStyle:
+            return Token.PathStyle(variables)
         }
     }
 

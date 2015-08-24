@@ -14,7 +14,8 @@ public enum Token: DebugPrintable, SubplateExpandable {
     case Reserved([String])
     case Fragment([String])
     case Label([String])
-    case Path([String])
+    case PathSegment([String])
+    case PathStyle([String])
 
     public var debugDescription: String {
         switch self {
@@ -33,8 +34,11 @@ public enum Token: DebugPrintable, SubplateExpandable {
         case .Label(let value):
             return "label(\"\(value)\")"
 
-        case .Path(let value):
-            return "path(\"\(value)\")"
+        case .PathSegment(let value):
+            return "path_segment(\"\(value)\")"
+
+        case .PathStyle(let value):
+            return "path_style(\"\(value)\")"
         }
     }
 
@@ -75,7 +79,12 @@ public enum Token: DebugPrintable, SubplateExpandable {
                 allowCharacters: [.Unreserved, .Reserved], separator: ".")})
             return "." + join(".", values)
 
-        case .Path(let variables):
+        case .PathSegment(let variables):
+            let values = variables.map({ self.expandValue($0, values: values,
+                allowCharacters: [.Unreserved], separator: "/")})
+            return "/" + join("/", values)
+
+        case .PathStyle(let variables):
             let values = variables.map({
                 ";" + $0 + (values[$0] != nil ? "=" : "") +
                     self.expandValue($0, values: values, allowCharacters: [.Unreserved])
