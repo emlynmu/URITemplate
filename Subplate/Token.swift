@@ -8,16 +8,18 @@
 
 import Foundation
 
+public typealias SubplateIdentifier = String
+
 public enum Token: DebugPrintable, SubplateExpandable {
     case Literal(String)
-    case SimpleString([String])
-    case Reserved([String])
-    case Fragment([String])
-    case Label([String])
-    case PathSegment([String])
-    case PathStyle([String])
-    case FormStyleQuery([String])
-    case FormStyleQueryContinuation([String])
+    case SimpleString([SubplateIdentifier])
+    case Reserved([SubplateIdentifier])
+    case Fragment([SubplateIdentifier])
+    case Label([SubplateIdentifier])
+    case PathSegment([SubplateIdentifier])
+    case PathStyle([SubplateIdentifier])
+    case FormStyleQuery([SubplateIdentifier])
+    case FormStyleQueryContinuation([SubplateIdentifier])
 
     public var debugDescription: String {
         switch self {
