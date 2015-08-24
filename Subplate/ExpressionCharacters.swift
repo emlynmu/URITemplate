@@ -20,4 +20,5 @@ enum ExpressionOperator: Character {
     case PathSegment = "/"
     case PathStyle = ";"
     case FormStyleQuery = "?"
+    case FormStyleQueryContinuation = "&"
 }

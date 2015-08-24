@@ -69,6 +69,9 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
 
         case .FormStyleQuery:
             return Token.FormStyleQuery(variables)
+
+        case .FormStyleQueryContinuation:
+            return Token.FormStyleQueryContinuation(variables)
         }
     }
 
