@@ -16,57 +16,65 @@ import XCTest
 import Subplate
 
 class RFC6570OverviewTests: XCTestCase {
-    func testUserName() {
+    func testPersonalWebSpacesExample() {
         let subplate = Subplate("http://example.com/~{username}/")
 
-        let expectedFred = "http://example.com/~fred/"
-        let resultFred = subplate.expand([
-            "username": "fred"
-            ])
+        let values1 = [ "username": "fred" ]
+        let expected1 = "http://example.com/~fred/"
+        let result1 = subplate.expand(values1)
 
-        XCTAssert(expectedFred == resultFred, "expected \"\(expectedFred)\"; got \"\(resultFred)\"")
+        XCTAssert(expected1 == result1, "expected \"\(expected1)\"; got \"\(result1)\"")
 
-        let expectedMark = "http://example.com/~mark/"
-        let resultMark = subplate.expand([
-            "username": "mark"
-            ])
+        let values2 = [ "username": "mark" ]
+        let expected2 = "http://example.com/~mark/"
+        let result2 = subplate.expand(values2)
 
-        XCTAssert(expectedMark == resultMark, "expected \"\(expectedMark)\"; got \"\(resultMark)\"")
+        XCTAssert(expected2 == result2, "expected \"\(expected2)\"; got \"\(result2)\"")
     }
 
-    func testDictionary() {
+    func testDictionaryExample() {
         let subplate = Subplate("http://example.com/dictionary/{term:1}/{term}")
 
-        let expectedCat = "http://example.com/dictionary/c/cat"
-        let resultCat = subplate.expand(["term": "cat"])
+        let values1 = ["term": "cat"]
+        let expected1 = "http://example.com/dictionary/c/cat"
+        let result1 = subplate.expand(values1)
 
-        XCTAssert(expectedCat == resultCat, "expected \"\(expectedCat)\"; got \"\(resultCat)\"")
+        XCTAssert(expected1 == result1, "expected \"\(expected1)\"; got \"\(result1)\"")
 
-        let expectedDog = "http://example.com/dictionary/d/dog"
-        let resultDog = subplate.expand(["term": "dog"])
+        let values2 = ["term": "dog"]
+        let expected2 = "http://example.com/dictionary/d/dog"
+        let result2 = subplate.expand(values2)
 
-        XCTAssert(expectedDog == resultDog, "expected \"\(expectedDog)\"; got \"\(resultDog)\"")
+        XCTAssert(expected2 == result2, "expected \"\(expected2)\"; got \"\(result2)\"")
     }
 
-    func testExampleSearch() {
+    func testSearchExample() {
         let subplate = Subplate("http://example.com/search{?q,lang}")
 
-        let expectedEnglish = "http://example.com/search?q=cat&lang=en"
-        let resultEnglish = subplate.expand(["q": "cat", "lang": "en"])
+        let values1 = ["q": "cat", "lang": "en"]
+        let expected1 = "http://example.com/search?q=cat&lang=en"
+        let result1 = subplate.expand(values1)
 
-        let expectedFrench = "http://example.com/search?q=chien&lang=fr"
-        let resultFrench = subplate.expand(["q": "chien", "lang": "fr"])
+        XCTAssert(expected1 == result1, "expected \"\(expected1)\"; got \"\(result1)\"")
+
+        let values2 = ["q": "chien", "lang": "fr"]
+        let expected2 = "http://example.com/search?q=chien&lang=fr"
+        let result2 = subplate.expand(values2)
+
+        XCTAssert(expected2 == result2, "expected \"\(expected2)\"; got \"\(result2)\"")
     }
 
-    func testExampleQueryNumber() {
+    func testFormStyleFormStyleParameterExample() {
         let subplate = Subplate("http://www.example.com/foo{?query,number}")
         let expected = "http://www.example.com/foo?query=mycelium&number=100"
 
-        let result = subplate.expand([
+        let values = [
             "query": "mycelium",
             "number": 100
-            ])
-        
+        ]
+
+        let result = subplate.expand(values)
+
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 }
