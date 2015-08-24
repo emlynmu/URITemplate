@@ -16,7 +16,7 @@ import XCTest
 import Subplate
 
 class RFC6570Level1Tests: XCTestCase {
-    var values: [NSObject : AnyObject]!
+    var values: SubplateValues!
 
     override func setUp() {
         super.setUp()
