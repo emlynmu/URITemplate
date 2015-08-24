@@ -16,6 +16,7 @@ public enum Token: DebugPrintable, SubplateExpandable {
     case Label([String])
     case PathSegment([String])
     case PathStyle([String])
+    case FormStyleQuery([String])
 
     public var debugDescription: String {
         switch self {
@@ -39,6 +40,9 @@ public enum Token: DebugPrintable, SubplateExpandable {
 
         case .PathStyle(let value):
             return "path_style(\"\(value)\")"
+
+        case .FormStyleQuery(let value):
+            return "form_style_query(\"\(value)\")"
         }
     }
 
@@ -102,6 +106,12 @@ public enum Token: DebugPrintable, SubplateExpandable {
                     self.expandValue($0, values: values, allowCharacters: [.Unreserved])
             })
             return join("", values)
+
+        case .FormStyleQuery(let variables):
+            let values = variables.map({
+                $0 + "=" + self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+            })
+            return "?" + join("&", values)
         }
     }
 }
