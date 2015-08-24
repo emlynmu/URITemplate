@@ -54,6 +54,18 @@ public enum Token: DebugPrintable, SubplateExpandable {
             }
     }
 
+    private func objectIsEmptyString(value: AnyObject) -> Bool {
+        if let string = value as? String where count(string) == 0 {
+            return true
+        }
+
+        return false
+    }
+
+    private func emptyValue(value: AnyObject?) -> Bool {
+        return value == nil || objectIsEmptyString(value!)
+    }
+
     public func expand(values: SubplateValues) -> String {
         switch self {
         case .Literal(let value):
@@ -86,7 +98,7 @@ public enum Token: DebugPrintable, SubplateExpandable {
 
         case .PathStyle(let variables):
             let values = variables.map({
-                ";" + $0 + (values[$0] != nil ? "=" : "") +
+                ";" + $0 + (!self.emptyValue(values[$0]) ? "=" : "") +
                     self.expandValue($0, values: values, allowCharacters: [.Unreserved])
             })
             return join("", values)
