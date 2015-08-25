@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ValueModifier {
+public enum ValueModifier {
     case Prefix
     case Composite
 }
