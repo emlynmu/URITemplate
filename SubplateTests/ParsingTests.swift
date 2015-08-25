@@ -80,6 +80,10 @@ class ParsingTests: XCTestCase {
         }
     }
 
+    func testParseVariableSpecifierWithPrefixModifierAndCompositeModifier() {
+        XCTFail("not implemented")
+    }
+
     // MARK: - consumeExpression
 
     func testExpressionEmpty() {
