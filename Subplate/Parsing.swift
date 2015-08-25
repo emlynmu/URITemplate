@@ -34,7 +34,7 @@ func findExpressionBoundary(subplateSlice: ArraySlice<Character>) -> (start: Int
     return nil
 }
 
-func splitVariables(subplateSlice: ArraySlice<Character>) -> [String] {
+func splitVariableSpecifiers(subplateSlice: ArraySlice<Character>) -> [String] {
     let variables =  split(subplateSlice, isSeparator: { $0 == "," })
     return variables.map({ return String($0) })
 }
@@ -49,7 +49,7 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
             return nil
         }
 
-        let variables = splitVariables(subplateSlice[1 ..< subplateSlice.count])
+        let variables = splitVariableSpecifiers(subplateSlice[1 ..< subplateSlice.count])
 
         switch expressionOperator {
         case .Reserved:
@@ -75,7 +75,7 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
         }
     }
 
-    return Token.SimpleString(splitVariables(subplateSlice))
+    return Token.SimpleString(splitVariableSpecifiers(subplateSlice))
 }
 
 public func consumeExpression(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {
