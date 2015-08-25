@@ -89,7 +89,7 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
         }
     }
 
-    let variableSpecifiers = splitVariableSpecifiers(subplateSlice[1 ..< subplateSlice.count])
+    let variableSpecifiers = splitVariableSpecifiers(subplateSlice)
     let variables = variableSpecifiers.map({ String($0) })
     return Token.SimpleString(variables)
 }
