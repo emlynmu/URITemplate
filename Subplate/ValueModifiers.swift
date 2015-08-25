@@ -9,6 +9,6 @@
 import Foundation
 
 public enum ValueModifier {
-    case Prefix
+    case Prefix(Int)
     case Composite
 }

@@ -10,6 +10,32 @@ import XCTest
 import Subplate
 
 class ParsingTests: XCTestCase {
+    // MARK: - parseVariableSpecifier
+
+    func testParseVariableSpecifierWithPrefixModifier() {
+        let variableSpecifierString = "term:1"
+        let expectedVariableName = "term"
+        let expectedPrefixLength = 1
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+
+        XCTAssert(expectedVariableName == result.name,
+            "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
+
+        if let modifier = result.valueModifier {
+            switch modifier {
+            case .Prefix(let resultLength):
+                XCTAssert(expectedPrefixLength == resultLength,
+                    "expected \"\(expectedPrefixLength)\"; got \"\(resultLength)\"")
+
+            default:
+                XCTFail("expected prefix value modifier")
+            }
+        }
+        else {
+            XCTFail("expected to receive a value modifier")
+        }
+    }
+
     // MARK: - consumeExpression
 
     func testExpressionEmpty() {

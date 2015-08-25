@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct VariableSpecifier {
-    let name: String
-    let valueModifier: ValueModifier?
+public struct VariableSpecifier {
+    public let name: String
+    public let valueModifier: ValueModifier?
 
-    init(name: String, valueModifier: ValueModifier?) {
+    public init(name: String, valueModifier: ValueModifier?) {
         self.name = name
         self.valueModifier = valueModifier
     }
