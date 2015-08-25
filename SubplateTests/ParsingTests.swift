@@ -57,7 +57,7 @@ class ParsingTests: XCTestCase {
         XCTAssert(result.valueModifier == nil, "expected nil; got \"\(result.valueModifier)\"")
     }
 
-    func testCompositeModifier() {
+    func testParseCompositeModifier() {
         let variableSpecifierString = "terms*"
         let expectedVariableName = "terms"
         let expectedPrefixLength = 1
