@@ -35,6 +35,15 @@ func findExpressionBoundary(subplateSlice: ArraySlice<Character>) -> (start: Int
 }
 
 public func parseVariableSpecifier(subplateSlice: ArraySlice<Character>) -> VariableSpecifier {
+    let specifierParts = split(subplateSlice, isSeparator: { $0 == ":" })
+
+    if specifierParts.count == 2 {
+        if let length = String(specifierParts[1]).toInt() where length < 10000 {
+            return VariableSpecifier(name: String(specifierParts[0]),
+                valueModifier: ValueModifier.Prefix(length))
+        }
+    }
+
     return VariableSpecifier(name: String(subplateSlice), valueModifier: nil)
 }
 
