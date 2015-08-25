@@ -36,6 +36,17 @@ class ParsingTests: XCTestCase {
         }
     }
 
+    func testParseVariableSpecifierNoModifier() {
+        let variableSpecifierString = "term"
+        let expectedVariableName = "term"
+        let expectedPrefixLength = 1
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+
+        XCTAssert(expectedVariableName == result.name,
+            "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
+        XCTAssert(result.valueModifier == nil, "expected nil; got \"\(result.valueModifier)\"")
+    }
+
     // MARK: - consumeExpression
 
     func testExpressionEmpty() {
