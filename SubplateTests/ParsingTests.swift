@@ -36,6 +36,16 @@ class ParsingTests: XCTestCase {
         }
     }
 
+    func testParseVariableSpecifierWithTooLongPrefixModifier() {
+        let variableSpecifierString = "term:10000"
+        let expectedVariableName = "term:10000"
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+
+        XCTAssert(expectedVariableName == result.name,
+            "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
+        XCTAssert(result.valueModifier == nil, "expected nil; got \"\(result.valueModifier)\"")
+    }
+
     func testParseVariableSpecifierNoModifier() {
         let variableSpecifierString = "term"
         let expectedVariableName = "term"
