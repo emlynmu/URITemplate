@@ -47,6 +47,29 @@ class ParsingTests: XCTestCase {
         XCTAssert(result.valueModifier == nil, "expected nil; got \"\(result.valueModifier)\"")
     }
 
+    func testCompositeModifier() {
+        let variableSpecifierString = "terms*"
+        let expectedVariableName = "terms"
+        let expectedPrefixLength = 1
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+
+        XCTAssert(expectedVariableName == result.name,
+            "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
+
+        if let modifier = result.valueModifier {
+            switch modifier {
+            case .Composite:
+                break
+
+            default:
+                XCTFail("expected prefix value modifier")
+            }
+        }
+        else {
+            XCTFail("expected to receive a value modifier")
+        }
+    }
+
     // MARK: - consumeExpression
 
     func testExpressionEmpty() {
