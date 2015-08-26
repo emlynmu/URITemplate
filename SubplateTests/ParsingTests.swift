@@ -81,7 +81,14 @@ class ParsingTests: XCTestCase {
     }
 
     func testParseVariableSpecifierWithPrefixModifierAndCompositeModifier() {
-        XCTFail("not implemented")
+        let variableSpecifierString = "term:1*"
+        let expectedVariableName = "term:1*"
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+
+        XCTAssert(expectedVariableName == result.name,
+            "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
+        XCTAssert(nil == result.valueModifier,
+            "expected nil; got \"\(result.valueModifier)\"")
     }
 
     // MARK: - consumeExpression
