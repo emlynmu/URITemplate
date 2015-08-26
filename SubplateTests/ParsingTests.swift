@@ -647,7 +647,7 @@ class ParsingTests: XCTestCase {
     func tokenIsLiteral(token: Token, withValue text: String) -> Bool {
         switch token {
         case .Literal(let value):
-            return text == String(value)
+            return text == String(value.name)
 
         default:
             return false
@@ -657,7 +657,7 @@ class ParsingTests: XCTestCase {
     func tokenIsSimpleString(token: Token, withText text: String) -> Bool {
         switch token {
         case .SimpleString(let value):
-            return text == value[0]
+            return text == value[0].name
 
         default:
             return false
@@ -667,7 +667,7 @@ class ParsingTests: XCTestCase {
     func tokenIsReserved(token: Token, withText text: String) -> Bool {
         switch token {
         case .Reserved(let value):
-            return text == value[0]
+            return text == value[0].name
 
         default:
             return false
@@ -677,7 +677,7 @@ class ParsingTests: XCTestCase {
     func tokenIsLabel(token: Token, withText text: String) -> Bool {
         switch token {
         case .Label(let value):
-            return text == value[0]
+            return text == value[0].name
 
         default:
             return false
@@ -687,7 +687,7 @@ class ParsingTests: XCTestCase {
     func tokenIsFragment(token: Token, withText text: String) -> Bool {
         switch token {
         case .Fragment(let value):
-            return text == value[0]
+            return text == value[0].name
 
         default:
             return false

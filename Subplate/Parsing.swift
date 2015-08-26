@@ -72,36 +72,36 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
             return nil
         }
 
-        let variableSpecifiers = splitVariableSpecifiers(subplateSlice[1 ..< subplateSlice.count])
-        let variables = variableSpecifiers.map({ String($0) })
+        let specifierSlices = splitVariableSpecifiers(subplateSlice[1 ..< subplateSlice.count])
+        let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
 
         switch expressionOperator {
         case .Reserved:
-            return Token.Reserved(variables)
+            return Token.Reserved(variableSpecifiers)
 
         case .Fragment:
-            return Token.Fragment(variables)
+            return Token.Fragment(variableSpecifiers)
 
         case .Label:
-            return Token.Label(variables)
+            return Token.Label(variableSpecifiers)
 
         case .PathSegment:
-            return Token.PathSegment(variables)
+            return Token.PathSegment(variableSpecifiers)
 
         case .PathStyle:
-            return Token.PathStyle(variables)
+            return Token.PathStyle(variableSpecifiers)
 
         case .FormStyleQuery:
-            return Token.FormStyleQuery(variables)
+            return Token.FormStyleQuery(variableSpecifiers)
 
         case .FormStyleQueryContinuation:
-            return Token.FormStyleQueryContinuation(variables)
+            return Token.FormStyleQueryContinuation(variableSpecifiers)
         }
     }
 
-    let variableSpecifiers = splitVariableSpecifiers(subplateSlice)
-    let variables = variableSpecifiers.map({ String($0) })
-    return Token.SimpleString(variables)
+    let specifierSlices = splitVariableSpecifiers(subplateSlice)
+    let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
+    return Token.SimpleString(variableSpecifiers)
 }
 
 public func consumeExpression(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -147,7 +147,7 @@ public func consumeLiteral(subplateSlice: ArraySlice<Character>) -> ConsumeResul
         remainder = ArraySlice("")
     }
 
-    return (Token.Literal(String(literalSlice)), remainder)
+    return (Token.Literal(parseVariableSpecifier(literalSlice)), remainder)
 }
 
 public func consumeLiteral(string: String) -> ConsumeResult? {

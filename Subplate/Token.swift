@@ -8,18 +8,16 @@
 
 import Foundation
 
-public typealias SubplateIdentifier = String
-
 public enum Token: DebugPrintable, SubplateExpandable {
-    case Literal(String)
-    case SimpleString([SubplateIdentifier])
-    case Reserved([SubplateIdentifier])
-    case Fragment([SubplateIdentifier])
-    case Label([SubplateIdentifier])
-    case PathSegment([SubplateIdentifier])
-    case PathStyle([SubplateIdentifier])
-    case FormStyleQuery([SubplateIdentifier])
-    case FormStyleQueryContinuation([SubplateIdentifier])
+    case Literal(VariableSpecifier)
+    case SimpleString([VariableSpecifier])
+    case Reserved([VariableSpecifier])
+    case Fragment([VariableSpecifier])
+    case Label([VariableSpecifier])
+    case PathSegment([VariableSpecifier])
+    case PathStyle([VariableSpecifier])
+    case FormStyleQuery([VariableSpecifier])
+    case FormStyleQueryContinuation([VariableSpecifier])
 
     public var debugDescription: String {
         switch self {
@@ -78,50 +76,50 @@ public enum Token: DebugPrintable, SubplateExpandable {
 
     public func expand(values: SubplateValues) -> String {
         switch self {
-        case .Literal(let value):
-            return String(value)
+        case .Literal(let variableSpecifier):
+            return String(variableSpecifier.name)
 
-        case .SimpleString(let variables):
-            let values = variables.map({ self.expandValue($0, values: values,
+        case .SimpleString(let variableSpecifiers):
+            let values = variableSpecifiers.map({ self.expandValue($0.name, values: values,
                 allowCharacters: [.Unreserved]) })
             return join(",", values)
 
-        case .Reserved(let variables):
-            let values = variables.map({ self.expandValue($0, values: values,
+        case .Reserved(let variableSpecifiers):
+            let values = variableSpecifiers.map({ self.expandValue($0.name, values: values,
                 allowCharacters: [.Unreserved, .Reserved]) })
             return join(",", values)
 
-        case .Fragment(let variables):
-            let values = variables.map({ self.expandValue($0, values: values,
+        case .Fragment(let variableSpecifiers):
+            let values = variableSpecifiers.map({ self.expandValue($0.name, values: values,
                 allowCharacters: [.Unreserved, .Reserved]) })
             return "#" + join(",", values)
 
-        case .Label(let variables):
-            let values = variables.map({ self.expandValue($0, values: values,
+        case .Label(let variableSpecifiers):
+            let values = variableSpecifiers.map({ self.expandValue($0.name, values: values,
                 allowCharacters: [.Unreserved, .Reserved], separator: ".")})
             return "." + join(".", values)
 
-        case .PathSegment(let variables):
-            let values = variables.map({ self.expandValue($0, values: values,
+        case .PathSegment(let variableSpecifiers):
+            let values = variableSpecifiers.map({ self.expandValue($0.name, values: values,
                 allowCharacters: [.Unreserved], separator: "/")})
             return "/" + join("/", values)
 
-        case .PathStyle(let variables):
-            let values = variables.map({
-                ";" + $0 + (!self.emptyValue(values[$0]) ? "=" : "") +
-                    self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+        case .PathStyle(let variableSpecifiers):
+            let values = variableSpecifiers.map({
+                ";" + $0.name + (!self.emptyValue(values[$0.name]) ? "=" : "") +
+                    self.expandValue($0.name, values: values, allowCharacters: [.Unreserved])
             })
             return join("", values)
 
-        case .FormStyleQuery(let variables):
-            let values = variables.map({
-                $0 + "=" + self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+        case .FormStyleQuery(let variableSpecifiers):
+            let values = variableSpecifiers.map({
+                $0.name + "=" + self.expandValue($0.name, values: values, allowCharacters: [.Unreserved])
             })
             return "?" + join("&", values)
 
-        case .FormStyleQueryContinuation(let variables):
-            let values = variables.map({
-                $0 + "=" + self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+        case .FormStyleQueryContinuation(let variableSpecifiers):
+            let values = variableSpecifiers.map({
+                $0.name + "=" + self.expandValue($0.name, values: values, allowCharacters: [.Unreserved])
             })
             return "&" + join("&", values)
         }
