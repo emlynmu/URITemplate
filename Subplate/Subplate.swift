@@ -22,8 +22,6 @@ public struct Subplate: SubplateExpandable {
     }
 
     public func expand(values: SubplateValues) -> String {
-        return tokens.reduce("") { (result, token) -> String in
-            return result + token.expand(values)
-        }
+        return join("", tokens.map({ $0.expand(values) }))
     }
 }

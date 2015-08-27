@@ -8,12 +8,21 @@
 
 import Foundation
 
-public struct VariableSpecifier {
+public struct VariableSpecifier: DebugPrintable {
     public let name: String
     public let valueModifier: ValueModifier?
 
     public init(name: String, valueModifier: ValueModifier?) {
         self.name = name
         self.valueModifier = valueModifier
+    }
+
+    public var debugDescription: String {
+        if let modifier = valueModifier {
+            return name + "(" + modifier.debugDescription + ")"
+        }
+        else {
+            return name
+        }
     }
 }

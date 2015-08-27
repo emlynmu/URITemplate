@@ -8,7 +8,17 @@
 
 import Foundation
 
-public enum ValueModifier {
+public enum ValueModifier: DebugPrintable {
     case Prefix(Int)
     case Composite
+
+    public var debugDescription: String {
+        switch self {
+        case .Prefix(let value):
+            return "prefix=\(value)"
+
+        case .Composite:
+            return "composite"
+        }
+    }
 }

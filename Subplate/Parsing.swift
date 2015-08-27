@@ -77,31 +77,31 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
 
         switch expressionOperator {
         case .Reserved:
-            return Token.Reserved(variableSpecifiers)
+            return Token.Expression(ExpressionType.Reserved(variableSpecifiers))
 
         case .Fragment:
-            return Token.Fragment(variableSpecifiers)
+            return Token.Expression(ExpressionType.Fragment(variableSpecifiers))
 
         case .Label:
-            return Token.Label(variableSpecifiers)
+            return Token.Expression(ExpressionType.Label(variableSpecifiers))
 
         case .PathSegment:
-            return Token.PathSegment(variableSpecifiers)
+            return Token.Expression(ExpressionType.PathSegment(variableSpecifiers))
 
         case .PathStyle:
-            return Token.PathStyle(variableSpecifiers)
+            return Token.Expression(ExpressionType.PathStyle(variableSpecifiers))
 
         case .FormStyleQuery:
-            return Token.FormStyleQuery(variableSpecifiers)
+            return Token.Expression(ExpressionType.FormStyleQuery(variableSpecifiers))
 
         case .FormStyleQueryContinuation:
-            return Token.FormStyleQueryContinuation(variableSpecifiers)
+            return Token.Expression(ExpressionType.FormStyleQueryContinuation(variableSpecifiers))
         }
     }
 
     let specifierSlices = splitVariableSpecifiers(subplateSlice)
     let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
-    return Token.SimpleString(variableSpecifiers)
+    return Token.Expression(ExpressionType.SimpleString(variableSpecifiers))
 }
 
 public func consumeExpression(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -147,7 +147,7 @@ public func consumeLiteral(subplateSlice: ArraySlice<Character>) -> ConsumeResul
         remainder = ArraySlice("")
     }
 
-    return (Token.Literal(parseVariableSpecifier(literalSlice)), remainder)
+    return (Token.Literal(String(literalSlice)), remainder)
 }
 
 public func consumeLiteral(string: String) -> ConsumeResult? {

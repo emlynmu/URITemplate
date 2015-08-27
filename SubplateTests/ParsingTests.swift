@@ -647,7 +647,7 @@ class ParsingTests: XCTestCase {
     func tokenIsLiteral(token: Token, withValue text: String) -> Bool {
         switch token {
         case .Literal(let value):
-            return text == String(value.name)
+            return text == String(value)
 
         default:
             return false
@@ -656,8 +656,14 @@ class ParsingTests: XCTestCase {
 
     func tokenIsSimpleString(token: Token, withText text: String) -> Bool {
         switch token {
-        case .SimpleString(let value):
-            return text == value[0].name
+        case .Expression(let expression):
+            switch expression {
+            case .SimpleString(let value):
+                return text == value[0].name
+
+            default:
+                return false
+            }
 
         default:
             return false
@@ -666,8 +672,14 @@ class ParsingTests: XCTestCase {
 
     func tokenIsReserved(token: Token, withText text: String) -> Bool {
         switch token {
-        case .Reserved(let value):
-            return text == value[0].name
+        case .Expression(let expression):
+            switch expression {
+            case .Reserved(let value):
+                return text == value[0].name
+
+            default:
+                return false
+            }
 
         default:
             return false
@@ -676,8 +688,14 @@ class ParsingTests: XCTestCase {
 
     func tokenIsLabel(token: Token, withText text: String) -> Bool {
         switch token {
-        case .Label(let value):
-            return text == value[0].name
+        case .Expression(let expression):
+            switch expression {
+            case .Label(let value):
+                return text == value[0].name
+
+            default:
+                return false
+            }
 
         default:
             return false
@@ -686,8 +704,14 @@ class ParsingTests: XCTestCase {
 
     func tokenIsFragment(token: Token, withText text: String) -> Bool {
         switch token {
-        case .Fragment(let value):
-            return text == value[0].name
+        case .Expression(let expression):
+            switch expression {
+            case .Fragment(let value):
+                return text == value[0].name
+
+            default:
+                return false
+            }
 
         default:
             return false
