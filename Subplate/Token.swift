@@ -46,20 +46,9 @@ public enum ExpressionType: DebugPrintable {
         }
     }
 
-    private func applyModifier(modifier: ValueModifier, toValue value: String) -> String {
-        switch modifier {
-        case .Prefix(let length):
-            let slice = ArraySlice(value)[0 ..< min(length, count(value))]
-            return String(slice)
-
-        case .Composite:
-            return value
-        }
-    }
-
     private func applyModifierIfAny(modifier: ValueModifier?, toValue value: String) -> String {
         if let modifier = modifier {
-            return applyModifier(modifier, toValue: value)
+            return modifier.applyToValue(value)
         }
         else {
             return value
