@@ -27,9 +27,9 @@ class RFC6570Level4Tests: XCTestCase {
             "path": "/foo/bar",
             "list": ["red", "green", "blue"],
             "keys": [
-                "semi": ";",
-                "dot": ".",
-                "comma": ","
+                ["semi", ";"],
+                ["dot", "."],
+                ["comma", ","]
             ]
         ]
     }
