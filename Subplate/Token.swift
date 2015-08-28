@@ -60,7 +60,8 @@ public enum ExpressionType: DebugPrintable {
             if let values = values[variable.name] as? [AnyObject] {
                 return join(separator, map(values) { value -> String in
                     if let list = value as? [AnyObject] {
-                        return join(",", map(list, { percentEncodeString($0.description, allowCharacters: allowCharacters )}))
+                        return join(",", map(list, { percentEncodeString($0.description,
+                            allowCharacters: allowCharacters )}))
                     }
                     else {
                         return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
@@ -106,7 +107,7 @@ public enum ExpressionType: DebugPrintable {
 
         case .Label(let variableSpecifiers):
             let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved, .Reserved], separator: ",")})
+                allowCharacters: [.Unreserved], separator: ",")})
             return "." + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
