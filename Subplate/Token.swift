@@ -109,7 +109,7 @@ public enum ExpressionType: DebugPrintable {
                     return "/"
 
                 case .PathStyle:
-                    break
+                    return ";"
 
                 case .FormStyleQuery:
                     break
@@ -158,10 +158,12 @@ public enum ExpressionType: DebugPrintable {
             return "/" + join("/", values)
 
         case .PathStyle(let variableSpecifiers):
-            let values = variableSpecifiers.map({
-                ";" + $0.name + (!self.emptyValue(values[$0.name]) ? "=" : "") +
-                    self.expandValue($0, values: values, allowCharacters: [.Unreserved])
+            let values = variableSpecifiers.map({ variableSpecifier -> String in
+                ";" + variableSpecifier.name + (!self.emptyValue(values[variableSpecifier.name]) ? "=" : "") +
+                    self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved],
+                        separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))
             })
+
             return join("", values)
 
         case .FormStyleQuery(let variableSpecifiers):
