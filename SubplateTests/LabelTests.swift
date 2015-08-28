@@ -35,7 +35,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDoubleFileExtensionExpansion() {
-        let subplate = Subplate("something{.ext}")
+        let subplate = Subplate("something{.ext*}")
         let expected = "something.tar.gz"
         let result = subplate.expand(["ext": ["tar", "gz"]])
 

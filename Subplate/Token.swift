@@ -111,8 +111,24 @@ public enum ExpressionType: DebugPrintable {
             return "." + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
-            let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved], separator: "/")})
+            let values = variableSpecifiers.map({ variableSpecifier -> String in
+                let separator: String
+
+                if let modifier = variableSpecifier.valueModifier {
+                    switch modifier {
+                    case .Composite:
+                        separator = "/"
+
+                    default:
+                        separator = ","
+                    }
+                }
+                else {
+                    separator = ","
+                }
+
+                return self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved], separator: separator)
+            })
             return "/" + join("/", values)
 
         case .PathStyle(let variableSpecifiers):
