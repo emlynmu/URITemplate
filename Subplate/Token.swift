@@ -88,6 +88,44 @@ public enum ExpressionType: DebugPrintable {
         return value == nil || objectIsEmptyString(value!)
     }
 
+    private func listSeparatorForValueModifier(modifier: ValueModifier?) -> String {
+        if let modifier = modifier {
+            switch modifier {
+            case .Composite:
+                switch self {
+                case .SimpleString:
+                    break
+
+                case .Reserved:
+                    break
+
+                case .Fragment:
+                    break
+
+                case .Label:
+                    return "."
+
+                case .PathSegment:
+                    return "/"
+
+                case .PathStyle:
+                    break
+
+                case .FormStyleQuery:
+                    break
+
+                case .FormStyleQueryContinuation:
+                    break
+                }
+                
+            default:
+                break
+            }
+        }
+        
+        return ","
+    }
+
     public func expand(values: SubplateValues) -> String {
         switch self {
         case .SimpleString(let variableSpecifiers):
@@ -106,29 +144,17 @@ public enum ExpressionType: DebugPrintable {
             return "#" + join(",", values)
 
         case .Label(let variableSpecifiers):
-            let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved], separator: ",")})
+            let values = variableSpecifiers.map({ variableSpecifier -> String in
+                return self.expandValue(variableSpecifier, values: values,
+                    allowCharacters: [.Unreserved], separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))})
             return "." + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
             let values = variableSpecifiers.map({ variableSpecifier -> String in
-                let separator: String
-
-                if let modifier = variableSpecifier.valueModifier {
-                    switch modifier {
-                    case .Composite:
-                        separator = "/"
-
-                    default:
-                        separator = ","
-                    }
-                }
-                else {
-                    separator = ","
-                }
-
-                return self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved], separator: separator)
+                return self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved],
+                    separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))
             })
+
             return "/" + join("/", values)
 
         case .PathStyle(let variableSpecifiers):
