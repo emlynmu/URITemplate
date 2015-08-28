@@ -58,12 +58,19 @@ public enum ExpressionType: DebugPrintable {
     private func expandValue(variable: VariableSpecifier, values: SubplateValues,
         allowCharacters: [CharacterClass], separator: String = ",") -> String {
             if let values = values[variable.name] as? [AnyObject] {
-                return join(separator, map(values, {
-                    percentEncodeString(self.applyModifierIfAny(variable.valueModifier, toValue: $0.description ?? ""),
-                    allowCharacters: allowCharacters) }))
+                return join(separator, map(values) { value -> String in
+                    if let list = value as? [AnyObject] {
+                        return join(",", map(list, { percentEncodeString($0.description, allowCharacters: allowCharacters )}))
+                    }
+                    else {
+                        return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
+                            toValue: value.description ?? ""),
+                            allowCharacters: allowCharacters)
+                    }})
             }
             else {
-                return percentEncodeString(self.applyModifierIfAny(variable.valueModifier, toValue: values[variable.name]?.description ?? ""),
+                return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
+                    toValue: values[variable.name]?.description ?? ""),
                     allowCharacters: allowCharacters)
             }
     }
@@ -99,7 +106,7 @@ public enum ExpressionType: DebugPrintable {
 
         case .Label(let variableSpecifiers):
             let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved, .Reserved], separator: ".")})
+                allowCharacters: [.Unreserved, .Reserved], separator: ",")})
             return "." + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
@@ -148,7 +155,7 @@ public enum Token: DebugPrintable, SubplateExpandable {
         switch self {
         case .Literal(let value):
             return "literal(\"\(value)\")"
-
+            
         case .Expression(let expression):
             return expression.debugDescription
         }
