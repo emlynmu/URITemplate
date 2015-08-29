@@ -69,39 +69,6 @@ public enum ExpressionType: DebugPrintable {
         return ","
     }
 
-    private func expandValue(variable: VariableSpecifier, values: SubplateValues,
-        allowCharacters: [CharacterClass], separator: String = ",") -> String {
-            if let values = values[variable.name] as? [AnyObject] {
-                return join(separator, map(values) { value -> String in
-                    if let list = value as? [AnyObject] {
-                        return join(self.listSeparatorForModifier(variable.valueModifier),
-                            map(list, { percentEncodeString($0.description,
-                                allowCharacters: allowCharacters )}))
-                    }
-                    else {
-                        if let modifier = variable.valueModifier {
-                            switch modifier {
-                            case .Composite:
-
-                                break //here
-
-                            case .Prefix(let length):
-                                break
-                            }
-                        }
-
-                        return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
-                            toValue: value.description ?? ""),
-                            allowCharacters: allowCharacters)
-                    }})
-            }
-            else {
-                return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
-                    toValue: values[variable.name]?.description ?? ""),
-                    allowCharacters: allowCharacters)
-            }
-    }
-
     private func objectIsEmptyString(value: AnyObject) -> Bool {
         if let string = value as? String where count(string) == 0 {
             return true
@@ -155,53 +122,67 @@ public enum ExpressionType: DebugPrintable {
     public func expand(values: SubplateValues) -> String {
         switch self {
         case .SimpleString(let variableSpecifiers):
-            let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved]) })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return join(",", values)
 
         case .Reserved(let variableSpecifiers):
-            let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved, .Reserved]) })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return join(",", values)
 
         case .Fragment(let variableSpecifiers):
-            let values = variableSpecifiers.map({ self.expandValue($0, values: values,
-                allowCharacters: [.Unreserved, .Reserved]) })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return "#" + join(",", values)
 
         case .Label(let variableSpecifiers):
-            let values = variableSpecifiers.map({ variableSpecifier -> String in
-                return self.expandValue(variableSpecifier, values: values,
-                    allowCharacters: [.Unreserved], separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))})
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return "." + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
-            let values = variableSpecifiers.map({ variableSpecifier -> String in
-                return self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved],
-                    separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))
-            })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
 
             return "/" + join("/", values)
 
         case .PathStyle(let variableSpecifiers):
-            let values = variableSpecifiers.map({ variableSpecifier -> String in
-                ";" + variableSpecifier.name + (!self.emptyValue(values[variableSpecifier.name]) ? "=" : "") +
-                    self.expandValue(variableSpecifier, values: values, allowCharacters: [.Unreserved],
-                        separator: self.listSeparatorForValueModifier(variableSpecifier.valueModifier))
-            })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
 
-            return join("", values)
+            return ";" + join(";", values)
 
         case .FormStyleQuery(let variableSpecifiers):
-            let values = variableSpecifiers.map({
-                $0.name + "=" + self.expandValue($0, values: values, allowCharacters: [.Unreserved])
-            })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return "?" + join("&", values)
 
         case .FormStyleQueryContinuation(let variableSpecifiers):
-            let values = variableSpecifiers.map({
-                $0.name + "=" + self.expandValue($0, values: values, allowCharacters: [.Unreserved])
-            })
+            let values = variableSpecifiers.map { variableSpecifier -> String in
+                return variableSpecifier.expand(values[variableSpecifier.name],
+                    inExpression: self)
+            }
+
             return "&" + join("&", values)
         }
     }

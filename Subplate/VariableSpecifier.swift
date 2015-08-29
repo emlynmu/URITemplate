@@ -26,28 +26,28 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func prefix(expression: ExpressionType) -> String {
+    private func prefix(expression: ExpressionType, hasValue: Bool) -> String {
         switch expression {
         case .SimpleString, .Reserved:
             return ""
 
         case .Fragment:
-            return "#"
+            return ""
 
         case .Label:
-            return "."
+            return ""
 
         case .PathSegment:
-            return "/"
+            return ""
 
         case .PathStyle:
-            return ";" + name + "="
+            return name + (hasValue ? "=" : "")
 
         case .FormStyleQuery:
-            return "?" + name + "="
+            return name + "="
 
         case .FormStyleQueryContinuation:
-            return "&" + name + "="
+            return name + "="
         }
     }
 
@@ -80,24 +80,62 @@ public struct VariableSpecifier: DebugPrintable {
         return "," // default
     }
 
+    private func allowedCharactersForExpression(expression: ExpressionType) -> [CharacterClass] {
+        switch expression {
+        case .Reserved, .Fragment:
+            return [.Reserved, .Unreserved]
+
+        default:
+            return [.Unreserved]
+        }
+    }
+
+    private func expandValue(value: AnyObject, inExpression expression: ExpressionType) -> String {
+        let modifiedValue: String
+
+        if let modifier = valueModifier {
+            switch modifier {
+            case .Prefix(let length):
+                let valueString = value.description
+                let startIndex = valueString.startIndex
+                let endIndex = advance(startIndex, min(length, count(valueString)))
+                modifiedValue = valueString[startIndex ..< endIndex]
+
+            default:
+                modifiedValue = value.description
+            }
+        }
+        else {
+            modifiedValue = value.description
+        }
+
+        return percentEncodeString(modifiedValue,
+            allowCharacters: allowedCharactersForExpression(expression))
+    }
+
     public func expand(value: AnyObject?, inExpression expression: ExpressionType) -> String {
         if let values = value as? [AnyObject] {
             if values.count > 0 {
                 let separator = listSeparator(expression)
 
-                return prefix(expression) + values[1..<values.count].reduce(values[0].description) { (result: String, value: AnyObject) -> String in
-                    return result + separator + value.description
+                return values[1..<values.count].reduce(expandValue(values[0],
+                    inExpression: expression)) {
+                    (result: String, value: AnyObject) -> String in
+
+                        return prefix(expression, hasValue: true) + result + separator +
+                            expandValue(value, inExpression: expression)
                 }
             }
             else {
-                return ""
+                return prefix(expression, hasValue: false)
             }
         }
         else if let value: AnyObject = value {
-            return prefix(expression) + value.description
+            return prefix(expression, hasValue: count(value.description) > 0) +
+                expandValue(value, inExpression: expression)
         }
         else {
-            return prefix(expression)
+            return prefix(expression, hasValue: false)
         }
     }
 }
