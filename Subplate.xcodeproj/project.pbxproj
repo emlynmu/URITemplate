@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		751822881B92639D00BBF99D /* VariableSpecifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751822871B92639D00BBF99D /* VariableSpecifierTests.swift */; };
 		75BB06401B873BEC008C9ADC /* RFC6570Level3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB063F1B873BEC008C9ADC /* RFC6570Level3Tests.swift */; };
 		75BB06421B888AA5008C9ADC /* RFC6570Level4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06411B888AA5008C9ADC /* RFC6570Level4Tests.swift */; };
 		75BB06441B889424008C9ADC /* RFC6570Level2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06431B889424008C9ADC /* RFC6570Level2Tests.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		751822871B92639D00BBF99D /* VariableSpecifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VariableSpecifierTests.swift; sourceTree = "<group>"; };
 		75BB063F1B873BEC008C9ADC /* RFC6570Level3Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RFC6570Level3Tests.swift; sourceTree = "<group>"; };
 		75BB06411B888AA5008C9ADC /* RFC6570Level4Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RFC6570Level4Tests.swift; sourceTree = "<group>"; };
 		75BB06431B889424008C9ADC /* RFC6570Level2Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RFC6570Level2Tests.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				75CCD9371B7C005000A508F1 /* LabelTests.swift */,
 				75E93D5E1B7692B400BAB4E3 /* ParsingTests.swift */,
 				75CCD9331B7BFF7100A508F1 /* ReservedTests.swift */,
+				751822871B92639D00BBF99D /* VariableSpecifierTests.swift */,
 				75BB06451B8B19EC008C9ADC /* RFC6570OverviewTests.swift */,
 				75BDD1B91B82AEF00073FA5E /* RFC6570Level1Tests.swift */,
 				75BB06431B889424008C9ADC /* RFC6570Level2Tests.swift */,
@@ -280,6 +283,7 @@
 				75BB06461B8B19EC008C9ADC /* RFC6570OverviewTests.swift in Sources */,
 				75BB06441B889424008C9ADC /* RFC6570Level2Tests.swift in Sources */,
 				75BDD1BA1B82AEF00073FA5E /* RFC6570Level1Tests.swift in Sources */,
+				751822881B92639D00BBF99D /* VariableSpecifierTests.swift in Sources */,
 				75CCD9381B7C005000A508F1 /* LabelTests.swift in Sources */,
 				75CCD9361B7BFFD900A508F1 /* FragmentTests.swift in Sources */,
 				75CCD9321B7BFEDE00A508F1 /* SimpleStringTests.swift in Sources */,
