@@ -62,12 +62,11 @@ public enum ExpressionType: DebugPrintable {
                 return "="
 
             default:
-                return ","
+                break
             }
         }
-        else {
-            return ","
-        }
+
+        return ","
     }
 
     private func expandValue(variable: VariableSpecifier, values: SubplateValues,
@@ -133,12 +132,12 @@ public enum ExpressionType: DebugPrintable {
                 case .FormStyleQueryContinuation:
                     break
                 }
-                
+
             default:
                 break
             }
         }
-        
+
         return ","
     }
 
@@ -205,13 +204,13 @@ public enum Token: DebugPrintable, SubplateExpandable {
         switch self {
         case .Literal(let value):
             return value
-
+            
         case .Expression(let expression):
             return expression.expand(values)
         }
     }
-
-
+    
+    
     public var debugDescription: String {
         switch self {
         case .Literal(let value):
