@@ -55,28 +55,29 @@ public enum ExpressionType: DebugPrintable {
         }
     }
 
+    private func listSeparatorForModifier(modifier: ValueModifier?) -> String {
+        if let modifier = modifier {
+            switch modifier {
+            case .Composite:
+                return "="
+
+            default:
+                return ","
+            }
+        }
+        else {
+            return ","
+        }
+    }
+
     private func expandValue(variable: VariableSpecifier, values: SubplateValues,
         allowCharacters: [CharacterClass], separator: String = ",") -> String {
             if let values = values[variable.name] as? [AnyObject] {
                 return join(separator, map(values) { value -> String in
                     if let list = value as? [AnyObject] {
-                        let separator: String
-
-                        if let modifier = variable.valueModifier {
-                            switch modifier {
-                            case .Composite:
-                                separator = "="
-
-                            default:
-                                separator = ","
-                            }
-                        }
-                        else {
-                            separator = ","
-                        }
-
-                        return join(separator, map(list, { percentEncodeString($0.description,
-                            allowCharacters: allowCharacters )}))
+                        return join(self.listSeparatorForModifier(variable.valueModifier),
+                            map(list, { percentEncodeString($0.description,
+                                allowCharacters: allowCharacters )}))
                     }
                     else {
                         return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
