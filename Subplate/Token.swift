@@ -79,6 +79,17 @@ public enum ExpressionType: DebugPrintable {
                                 allowCharacters: allowCharacters )}))
                     }
                     else {
+                        if let modifier = variable.valueModifier {
+                            switch modifier {
+                            case .Composite:
+
+                                break //here
+
+                            case .Prefix(let length):
+                                break
+                            }
+                        }
+
                         return percentEncodeString(self.applyModifierIfAny(variable.valueModifier,
                             toValue: value.description ?? ""),
                             allowCharacters: allowCharacters)
