@@ -20,7 +20,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion1() {
         let specifier = VariableSpecifier(name: "count", valueModifier: nil)
-        let expression = ExpressionType.SimpleString([specifier])
+        let expression = TemplateExpression.SimpleString([specifier])
         let expected = "one,two,three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -28,7 +28,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion2() {
         let specifier = VariableSpecifier(name: "count", valueModifier: ValueModifier.Composite)
-        let expression = ExpressionType.SimpleString([specifier])
+        let expression = TemplateExpression.SimpleString([specifier])
         let expected = "one,two,three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -36,7 +36,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion3() {
         let specifier = VariableSpecifier(name: "count", valueModifier: nil)
-        let expression = ExpressionType.PathSegment([specifier])
+        let expression = TemplateExpression.PathSegment([specifier])
         let expected = "/one,two,three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -44,7 +44,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion4() {
         let specifier = VariableSpecifier(name: "count", valueModifier: ValueModifier.Composite)
-        let expression = ExpressionType.PathSegment([specifier])
+        let expression = TemplateExpression.PathSegment([specifier])
         let expected = "/one/two/three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -52,7 +52,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion5() {
         let specifier = VariableSpecifier(name: "count", valueModifier: nil)
-        let expression = ExpressionType.PathStyle([specifier])
+        let expression = TemplateExpression.PathStyle([specifier])
         let expected = ";count=one,two,three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -60,7 +60,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion6() {
         let specifier = VariableSpecifier(name: "count", valueModifier: ValueModifier.Composite)
-        let expression = ExpressionType.PathStyle([specifier])
+        let expression = TemplateExpression.PathStyle([specifier])
         let expected = ";count=one;count=two;count=three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -68,7 +68,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion7() {
         let specifier = VariableSpecifier(name: "count", valueModifier: nil)
-        let expression = ExpressionType.FormStyleQuery([specifier])
+        let expression = TemplateExpression.FormStyleQuery([specifier])
         let expected = "?count=one,two,three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -76,7 +76,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion8() {
         let specifier = VariableSpecifier(name: "count", valueModifier: ValueModifier.Composite)
-        let expression = ExpressionType.FormStyleQuery([specifier])
+        let expression = TemplateExpression.FormStyleQuery([specifier])
         let expected = "?count=one&count=two&count=three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -84,7 +84,7 @@ class VariableSpecifierTests: XCTestCase {
 
     func testVariableSpecifierExpansion9() {
         let specifier = VariableSpecifier(name: "count", valueModifier: ValueModifier.Composite)
-        let expression = ExpressionType.FormStyleQueryContinuation([specifier])
+        let expression = TemplateExpression.FormStyleQueryContinuation([specifier])
         let expected = "&count=one&count=two&count=three"
         let result = specifier.expand(value, inExpression: expression)
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")

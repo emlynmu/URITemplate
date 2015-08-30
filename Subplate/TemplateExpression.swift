@@ -1,5 +1,5 @@
 //
-//  ExpressionType.swift
+//  TemplateExpression.swift
 //  Subplate
 //
 //  Created by Emlyn Murphy on 8/30/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ExpressionType: DebugPrintable {
+public enum TemplateExpression: DebugPrintable {
     case SimpleString([VariableSpecifier])
     case Reserved([VariableSpecifier])
     case Fragment([VariableSpecifier])

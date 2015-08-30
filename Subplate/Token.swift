@@ -10,7 +10,7 @@ import Foundation
 
 public enum Token: DebugPrintable, SubplateExpandable {
     case Literal(String)
-    case Expression(ExpressionType)
+    case Expression(TemplateExpression)
 
     public func expand(values: SubplateValues) -> String {
         switch self {

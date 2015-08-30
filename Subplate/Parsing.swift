@@ -77,31 +77,31 @@ public func parseExpressionBody(subplateSlice: ArraySlice<Character>) -> Token? 
 
         switch expressionOperator {
         case .Reserved:
-            return Token.Expression(ExpressionType.Reserved(variableSpecifiers))
+            return Token.Expression(TemplateExpression.Reserved(variableSpecifiers))
 
         case .Fragment:
-            return Token.Expression(ExpressionType.Fragment(variableSpecifiers))
+            return Token.Expression(TemplateExpression.Fragment(variableSpecifiers))
 
         case .Label:
-            return Token.Expression(ExpressionType.Label(variableSpecifiers))
+            return Token.Expression(TemplateExpression.Label(variableSpecifiers))
 
         case .PathSegment:
-            return Token.Expression(ExpressionType.PathSegment(variableSpecifiers))
+            return Token.Expression(TemplateExpression.PathSegment(variableSpecifiers))
 
         case .PathStyle:
-            return Token.Expression(ExpressionType.PathStyle(variableSpecifiers))
+            return Token.Expression(TemplateExpression.PathStyle(variableSpecifiers))
 
         case .FormStyleQuery:
-            return Token.Expression(ExpressionType.FormStyleQuery(variableSpecifiers))
+            return Token.Expression(TemplateExpression.FormStyleQuery(variableSpecifiers))
 
         case .FormStyleQueryContinuation:
-            return Token.Expression(ExpressionType.FormStyleQueryContinuation(variableSpecifiers))
+            return Token.Expression(TemplateExpression.FormStyleQueryContinuation(variableSpecifiers))
         }
     }
 
     let specifierSlices = splitVariableSpecifiers(subplateSlice)
     let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
-    return Token.Expression(ExpressionType.SimpleString(variableSpecifiers))
+    return Token.Expression(TemplateExpression.SimpleString(variableSpecifiers))
 }
 
 public func consumeExpression(subplateSlice: ArraySlice<Character>) -> ConsumeResult? {

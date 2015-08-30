@@ -26,7 +26,7 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func prefix(expression: ExpressionType, hasValue: Bool) -> String {
+    private func prefix(expression: TemplateExpression, hasValue: Bool) -> String {
         switch expression {
         case .SimpleString, .Reserved:
             return ""
@@ -51,7 +51,7 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func listSeparator(expression: ExpressionType) -> String {
+    private func listSeparator(expression: TemplateExpression) -> String {
         if let modifier = valueModifier {
             switch modifier {
             case .Composite:
@@ -80,7 +80,7 @@ public struct VariableSpecifier: DebugPrintable {
         return "," // default
     }
 
-    private func allowedCharactersForExpression(expression: ExpressionType) -> [CharacterClass] {
+    private func allowedCharactersForExpression(expression: TemplateExpression) -> [CharacterClass] {
         switch expression {
         case .Reserved, .Fragment:
             return [.Reserved, .Unreserved]
@@ -90,7 +90,7 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func expandValue(value: AnyObject, inExpression expression: ExpressionType) -> String {
+    private func expandValue(value: AnyObject, inExpression expression: TemplateExpression) -> String {
         let modifiedValue: String
 
         if let modifier = valueModifier {
@@ -113,7 +113,7 @@ public struct VariableSpecifier: DebugPrintable {
             allowCharacters: allowedCharactersForExpression(expression))
     }
 
-    public func expand(value: AnyObject?, inExpression expression: ExpressionType) -> String {
+    public func expand(value: AnyObject?, inExpression expression: TemplateExpression) -> String {
         if let values = value as? [AnyObject] {
             if values.count > 0 {
                 let separator = listSeparator(expression)
