@@ -120,10 +120,11 @@ public enum TemplateExpression: DebugPrintable {
     }
 
     private func definedVariableSpecifiers(variableSpecifiers: [VariableSpecifier],
-        values: SubplateValues) -> [VariableSpecifier] {
+        values: SubplateValues, allowEmpty: Bool = false) -> [VariableSpecifier] {
             return variableSpecifiers.filter { variableSpecifier -> Bool in
-                if let value: AnyObject = values[variableSpecifier.name] where count(value.description) > 0 {
-                    return true
+                if let value: AnyObject = values[variableSpecifier.name]
+                    where allowEmpty || !allowEmpty && count(value.description) > 0 {
+                        return true
                 }
 
                 return false
@@ -163,12 +164,15 @@ public enum TemplateExpression: DebugPrintable {
             return (definedSpecifiers.count > 0 ? "#" : "") + join(",", values)
 
         case .Label(let variableSpecifiers):
-            let values = variableSpecifiers.map { variableSpecifier -> String in
+            let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
+                allowEmpty: true)
+
+            let values = definedSpecifiers.map { variableSpecifier -> String in
                 return variableSpecifier.expand(values[variableSpecifier.name],
                     inExpression: self)
             }
 
-            return "." + join(".", values)
+            return (definedSpecifiers.count > 0 ? "." : "") + join(".", values)
 
         case .PathSegment(let variableSpecifiers):
             let values = variableSpecifiers.map { variableSpecifier -> String in
