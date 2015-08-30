@@ -113,15 +113,19 @@ public struct VariableSpecifier: DebugPrintable {
             allowCharacters: allowedCharactersForExpression(expression))
     }
 
-    public func explodeKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
-        return ",".join(keyValuePairs.map({
-            return $0[0].description + "=" + $0[1].description
+    private func extractKeyValuePairs(keyValuePairs: [[AnyObject]]) -> [(String, String)] {
+        return keyValuePairs.filter({ count($0) >= 2 }).map({ ($0[0].description, $0[1].description) })
+    }
+
+    private func explodeKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
+        return ",".join(extractKeyValuePairs(keyValuePairs).map({
+            return ($0.0 ?? "") + "=" + ($0.1 ?? "")
         }))
     }
 
-    public func flattenKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
-        return ",".join(keyValuePairs.map({
-            return $0[0].description + "," + $0[1].description
+    private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
+        return ",".join(extractKeyValuePairs(keyValuePairs).map({
+            return $0.0 + "," + $0.1
         }))
     }
 
