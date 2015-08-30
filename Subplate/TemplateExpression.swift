@@ -133,7 +133,9 @@ public enum TemplateExpression: DebugPrintable {
     public func expand(values: SubplateValues) -> String {
         switch self {
         case .SimpleString(let variableSpecifiers):
-            let values = variableSpecifiers.map { variableSpecifier -> String in
+            let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values)
+
+            let values = definedSpecifiers.map { variableSpecifier -> String in
                 return variableSpecifier.expand(values[variableSpecifier.name],
                     inExpression: self)
             }
