@@ -113,8 +113,33 @@ public struct VariableSpecifier: DebugPrintable {
             allowCharacters: allowedCharactersForExpression(expression))
     }
 
+    public func explodeKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
+        return ",".join(keyValuePairs.map({
+            return $0[0].description + "=" + $0[1].description
+        }))
+    }
+
+    public func flattenKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
+        return ",".join(keyValuePairs.map({
+            return $0[0].description + "," + $0[1].description
+        }))
+    }
+
     public func expand(value: AnyObject?, inExpression expression: TemplateExpression) -> String {
-        if let values = value as? [AnyObject] {
+        if let values = value as? [[AnyObject]] {
+            if let modifier = valueModifier {
+                switch modifier {
+                case .Composite:
+                    return explodeKeyValuePairs(values)
+
+                default:
+                    break // flatten
+                }
+            }
+
+            return flattenKeyValuePairs(values)
+        }
+        else if let values = value as? [AnyObject] {
             if values.count > 0 {
                 let separator = listSeparator(expression)
 
