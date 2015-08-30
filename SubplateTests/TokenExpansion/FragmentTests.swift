@@ -11,7 +11,10 @@ import Subplate
 
 class FragmentTests: XCTestCase {
     func testFragmentExpansion() {
-        let subplate = Subplate("X{#var}")
+        let literalToken = Token.Literal("X")
+        let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
         let expected = "X#value"
         let result = subplate.expand(["var": "value"])
 
@@ -19,12 +22,14 @@ class FragmentTests: XCTestCase {
     }
     
     func testFragmentExpansionEmpty() {
-        let subplate = Subplate("X{#var}")
+        let literalToken = Token.Literal("X")
+        let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
         let expected = "X"
         let result = subplate.expand(["var2": "value"])
 
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")    }
     
     func testFragmentEncoding() {
         let subplate = Subplate("X{#var}")

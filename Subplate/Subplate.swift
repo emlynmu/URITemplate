@@ -21,6 +21,10 @@ public struct Subplate: SubplateExpandable {
         tokens = tokenize(value.description)
     }
 
+    public init(tokens: [Token]) {
+        self.tokens = tokens
+    }
+
     public func expand(values: SubplateValues) -> String {
         return join("", tokens.map({ $0.expand(values) }))
     }
