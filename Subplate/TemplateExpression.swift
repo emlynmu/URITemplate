@@ -143,7 +143,9 @@ public enum TemplateExpression: DebugPrintable {
             return join(",", values)
 
         case .Reserved(let variableSpecifiers):
-            let values = variableSpecifiers.map { variableSpecifier -> String in
+            let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values)
+
+            let values = definedSpecifiers.map { variableSpecifier -> String in
                 return variableSpecifier.expand(values[variableSpecifier.name],
                     inExpression: self)
             }
