@@ -186,12 +186,15 @@ public enum TemplateExpression: DebugPrintable {
             return (definedSpecifiers.count > 0 ? "/" : "") + join("/", values)
 
         case .PathStyle(let variableSpecifiers):
-            let values = variableSpecifiers.map { variableSpecifier -> String in
-                return variableSpecifier.expand(values[variableSpecifier.name],
-                    inExpression: self)
+            let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
+                allowEmpty: true)
+
+            let values = definedSpecifiers.map { variableSpecifier -> String in
+                return ";" + variableSpecifier.expand(values[variableSpecifier.name],
+                        inExpression: self)
             }
 
-            return ";" + join(";", values)
+            return join("", values)
 
         case .FormStyleQuery(let variableSpecifiers):
             let values = variableSpecifiers.map { variableSpecifier -> String in

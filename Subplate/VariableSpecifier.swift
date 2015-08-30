@@ -66,7 +66,7 @@ public struct VariableSpecifier: DebugPrintable {
                     return "/"
 
                 case .PathStyle:
-                    return ";" + name + "="
+                    return ";" + name
 
                 case .FormStyleQuery, .FormStyleQueryContinuation:
                     return "&" + name + "="
