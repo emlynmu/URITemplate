@@ -122,7 +122,11 @@ public enum ExpressionType: DebugPrintable {
     private func definedVariableSpecifiers(variableSpecifiers: [VariableSpecifier],
         values: SubplateValues) -> [VariableSpecifier] {
             return variableSpecifiers.filter { variableSpecifier -> Bool in
-                return values[variableSpecifier.name] != nil
+                if let value: AnyObject = values[variableSpecifier.name] where count(value.description) > 0 {
+                    return true
+                }
+
+                return false
             }
     }
 

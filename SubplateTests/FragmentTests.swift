@@ -52,5 +52,39 @@ class FragmentTests: XCTestCase {
 
     // MARK: - Multiple Fragment Variables
 
+    func testMultipleFragmentVariables1() {
+        let subplate = Subplate("X{#var1,var2}")
+        let expected = "X#abc,def"
 
+        let result = subplate.expand([
+            "var1": "abc",
+            "var2": "def"
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleFragmentVariables2() {
+        let subplate = Subplate("X{#var1,var2}")
+        let expected = "X#abc"
+
+        let result = subplate.expand([
+            "var1": "abc",
+            "var2": ""
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleFragmentVariables3() {
+        let subplate = Subplate("X{#var1,var2}")
+        let expected = "X"
+
+        let result = subplate.expand([
+            "var1": "",
+            "var2": ""
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }
