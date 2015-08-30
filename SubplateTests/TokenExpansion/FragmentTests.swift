@@ -10,17 +10,8 @@ import XCTest
 import Subplate
 
 class FragmentTests: XCTestCase {
-    func testFragmentExpansion() {
-        let literalToken = Token.Literal("X")
-        let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
-        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
-        let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "X#value"
-        let result = subplate.expand(["var": "value"])
+    // 0 Matches
 
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
-    
     func testFragmentExpansionEmpty() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
@@ -31,36 +22,31 @@ class FragmentTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")    }
     
-    func testFragmentEncoding() {
-        let subplate = Subplate("X{#var}")
-        let expected = "X#Hello%20World!"
-        let result = subplate.expand(["var": "Hello World!"])
+    // 1 Match
+    
+    func testFragmentExpansion() {
+        let literalToken = Token.Literal("X")
+        let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#value"
+        let result = subplate.expand(["var": "value"])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testFragmentValueIncludesNumberSymbol() {
-        let subplate = Subplate("fragment{#value}")
-        let expected = "fragment##1#2and#3"
-        let result = subplate.expand(["value": "#1#2and#3"])
-
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
-    func testFragmentValueNeedsEncoding() {
-        let subplate = Subplate("fragment{#value}")
-        let expected = "fragment#%5E1abc"
-        let result = subplate.expand(["value": "^1abc"])
-
-        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
-    // MARK: - Multiple Fragment Variables
+    // MARK: - Two Fragment Variables
 
     func testMultipleFragmentVariables1() {
-        let subplate = Subplate("X{#var1,var2}")
-        let expected = "X#abc,def"
+        let literalToken = Token.Literal("X")
 
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#abc,def"
         let result = subplate.expand([
             "var1": "abc",
             "var2": "def"
@@ -70,9 +56,32 @@ class FragmentTests: XCTestCase {
     }
 
     func testMultipleFragmentVariables2() {
-        let subplate = Subplate("X{#var1,var2}")
-        let expected = "X#abc"
+        let literalToken = Token.Literal("X")
 
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#abc"
+        let result = subplate.expand([
+            "var1": "abc"
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleFragmentVariables3() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#abc"
         let result = subplate.expand([
             "var1": "abc",
             "var2": ""
@@ -81,14 +90,52 @@ class FragmentTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testMultipleFragmentVariables3() {
-        let subplate = Subplate("X{#var1,var2}")
-        let expected = "X"
+    func testMultipleFragmentVariables4() {
+        let literalToken = Token.Literal("X")
 
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#def"
+        let result = subplate.expand([
+            "var2": "def"
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleFragmentVariables5() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X#def"
         let result = subplate.expand([
             "var1": "",
-            "var2": ""
+            "var2": "def"
             ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testMultipleFragmentVariables6() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X"
+        let result = subplate.expand([:])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
