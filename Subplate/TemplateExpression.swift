@@ -122,9 +122,34 @@ public enum TemplateExpression: DebugPrintable {
     private func definedVariableSpecifiers(variableSpecifiers: [VariableSpecifier],
         values: SubplateValues, allowEmpty: Bool = false) -> [VariableSpecifier] {
             return variableSpecifiers.filter { variableSpecifier -> Bool in
-                if let value: AnyObject = values[variableSpecifier.name]
-                    where allowEmpty || !allowEmpty && count(value.description) > 0 {
+                if let value: AnyObject = values[variableSpecifier.name] {
+                    if allowEmpty {
                         return true
+                    }
+                    else if let valueString = value as? String where count(valueString) > 0 {
+                        return true
+                    }
+                    else if let values = value as? [AnyObject] {
+                        if let modifier = variableSpecifier.valueModifier {
+                            switch modifier {
+                            case .Composite:
+                                if let keyValuePairs = values as? [[AnyObject]] {
+                                    for pair in keyValuePairs {
+                                        if count(keyValuePairs) >= 2 {
+                                            return true
+                                        }
+                                    }
+                                }
+
+                            default:
+                                break
+                            }
+                        }
+
+                        if values.count > 1 {
+                            return true
+                        }
+                    }
                 }
 
                 return false
