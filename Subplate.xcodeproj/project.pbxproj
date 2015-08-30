@@ -112,9 +112,9 @@
 				75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */,
 				75E93D581B7692A800BAB4E3 /* Parsing.swift */,
 				75E93D571B7692A800BAB4E3 /* Subplate.swift */,
-				75BB06491B8C7018008C9ADC /* VariableSpecifier.swift */,
 				75CCD9391B7C37E000A508F1 /* Token.swift */,
 				75BB06471B8B2B0D008C9ADC /* ValueModifiers.swift */,
+				75BB06491B8C7018008C9ADC /* VariableSpecifier.swift */,
 				75E93D381B76928E00BAB4E3 /* Supporting Files */,
 			);
 			path = Subplate;
