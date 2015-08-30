@@ -117,8 +117,10 @@ public struct VariableSpecifier: DebugPrintable {
         return keyValuePairs.filter({ count($0) >= 2 }).map({ ($0[0].description, $0[1].description) })
     }
 
-    private func explodeKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
-        return ",".join(extractKeyValuePairs(keyValuePairs).map({
+    private func explodeKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
+        let separator = listSeparator(expression)
+
+        return separator.join(extractKeyValuePairs(keyValuePairs).map({
             return ($0.0 ?? "") + "=" + ($0.1 ?? "")
         }))
     }
@@ -134,7 +136,7 @@ public struct VariableSpecifier: DebugPrintable {
             if let modifier = valueModifier {
                 switch modifier {
                 case .Composite:
-                    return explodeKeyValuePairs(values)
+                    return explodeKeyValuePairs(values, inExpression: expression)
 
                 default:
                     break // flatten
