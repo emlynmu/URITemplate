@@ -74,4 +74,72 @@ class SimpleStringExpansionTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    func testTwoSimpleStringVariables3() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.SimpleString([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "Xabc"
+        let result = subplate.expand([
+            "var1": "abc",
+            "var2": ""
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testTwoSimpleStringVariables4() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.SimpleString([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "Xdef"
+        let result = subplate.expand([
+            "var2": "def"
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testTwoSimpleStringVariables5() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.SimpleString([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "Xdef"
+        let result = subplate.expand([
+            "var1": "",
+            "var2": "def"
+            ])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testTwoSimpleStringVariables6() {
+        let literalToken = Token.Literal("X")
+
+        let variableSpecifier1 = VariableSpecifier(name: "var1", valueModifier: nil)
+        let variableSpecifier2 = VariableSpecifier(name: "var2", valueModifier: nil)
+        let expressionToken = Token.Expression(TemplateExpression.SimpleString([variableSpecifier1,
+            variableSpecifier2]))
+
+        let subplate = Subplate(tokens: [literalToken, expressionToken])
+        let expected = "X"
+        let result = subplate.expand([:])
+
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }
