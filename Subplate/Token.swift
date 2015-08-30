@@ -119,6 +119,13 @@ public enum ExpressionType: DebugPrintable {
         return ","
     }
 
+    private func definedVariableSpecifiers(variableSpecifiers: [VariableSpecifier],
+        values: SubplateValues) -> [VariableSpecifier] {
+            return variableSpecifiers.filter { variableSpecifier -> Bool in
+                return values[variableSpecifier.name] != nil
+            }
+    }
+
     public func expand(values: SubplateValues) -> String {
         switch self {
         case .SimpleString(let variableSpecifiers):
@@ -138,12 +145,14 @@ public enum ExpressionType: DebugPrintable {
             return join(",", values)
 
         case .Fragment(let variableSpecifiers):
-            let values = variableSpecifiers.map { variableSpecifier -> String in
+            let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values)
+
+            let values = definedSpecifiers.map { variableSpecifier -> String in
                 return variableSpecifier.expand(values[variableSpecifier.name],
                     inExpression: self)
             }
 
-            return "#" + join(",", values)
+            return (definedSpecifiers.count > 0 ? "#" : "") + join(",", values)
 
         case .Label(let variableSpecifiers):
             let values = variableSpecifiers.map { variableSpecifier -> String in

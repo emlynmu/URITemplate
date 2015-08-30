@@ -17,7 +17,15 @@ class FragmentTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+    
+    func testFragmentExpansionEmpty() {
+        let subplate = Subplate("X{#var}")
+        let expected = "X"
+        let result = subplate.expand(["var2": "value"])
 
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+    
     func testFragmentEncoding() {
         let subplate = Subplate("X{#var}")
         let expected = "X#Hello%20World!"
@@ -41,4 +49,8 @@ class FragmentTests: XCTestCase {
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
+
+    // MARK: - Multiple Fragment Variables
+
+
 }
