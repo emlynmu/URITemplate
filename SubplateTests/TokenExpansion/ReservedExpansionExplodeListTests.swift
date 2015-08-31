@@ -12,8 +12,8 @@ import XCTest
 import Subplate
 
 class ReservedExpansionExplodeListTests: XCTestCase {
-    /// Simple String List Empty Expand
-    func testSimpleStringListEmptyExpand() {
+    /// Reserved List Empty Expand
+    func testReservedListEmptyExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -24,8 +24,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Expand
-    func testSimpleStringListExpand() {
+    /// Reserved List Expand
+    func testReservedListExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -36,8 +36,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Explode
-    func testSimpleStringListExplode() {
+    /// Reserved List Explode
+    func testReservedListExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -48,8 +48,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Expand
-    func testSimpleStringKeyValuePairExpand() {
+    /// Reserved Key-Value Pair Expand
+    func testReservedKeyValuePairExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -60,8 +60,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Expand
-    func testSimpleStringKeyValuePairWithMissingValueExpand() {
+    /// Reserved Key-Value Pair With Missing Value Expand
+    func testReservedKeyValuePairWithMissingValueExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -72,8 +72,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Explode
-    func testSimpleStringKeyValuePairExplode() {
+    /// Reserved Key-Value Pair Explode
+    func testReservedKeyValuePairExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
@@ -84,8 +84,8 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Explode
-    func testSimpleStringKeyValuePairWithMissingValueExplode() {
+    /// Reserved Key-Value Pair With Missing Value Explode
+    func testReservedKeyValuePairWithMissingValueExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
