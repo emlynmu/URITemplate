@@ -46,4 +46,18 @@ class LabelTests: XCTestCase {
         let subplate = Subplate("www{.host}.com")
         let expected = "www.monkey.com"
     }
+
+    func testEmpty() {
+        let subplate = Subplate("X{.empty}")
+        let expected = "X."
+        let result = subplate.expand(["empty": ""])
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
+
+    func testUndefined() {
+        let subplate = Subplate("X{.undefined}")
+        let expected = "X"
+        let result = subplate.expand(["empty": ""])
+        XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
+    }
 }

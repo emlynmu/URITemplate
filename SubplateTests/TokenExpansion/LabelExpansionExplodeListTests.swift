@@ -18,7 +18,7 @@ class LabelExpansionExplodeListTests: XCTestCase {
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Label([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "X"
+        let expected = "X."
         let result = subplate.expand(["var": []])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
