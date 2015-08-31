@@ -12,8 +12,8 @@ import XCTest
 import Subplate
 
 class FragmentExpansionExplodeListTests: XCTestCase {
-    /// Simple String List Empty Expand
-    func testSimpleStringListEmptyExpand() {
+    /// Fragment List Empty Expand
+    func testFragmentListEmptyExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -24,8 +24,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Expand
-    func testSimpleStringListExpand() {
+    /// Fragment List Expand
+    func testFragmentListExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -36,8 +36,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Explode
-    func testSimpleStringListExplode() {
+    /// Fragment List Explode
+    func testFragmentListExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -48,8 +48,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Expand
-    func testSimpleStringKeyValuePairExpand() {
+    /// Fragment Key-Value Pair Expand
+    func testFragmentKeyValuePairExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -60,8 +60,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Expand
-    func testSimpleStringKeyValuePairWithMissingValueExpand() {
+    /// Fragment Key-Value Pair With Missing Value Expand
+    func testFragmentKeyValuePairWithMissingValueExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -72,8 +72,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Explode
-    func testSimpleStringKeyValuePairExplode() {
+    /// Fragment Key-Value Pair Explode
+    func testFragmentKeyValuePairExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
@@ -84,8 +84,8 @@ class FragmentExpansionExplodeListTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Explode
-    func testSimpleStringKeyValuePairWithMissingValueExplode() {
+    /// Fragment Key-Value Pair With Missing Value Explode
+    func testFragmentKeyValuePairWithMissingValueExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
         let expressionToken = Token.Expression(TemplateExpression.Fragment([variableSpecifier]))
