@@ -26,31 +26,6 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func prefix(expression: TemplateExpression, hasValue: Bool) -> String {
-        switch expression {
-        case .SimpleString, .Reserved:
-            return ""
-
-        case .Fragment:
-            return ""
-
-        case .Label:
-            return ""
-
-        case .PathSegment:
-            return ""
-
-        case .PathStyle:
-            return ""
-
-        case .FormStyleQuery:
-            return ""
-
-        case .FormStyleQueryContinuation:
-            return name + "="
-        }
-    }
-
     private func listSeparator(expression: TemplateExpression, keyValuePairs: Bool) -> String {
         if let modifier = valueModifier {
             switch modifier {
@@ -218,21 +193,18 @@ public struct VariableSpecifier: DebugPrintable {
                 return values[1..<values.count].reduce(expandValue(values[0],
                     inExpression: expression)) {
                     (result: String, value: AnyObject) -> String in
-
-                        return prefix(expression, hasValue: true) + result + separator +
-                            expandValue(value, inExpression: expression)
+                        return result + separator + expandValue(value, inExpression: expression)
                 }
             }
             else {
-                return prefix(expression, hasValue: false)
+                return ""
             }
         }
         else if let value: AnyObject = value {
-            return prefix(expression, hasValue: count(value.description) > 0) +
-                expandValue(value, inExpression: expression)
+            return expandValue(value, inExpression: expression)
         }
         else {
-            return prefix(expression, hasValue: false)
+            return ""
         }
     }
 }
