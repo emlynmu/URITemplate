@@ -144,9 +144,6 @@ public enum TemplateExpression: DebugPrintable {
                     if allowEmpty {
                         return true
                     }
-                    else if let valueString = value as? String where count(valueString) > 0 {
-                        return true
-                    }
                     else if let values = value as? [AnyObject] {
                         if let modifier = variableSpecifier.valueModifier {
                             switch modifier {
@@ -167,6 +164,9 @@ public enum TemplateExpression: DebugPrintable {
                         if values.count > 1 {
                             return true
                         }
+                    }
+                    else if count(value.description) > 0 {
+                        return true
                     }
                 }
 
