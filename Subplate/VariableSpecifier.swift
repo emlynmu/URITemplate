@@ -41,7 +41,8 @@ public struct VariableSpecifier: DebugPrintable {
             return ""
 
         case .PathStyle:
-            return name + (hasValue ? "=" : "")
+            return ""
+//            return name + (hasValue ? "=" : "")
 
         case .FormStyleQuery:
             return name + "="
@@ -51,7 +52,7 @@ public struct VariableSpecifier: DebugPrintable {
         }
     }
 
-    private func listSeparator(expression: TemplateExpression) -> String {
+    private func listSeparator(expression: TemplateExpression, keyValuePairs: Bool) -> String {
         if let modifier = valueModifier {
             switch modifier {
             case .Composite:
@@ -66,14 +67,23 @@ public struct VariableSpecifier: DebugPrintable {
                     return "/"
 
                 case .PathStyle:
-                    return ";" + name
+                    return ";" + (keyValuePairs ? "" : name + "=")
 
                 case .FormStyleQuery, .FormStyleQueryContinuation:
-                    return "&" + name + "="
+                    return "&" + (keyValuePairs ? "" : name + "=")
                 }
 
             case .Prefix:
                 break  // default
+            }
+        }
+        else {
+            switch expression {
+            case .PathStyle:
+                return "," + (keyValuePairs ? "" : name + "=")
+
+            default:
+                break
             }
         }
 
@@ -118,7 +128,7 @@ public struct VariableSpecifier: DebugPrintable {
     }
 
     private func explodeKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
-        let separator = listSeparator(expression)
+        let separator = listSeparator(expression, keyValuePairs: true)
 
         return separator.join(extractKeyValuePairs(keyValuePairs).map({
             return ($0.0 ?? "") + "=" + ($0.1 ?? "")
@@ -127,7 +137,7 @@ public struct VariableSpecifier: DebugPrintable {
 
     private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
         return ",".join(extractKeyValuePairs(keyValuePairs).map({
-            return $0.0 + "," + $0.1
+            return $0.0 + "=" + $0.1
         }))
     }
 
@@ -136,7 +146,9 @@ public struct VariableSpecifier: DebugPrintable {
             if let modifier = valueModifier {
                 switch modifier {
                 case .Composite:
-                    return explodeKeyValuePairs(values, inExpression: expression)
+                    let pairs = explodeKeyValuePairs(values, inExpression: expression)
+                    println("pairs: \(pairs)")
+                    return pairs
 
                 default:
                     break // flatten
@@ -147,7 +159,7 @@ public struct VariableSpecifier: DebugPrintable {
         }
         else if let values = value as? [AnyObject] {
             if values.count > 0 {
-                let separator = listSeparator(expression)
+                let separator = listSeparator(expression, keyValuePairs: false)
 
                 return values[1..<values.count].reduce(expandValue(values[0],
                     inExpression: expression)) {

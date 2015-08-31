@@ -77,8 +77,26 @@ public enum TemplateExpression: DebugPrintable {
         return false
     }
 
+    private func objectIsEmptyList(value: AnyObject) -> Bool {
+        if let list = value as? [AnyObject] {
+            if count(list) == 0 {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private func objectIsListOfKeyValuePairs(value: AnyObject?) -> Bool {
+        if let keyValuePairs = value as? [[AnyObject]] {
+            return true
+        }
+
+        return false
+    }
+
     private func emptyValue(value: AnyObject?) -> Bool {
-        return value == nil || objectIsEmptyString(value!)
+        return value == nil || objectIsEmptyString(value!) || objectIsEmptyList(value!)
     }
 
     private func listSeparatorForValueModifier(modifier: ValueModifier?) -> String {
@@ -215,8 +233,15 @@ public enum TemplateExpression: DebugPrintable {
                 allowEmpty: true)
 
             let values = definedSpecifiers.map { variableSpecifier -> String in
-                return ";" + variableSpecifier.expand(values[variableSpecifier.name],
-                        inExpression: self)
+                let value: AnyObject? = values[variableSpecifier.name]
+
+                if self.emptyValue(value) {
+                    return ";" + variableSpecifier.name
+                }
+
+                return ";" +
+                    (!self.objectIsListOfKeyValuePairs(value) ? variableSpecifier.name + "=" : "") +
+                    variableSpecifier.expand(value, inExpression: self)
             }
 
             return join("", values)

@@ -1,5 +1,5 @@
 //
-//  ReservedExpansionExplodeListTests.swift
+//  PathStyleExpansionExplodeListTests.swift
 //  Subplate
 //
 //  Created by Emlyn Murphy on 8/30/15.
@@ -11,86 +11,86 @@ import Foundation
 import XCTest
 import Subplate
 
-class ReservedExpansionExplodeListTests: XCTestCase {
-    /// Simple String List Empty Expand
-    func testSimpleStringListEmptyExpand() {
+class PathStyleExpansionExplodeListTests: XCTestCase {
+    /// Path Style List Empty Expand
+    func testPathStyleListEmptyExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "X"
+        let expected = "X;var"
         let result = subplate.expand(["var": []])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Expand
-    func testSimpleStringListExpand() {
+    /// Path Style List Expand
+    func testPathStyleListExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa,b,c"
+        let expected = "X;var=a,var=b,var=c"
         let result = subplate.expand(["var": ["a", "b", "c"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String List Explode
-    func testSimpleStringListExplode() {
+    /// Path Style List Explode
+    func testPathStyleListExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa,b,c"
+        let expected = "X;var=a;var=b;var=c"
         let result = subplate.expand(["var": ["a", "b", "c"]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Expand
-    func testSimpleStringKeyValuePairExpand() {
+    /// Path Style Key-Value Pair Expand
+    func testPathStyleKeyValuePairExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b,c=d"
+        let expected = "X;a=b,c=d"
         let result = subplate.expand(["var": [["a", "b"], ["c", "d"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Expand
-    func testSimpleStringKeyValuePairWithMissingValueExpand() {
+    /// Path Style Key-Value Pair With Missing Value Expand
+    func testPathStyleKeyValuePairWithMissingValueExpand() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b"
+        let expected = "X;a=b"
         let result = subplate.expand(["var": [["a", "b"], ["c"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair Explode
-    func testSimpleStringKeyValuePairExplode() {
+    /// Path Style Key-Value Pair Explode
+    func testPathStyleKeyValuePairExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b,c=d"
+        let expected = "X;a=b;c=d"
         let result = subplate.expand(["var": [["a", "b"], ["c", "d"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    /// Simple String Key-Value Pair With Missing Value Explode
-    func testSimpleStringKeyValuePairWithMissingValueExplode() {
+    /// Path Style Key-Value Pair With Missing Value Explode
+    func testPathStyleKeyValuePairWithMissingValueExplode() {
         let literalToken = Token.Literal("X")
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: ValueModifier.Composite)
-        let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
+        let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b"
+        let expected = "X;a=b"
         let result = subplate.expand(["var": [["a", "b"], ["c"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
