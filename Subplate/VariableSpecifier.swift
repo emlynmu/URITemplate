@@ -90,6 +90,63 @@ public struct VariableSpecifier: DebugPrintable {
         return "," // default
     }
 
+    private func keyValueSeparator(expression: TemplateExpression, explodeModifier: Bool) -> String {
+        if explodeModifier {
+            switch expression {
+            case .SimpleString:
+                return "="
+
+            case .Reserved:
+                return "="
+
+            case .Fragment:
+                return "="
+
+            case .Label:
+                return "="
+
+            case .PathSegment:
+                return "="
+
+            case .PathStyle:
+                return "="
+                
+            case .FormStyleQuery:
+                return "="
+                
+            case .FormStyleQueryContinuation:
+                return "="
+            }
+        }
+        else {
+            switch expression {
+            case .SimpleString:
+                return ","
+
+            case .Reserved:
+                return ","
+
+            case .Fragment:
+                return ","
+
+            case .Label:
+                return ","
+
+            case .PathSegment:
+                return ","
+
+            case .PathStyle:
+                return "="
+                
+            case .FormStyleQuery:
+                return ","
+                
+            case .FormStyleQueryContinuation:
+                return ","
+            }
+        }
+    }
+
     private func allowedCharactersForExpression(expression: TemplateExpression) -> [CharacterClass] {
         switch expression {
         case .Reserved, .Fragment:
@@ -131,13 +188,13 @@ public struct VariableSpecifier: DebugPrintable {
         let separator = listSeparator(expression, keyValuePairs: true)
 
         return separator.join(extractKeyValuePairs(keyValuePairs).map({
-            return ($0.0 ?? "") + "=" + ($0.1 ?? "")
+            return ($0.0 ?? "") + self.keyValueSeparator(expression, explodeModifier: true) + ($0.1 ?? "")
         }))
     }
 
-    private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]]) -> String {
+    private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
         return ",".join(extractKeyValuePairs(keyValuePairs).map({
-            return $0.0 + "=" + $0.1
+            return $0.0 + self.keyValueSeparator(expression, explodeModifier: false) + $0.1
         }))
     }
 
@@ -146,16 +203,14 @@ public struct VariableSpecifier: DebugPrintable {
             if let modifier = valueModifier {
                 switch modifier {
                 case .Composite:
-                    let pairs = explodeKeyValuePairs(values, inExpression: expression)
-                    println("pairs: \(pairs)")
-                    return pairs
+                    return explodeKeyValuePairs(values, inExpression: expression)
 
                 default:
                     break // flatten
                 }
             }
 
-            return flattenKeyValuePairs(values)
+            return flattenKeyValuePairs(values, inExpression: expression)
         }
         else if let values = value as? [AnyObject] {
             if values.count > 0 {
