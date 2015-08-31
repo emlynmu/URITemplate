@@ -54,7 +54,7 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b,c=d"
+        let expected = "Xa,b,c,d"
         let result = subplate.expand(["var": [["a", "b"], ["c", "d"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -66,7 +66,7 @@ class ReservedExpansionExplodeListTests: XCTestCase {
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.Reserved([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "Xa=b"
+        let expected = "Xa,b"
         let result = subplate.expand(["var": [["a", "b"], ["c"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
