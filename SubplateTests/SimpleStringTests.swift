@@ -38,7 +38,7 @@ class SimpleStringTests: XCTestCase {
 
     func testMultiVariableOneEmptySimpleStringExpansion() {
         let subplate = Subplate("coordinates:({x,y})")
-        let expected = "coordinates:(1,)"
+        let expected = "coordinates:(1)"
         let result = subplate.expand([
             "x": 1])
 
