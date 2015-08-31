@@ -162,13 +162,17 @@ public struct VariableSpecifier: DebugPrintable {
         let separator = listSeparator(expression, keyValuePairs: true)
 
         return separator.join(extractKeyValuePairs(keyValuePairs).map({
-            return ($0.0 ?? "") + self.keyValueSeparator(expression, explodeModifier: true) + ($0.1 ?? "")
+            return ($0.0 ?? "") + self.keyValueSeparator(expression, explodeModifier: true) +
+                percentEncodeString($0.1 ?? "",
+                    allowCharacters: self.allowedCharactersForExpression(expression))
         }))
     }
 
     private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
         return ",".join(extractKeyValuePairs(keyValuePairs).map({
-            return $0.0 + self.keyValueSeparator(expression, explodeModifier: false) + $0.1
+            return $0.0 + self.keyValueSeparator(expression, explodeModifier: false) +
+                percentEncodeString($0.1 ?? "",
+                    allowCharacters: self.allowedCharactersForExpression(expression))
         }))
     }
 
