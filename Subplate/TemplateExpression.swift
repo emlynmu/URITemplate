@@ -251,8 +251,14 @@ public enum TemplateExpression: DebugPrintable {
                 allowEmpty: true)
 
             let values = definedSpecifiers.map { variableSpecifier -> String in
-                return variableSpecifier.expand(values[variableSpecifier.name],
-                    inExpression: self)
+                let value: AnyObject? = values[variableSpecifier.name]
+
+                if self.emptyValue(value) {
+                    return variableSpecifier.name + "="
+                }
+
+                return (!self.objectIsListOfKeyValuePairs(value) ? variableSpecifier.name + "=" : "") +
+                    variableSpecifier.expand(value, inExpression: self)
             }
             
             return (definedSpecifiers.count > 0 ? "?" : "") + join("&", values)

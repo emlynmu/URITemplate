@@ -42,10 +42,9 @@ public struct VariableSpecifier: DebugPrintable {
 
         case .PathStyle:
             return ""
-//            return name + (hasValue ? "=" : "")
 
         case .FormStyleQuery:
-            return name + "="
+            return ""
 
         case .FormStyleQueryContinuation:
             return name + "="
@@ -139,10 +138,10 @@ public struct VariableSpecifier: DebugPrintable {
                 return "="
                 
             case .FormStyleQuery:
-                return ","
+                return "="
                 
             case .FormStyleQueryContinuation:
-                return ","
+                return "="
             }
         }
     }
