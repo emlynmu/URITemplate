@@ -9,8 +9,6 @@
 import Foundation
 
 public enum CharacterClass: String {
-    case Digit = "0123456789"
-    case HexDigit = "0123456789ABCDEFabcdef"
     case GeneralDelimeter = ":/?#[]@"
     case SubDelimeter = "!$&'()*+,;="
     case Unreserved = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
