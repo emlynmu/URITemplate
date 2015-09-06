@@ -99,44 +99,6 @@ public enum TemplateExpression: DebugPrintable {
         return value == nil || objectIsEmptyString(value!) || objectIsEmptyList(value!)
     }
 
-    private func listSeparatorForValueModifier(modifier: ValueModifier?) -> String {
-        if let modifier = modifier {
-            switch modifier {
-            case .Composite:
-                switch self {
-                case .SimpleString:
-                    break
-
-                case .Reserved:
-                    break
-
-                case .Fragment:
-                    break
-
-                case .Label:
-                    return "."
-
-                case .PathSegment:
-                    return "/"
-
-                case .PathStyle:
-                    return ";"
-
-                case .FormStyleQuery:
-                    break
-
-                case .FormStyleQueryContinuation:
-                    break
-                }
-
-            default:
-                break
-            }
-        }
-
-        return ","
-    }
-
     private func definedVariableSpecifiers(variableSpecifiers: [VariableSpecifier],
         values: SubplateValues, allowEmpty: Bool = false) -> [VariableSpecifier] {
             return variableSpecifiers.filter { variableSpecifier -> Bool in
