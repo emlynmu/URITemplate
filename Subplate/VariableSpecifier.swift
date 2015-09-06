@@ -54,7 +54,7 @@ public struct VariableSpecifier: DebugPrintable {
         else {
             switch expression {
             case .PathStyle:
-                return "," + (keyValuePairs ? "" : name + "=")
+                return "," + (keyValuePairs ? name + "=" : "")
 
             default:
                 break
