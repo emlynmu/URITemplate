@@ -21,10 +21,6 @@ public func percentEncodeUnicodeScalar(scalar: UnicodeScalar) -> String {
     return "%" + String(scalar.value, radix: 16, uppercase: true)
 }
 
-public func percentEncodeString(string: String, allowCharacters allowed: CharacterClass) -> String {
-    return percentEncodeString(string, allowCharacters: [allowed])
-}
-
 public func percentEncodeString(string: String,
     allowCharacters allowed: [CharacterClass]) -> String {
         return map(string.unicodeScalars, { (scalar) -> String in

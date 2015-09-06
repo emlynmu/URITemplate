@@ -48,17 +48,6 @@ class CharacterEncodingTests: XCTestCase {
             "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    // MARK: - percentEncodeString
-
-    func testPercentEncodeHelloWorld() {
-        let string = "Hello World!"
-        let expected = "Hello%20World%21"
-        let result = percentEncodeString(string, allowCharacters: .Unreserved)
-
-        XCTAssert(expected == result,
-            "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
     // MARK: - Data Utilities
 
     func characterToUnicodeScalar(character: Character) -> UnicodeScalar {
