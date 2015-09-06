@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TemplateExpression: DebugPrintable {
+public enum TemplateExpression: DebugPrintable, SubplateExpandable {
     case SimpleString([VariableSpecifier])
     case Reserved([VariableSpecifier])
     case Fragment([VariableSpecifier])
