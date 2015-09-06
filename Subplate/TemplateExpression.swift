@@ -46,15 +46,6 @@ public enum TemplateExpression: DebugPrintable {
         }
     }
 
-    private func applyModifierIfAny(modifier: ValueModifier?, toValue value: String) -> String {
-        if let modifier = modifier {
-            return modifier.applyToValue(value)
-        }
-        else {
-            return value
-        }
-    }
-
     private func listSeparatorForModifier(modifier: ValueModifier?) -> String {
         if let modifier = modifier {
             switch modifier {
