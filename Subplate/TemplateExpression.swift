@@ -240,7 +240,7 @@ public enum TemplateExpression: DebugPrintable {
                 }
 
                 return ";" +
-                    (!self.objectIsListOfKeyValuePairs(value) ? variableSpecifier.name + "=" : "") +
+                    (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
                     variableSpecifier.expand(value, inExpression: self)
             }
 
@@ -257,7 +257,7 @@ public enum TemplateExpression: DebugPrintable {
                     return variableSpecifier.name + "="
                 }
 
-                return (!self.objectIsListOfKeyValuePairs(value) ? variableSpecifier.name + "=" : "") +
+                return (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
                     variableSpecifier.expand(value, inExpression: self)
             }
             
@@ -274,7 +274,7 @@ public enum TemplateExpression: DebugPrintable {
                     return variableSpecifier.name + "="
                 }
 
-                return (!self.objectIsListOfKeyValuePairs(value) ? variableSpecifier.name + "=" : "") +
+                return (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
                     variableSpecifier.expand(value, inExpression: self)
             }
 
