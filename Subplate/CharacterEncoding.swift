@@ -9,7 +9,6 @@
 import Foundation
 
 public enum CharacterClass: String {
-    case Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     case Lowercase = "abcdefghijklmnopqrstuvwxyz"
     case Alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     case Digit = "0123456789"

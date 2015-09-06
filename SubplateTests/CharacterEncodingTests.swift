@@ -68,15 +68,6 @@ class CharacterEncodingTests: XCTestCase {
             "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testPercentEncodeAllowUppercase() {
-        let string = "AaBbCcDd"
-        let expected = "A%61B%62C%63D%64"
-        let result = percentEncodeString(string, allowCharacters: .Uppercase)
-
-        XCTAssert(expected == result,
-            "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
     func testPercentEncodeAllowLowercase() {
         let string = "AaBbCcDd"
         let expected = "%41a%42b%43c%44d"
