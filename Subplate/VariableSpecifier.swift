@@ -78,60 +78,12 @@ public struct VariableSpecifier: DebugPrintable {
         return "," // default
     }
 
-    private func keyValueSeparator(expression: TemplateExpression, explodeModifier: Bool) -> String {
+    private func keyValueSeparatorWithExplodeModifier(explodeModifier: Bool) -> String {
         if explodeModifier {
-            switch expression {
-            case .SimpleString:
-                return "="
-
-            case .Reserved:
-                return "="
-
-            case .Fragment:
-                return "="
-
-            case .Label:
-                return "="
-
-            case .PathSegment:
-                return "="
-
-            case .PathStyle:
-                return "="
-                
-            case .FormStyleQuery:
-                return "="
-                
-            case .FormStyleQueryContinuation:
-                return "="
-            }
+            return "="
         }
         else {
-            switch expression {
-            case .SimpleString:
-                return ","
-
-            case .Reserved:
-                return ","
-
-            case .Fragment:
-                return ","
-
-            case .Label:
-                return ","
-
-            case .PathSegment:
-                return ","
-
-            case .PathStyle:
-                return ","
-                
-            case .FormStyleQuery:
-                return ","
-                
-            case .FormStyleQueryContinuation:
-                return ","
-            }
+            return ","
         }
     }
 
@@ -176,7 +128,7 @@ public struct VariableSpecifier: DebugPrintable {
         let separator = listSeparator(expression, keyValuePairs: true)
 
         return separator.join(extractKeyValuePairs(keyValuePairs).map({
-            return ($0.0 ?? "") + self.keyValueSeparator(expression, explodeModifier: true) +
+            return ($0.0 ?? "") + self.keyValueSeparatorWithExplodeModifier(true) +
                 percentEncodeString($0.1 ?? "",
                     allowCharacters: self.allowedCharactersForExpression(expression))
         }))
@@ -184,7 +136,7 @@ public struct VariableSpecifier: DebugPrintable {
 
     private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
         return ",".join(extractKeyValuePairs(keyValuePairs).map({
-            return $0.0 + self.keyValueSeparator(expression, explodeModifier: false) +
+            return $0.0 + self.keyValueSeparatorWithExplodeModifier(false) +
                 percentEncodeString($0.1 ?? "",
                     allowCharacters: self.allowedCharactersForExpression(expression))
         }))
