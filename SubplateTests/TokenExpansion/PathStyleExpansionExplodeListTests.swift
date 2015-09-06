@@ -54,7 +54,7 @@ class PathStyleExpansionExplodeListTests: XCTestCase {
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "X;a=b,c=d"
+        let expected = "X;var=a,b,c,d"
         let result = subplate.expand(["var": [["a", "b"], ["c", "d"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
@@ -66,7 +66,7 @@ class PathStyleExpansionExplodeListTests: XCTestCase {
         let variableSpecifier = VariableSpecifier(name: "var", valueModifier: nil)
         let expressionToken = Token.Expression(TemplateExpression.PathStyle([variableSpecifier]))
         let subplate = Subplate(tokens: [literalToken, expressionToken])
-        let expected = "X;a=b"
+        let expected = "X;var=a,b"
         let result = subplate.expand(["var": [["a", "b"], ["c"]]])
 
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
