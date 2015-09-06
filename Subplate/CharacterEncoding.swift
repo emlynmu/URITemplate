@@ -9,8 +9,6 @@
 import Foundation
 
 public enum CharacterClass: String {
-    case GeneralDelimeter = ":/?#[]@"
-    case SubDelimeter = "!$&'()*+,;="
     case Unreserved = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
     case Reserved = ":/?#[]@!$&'()*+,;="
 
