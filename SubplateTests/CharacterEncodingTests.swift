@@ -39,15 +39,6 @@ class CharacterEncodingTests: XCTestCase {
             "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testPercentEncodeLowercaseJ() {
-        let scalar = characterToUnicodeScalar("j")
-        let expected = "%6A"
-        let result = percentEncodeUnicodeScalar(scalar)
-
-        XCTAssert(expected == result,
-            "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
     func testPercentEncodeLessThanSymbol() {
         let scalar = characterToUnicodeScalar("<")
         let expected = "%3C"
@@ -63,15 +54,6 @@ class CharacterEncodingTests: XCTestCase {
         let string = "Hello World!"
         let expected = "Hello%20World%21"
         let result = percentEncodeString(string, allowCharacters: .Unreserved)
-
-        XCTAssert(expected == result,
-            "expected \"\(expected)\"; got \"\(result)\"")
-    }
-
-    func testPercentEncodeAllowLowercase() {
-        let string = "AaBbCcDd"
-        let expected = "%41a%42b%43c%44d"
-        let result = percentEncodeString(string, allowCharacters: .Lowercase)
 
         XCTAssert(expected == result,
             "expected \"\(expected)\"; got \"\(result)\"")
