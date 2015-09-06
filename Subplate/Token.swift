@@ -21,8 +21,7 @@ public enum Token: DebugPrintable, SubplateExpandable {
             return expression.expand(values)
         }
     }
-    
-    
+
     public var debugDescription: String {
         switch self {
         case .Literal(let value):

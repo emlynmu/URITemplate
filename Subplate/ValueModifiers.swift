@@ -21,15 +21,4 @@ public enum ValueModifier: DebugPrintable {
             return "composite"
         }
     }
-
-    public func applyToValue(value: AnyObject) -> String {
-        switch self {
-        case .Prefix(let length):
-            let slice = ArraySlice(value.description)[0 ..< min(length, count(value.description))]
-            return String(slice)
-
-        case .Composite:
-            return value.description
-        }
-    }
 }
