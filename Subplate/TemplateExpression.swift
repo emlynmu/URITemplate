@@ -46,20 +46,6 @@ public enum TemplateExpression: DebugPrintable {
         }
     }
 
-    private func listSeparatorForModifier(modifier: ValueModifier?) -> String {
-        if let modifier = modifier {
-            switch modifier {
-            case .Composite:
-                return "="
-
-            default:
-                break
-            }
-        }
-
-        return ","
-    }
-
     private func objectIsEmptyString(value: AnyObject) -> Bool {
         if let string = value as? String where count(string) == 0 {
             return true
