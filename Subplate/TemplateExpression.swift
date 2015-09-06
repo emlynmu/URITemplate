@@ -239,9 +239,10 @@ public enum TemplateExpression: DebugPrintable {
                     return ";" + variableSpecifier.name
                 }
 
-                return ";" +
-                    (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
-                    variableSpecifier.expand(value, inExpression: self)
+                let prefix = ";" + (self.objectIsListOfKeyValuePairs(value) &&
+                    variableSpecifier.hasExplodeModifier ? "" : variableSpecifier.name + "=")
+
+                return prefix + variableSpecifier.expand(value, inExpression: self)
             }
 
             return join("", values)
@@ -257,8 +258,10 @@ public enum TemplateExpression: DebugPrintable {
                     return variableSpecifier.name + "="
                 }
 
-                return (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
-                    variableSpecifier.expand(value, inExpression: self)
+                let prefix = (self.objectIsListOfKeyValuePairs(value) &&
+                    variableSpecifier.hasExplodeModifier ? "" : variableSpecifier.name + "=")
+
+                return prefix + variableSpecifier.expand(value, inExpression: self)
             }
             
             return (definedSpecifiers.count > 0 ? "?" : "") + join("&", values)
@@ -274,8 +277,10 @@ public enum TemplateExpression: DebugPrintable {
                     return variableSpecifier.name + "="
                 }
 
-                return (self.objectIsListOfKeyValuePairs(value) ? "" : variableSpecifier.name + "=") +
-                    variableSpecifier.expand(value, inExpression: self)
+                let prefix = (self.objectIsListOfKeyValuePairs(value) &&
+                    variableSpecifier.hasExplodeModifier ? "" : variableSpecifier.name + "=")
+
+                return prefix + variableSpecifier.expand(value, inExpression: self)
             }
 
             return (definedSpecifiers.count > 0 ? "&" : "") + join("&", values)

@@ -124,13 +124,13 @@ public struct VariableSpecifier: DebugPrintable {
                 return ","
 
             case .PathStyle:
-                return "="
+                return ","
                 
             case .FormStyleQuery:
-                return "="
+                return ","
                 
             case .FormStyleQueryContinuation:
-                return "="
+                return ","
             }
         }
     }
