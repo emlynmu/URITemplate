@@ -79,12 +79,7 @@ public struct VariableSpecifier: DebugPrintable {
     }
 
     private func keyValueSeparatorWithExplodeModifier(explodeModifier: Bool) -> String {
-        if explodeModifier {
-            return "="
-        }
-        else {
-            return ","
-        }
+        return explodeModifier ? "=" : ","
     }
 
     private func allowedCharactersForExpression(expression: TemplateExpression) -> [CharacterClass] {
