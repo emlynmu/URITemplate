@@ -12,6 +12,20 @@ public struct VariableSpecifier: DebugPrintable {
     public let name: String
     public let valueModifier: ValueModifier?
 
+    var hasExplodeModifier: Bool {
+        if let valueModifier = valueModifier {
+            switch valueModifier {
+            case .Composite:
+                return true
+
+            default:
+                break
+            }
+        }
+
+        return false
+    }
+
     public init(name: String, valueModifier: ValueModifier?) {
         self.name = name
         self.valueModifier = valueModifier
