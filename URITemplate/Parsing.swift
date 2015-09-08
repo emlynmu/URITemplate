@@ -1,3 +1,18 @@
+/// Swift Migrator:
+///
+/// This file contains one or more places using either an index
+/// or a range with ArraySlice. While in Swift 1.2 ArraySlice
+/// indices were 0-based, in Swift 2.0 they changed to match the
+/// the indices of the original array.
+///
+/// The Migrator wrapped the places it found in a call to the
+/// following function, please review all call sites and fix
+/// incides if necessary.
+@available(*, deprecated=2.0, message="Swift 2.0 migration: Review possible 0-based index")
+private func __reviewIndex__<T>(value: T) -> T {
+    return value
+}
+
 //
 //  Parsing.swift
 //  URITemplate
@@ -12,12 +27,12 @@ public typealias Remainder = ArraySlice<Character>
 public typealias ConsumeResult = (Token, Remainder)
 
 func split<T>(slice: ArraySlice<T>, atIndex index: Int) -> (ArraySlice<T>, ArraySlice<T>) {
-    return (slice[0...index], slice[(index + 1)..<slice.count])
+    return (slice[__reviewIndex__(0...index)], slice[__reviewIndex__((index + 1)..<slice.count)])
 }
 
 func findExpressionBoundary(templateSlice: ArraySlice<Character>,
     character: ExpressionBoundary) -> Int? {
-        if let end = find(templateSlice, character.rawValue) {
+        if let end = __reviewIndex__(templateSlice.indexOf(character.rawValue)) {
             return end
         }
 
@@ -25,8 +40,8 @@ func findExpressionBoundary(templateSlice: ArraySlice<Character>,
 }
 
 func findExpressionBoundary(templateSlice: ArraySlice<Character>) -> (start: Int, end: Int)? {
-    if let s = findExpressionBoundary(templateSlice, ExpressionBoundary.Start) {
-        if let e = findExpressionBoundary(templateSlice[1..<templateSlice.count], .End) {
+    if let s = findExpressionBoundary(templateSlice, character: ExpressionBoundary.Start) {
+        if let e = findExpressionBoundary(templateSlice[__reviewIndex__(1..<templateSlice.count)], character: .End) {
             return (start: s, end: e)
         }
     }
@@ -36,19 +51,19 @@ func findExpressionBoundary(templateSlice: ArraySlice<Character>) -> (start: Int
 
 public func parseVariableSpecifier(templateSlice: ArraySlice<Character>) -> VariableSpecifier {
     if templateSlice.count >= 2, let lastCharacter = templateSlice.last where lastCharacter == "*" {
-        if find(templateSlice, ":") != nil {
+        if __reviewIndex__(templateSlice.indexOf(":")) != nil {
             return VariableSpecifier(name: String(templateSlice), valueModifier: nil)
         }
 
-        let name = String(templateSlice[0 ..< templateSlice.count - 1])
+        let name = String(templateSlice[__reviewIndex__(0 ..< templateSlice.count - 1)])
         return VariableSpecifier(name: name,
             valueModifier: ValueModifier.Composite)
     }
 
-    let specifierParts = split(templateSlice, isSeparator: { $0 == ":" })
+    let specifierParts = templateSlice.split(isSeparator: { $0 == ":" })
 
     if specifierParts.count == 2 {
-        if let length = String(specifierParts[1]).toInt() where length < 10000 {
+        if let length = Int(String(specifierParts[1])) where length < 10000 {
             return VariableSpecifier(name: String(specifierParts[0]),
                 valueModifier: ValueModifier.Prefix(length))
         }
@@ -58,7 +73,7 @@ public func parseVariableSpecifier(templateSlice: ArraySlice<Character>) -> Vari
 }
 
 func splitVariableSpecifiers(templateSlice: ArraySlice<Character>) -> [ArraySlice<Character>] {
-    let variables =  split(templateSlice, isSeparator: { $0 == "," })
+    let variables =  templateSlice.split(isSeparator: { $0 == "," })
     return variables.map({ return $0 })
 }
 
@@ -67,12 +82,12 @@ public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? 
         return nil
     }
 
-    if let expressionOperator = ExpressionOperator(rawValue: templateSlice[0]) {
+    if let expressionOperator = ExpressionOperator(rawValue: templateSlice[templateSlice.startIndex]) {
         if templateSlice.count < 2 {
             return nil
         }
 
-        let specifierSlices = splitVariableSpecifiers(templateSlice[1 ..< templateSlice.count])
+        let specifierSlices = splitVariableSpecifiers(templateSlice[__reviewIndex__(1 ..< templateSlice.count)])
         let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
 
         switch expressionOperator {
@@ -107,9 +122,9 @@ public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? 
 public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
     if let first = templateSlice.first,
         boundary = ExpressionBoundary(rawValue: first) where boundary == .Start {
-            if let end = findExpressionBoundary(templateSlice, .End) where end >= 2 {
+            if let end = findExpressionBoundary(templateSlice, character: .End) where end >= 2 {
                 let (token, remainder) = split(templateSlice, atIndex: end)
-                let tokenBody = token[1 ..< (token.count - 1)]
+                let tokenBody = token[__reviewIndex__(1 ..< (token.count - 1))]
 
                 if let token = parseExpressionBody(tokenBody) {
                     return (token, remainder)
@@ -131,8 +146,8 @@ public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResul
 
     let literalSlice: ArraySlice<Character>
 
-    if let boundary = findExpressionBoundary(templateSlice[1 ..< templateSlice.count]) {
-        literalSlice = templateSlice[0 ..< boundary.start + 1]
+    if let boundary = findExpressionBoundary(templateSlice[__reviewIndex__(1 ..< templateSlice.count)]) {
+        literalSlice = templateSlice[__reviewIndex__(0 ..< boundary.start + 1)]
     }
     else {
         literalSlice = templateSlice
@@ -141,10 +156,10 @@ public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResul
     let remainder: ArraySlice<Character>
 
     if literalSlice.count < templateSlice.count {
-        remainder = templateSlice[literalSlice.count ..< templateSlice.count]
+        remainder = templateSlice[__reviewIndex__(literalSlice.count ..< templateSlice.count)]
     }
     else {
-        remainder = ArraySlice("")
+        remainder = ArraySlice(arrayLiteral: "")
     }
 
     return (Token.Literal(String(literalSlice)), remainder)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
+public enum TemplateExpression: CustomDebugStringConvertible, URITemplateExpandable {
     case SimpleString([VariableSpecifier])
     case Reserved([VariableSpecifier])
     case Fragment([VariableSpecifier])
@@ -47,7 +47,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
     }
 
     private func objectIsEmptyString(value: AnyObject) -> Bool {
-        if let string = value as? String where count(string) == 0 {
+        if let string = value as? String where string.characters.count == 0 {
             return true
         }
 
@@ -56,7 +56,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
 
     private func objectIsEmptyList(value: AnyObject) -> Bool {
         if let list = value as? [AnyObject] {
-            if count(list) == 0 {
+            if list.count == 0 {
                 return true
             }
         }
@@ -89,7 +89,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                             case .Composite:
                                 if let keyValuePairs = values as? [[AnyObject]] {
                                     for pair in keyValuePairs {
-                                        if count(keyValuePairs) >= 2 {
+                                        if keyValuePairs.count >= 2 {
                                             return true
                                         }
                                     }
@@ -104,7 +104,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                             return true
                         }
                     }
-                    else if count(value.description) > 0 {
+                    else if (value.description).characters.count > 0 {
                         return true
                     }
                 }
@@ -123,7 +123,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                     inExpression: self)
             }
 
-            return join(",", values)
+            return values.joinWithSeparator(",")
 
         case .Reserved(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values)
@@ -133,7 +133,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                     inExpression: self)
             }
 
-            return join(",", values)
+            return values.joinWithSeparator(",")
 
         case .Fragment(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values)
@@ -143,7 +143,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                     inExpression: self)
             }
 
-            return (definedSpecifiers.count > 0 ? "#" : "") + join(",", values)
+            return (definedSpecifiers.count > 0 ? "#" : "") + values.joinWithSeparator(",")
 
         case .Label(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
@@ -154,7 +154,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                     inExpression: self)
             }
 
-            return (definedSpecifiers.count > 0 ? "." : "") + join(".", values)
+            return (definedSpecifiers.count > 0 ? "." : "") + values.joinWithSeparator(".")
 
         case .PathSegment(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
@@ -165,7 +165,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                     inExpression: self)
             }
 
-            return (definedSpecifiers.count > 0 ? "/" : "") + join("/", values)
+            return (definedSpecifiers.count > 0 ? "/" : "") + values.joinWithSeparator("/")
 
         case .PathStyle(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
@@ -184,7 +184,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                 return prefix + variableSpecifier.expand(value, inExpression: self)
             }
 
-            return join("", values)
+            return values.joinWithSeparator("")
 
         case .FormStyleQuery(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
@@ -203,7 +203,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                 return prefix + variableSpecifier.expand(value, inExpression: self)
             }
             
-            return (definedSpecifiers.count > 0 ? "?" : "") + join("&", values)
+            return (definedSpecifiers.count > 0 ? "?" : "") + values.joinWithSeparator("&")
             
         case .FormStyleQueryContinuation(let variableSpecifiers):
             let definedSpecifiers = definedVariableSpecifiers(variableSpecifiers, values: values,
@@ -222,7 +222,7 @@ public enum TemplateExpression: DebugPrintable, URITemplateExpandable {
                 return prefix + variableSpecifier.expand(value, inExpression: self)
             }
 
-            return (definedSpecifiers.count > 0 ? "&" : "") + join("&", values)
+            return (definedSpecifiers.count > 0 ? "&" : "") + values.joinWithSeparator("&")
         }
     }
 }

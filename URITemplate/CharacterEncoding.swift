@@ -13,7 +13,7 @@ public enum CharacterClass: String {
     case Reserved = ":/?#[]@!$&'()*+,;="
 
     func contains(unicodeScaler: UnicodeScalar) -> Bool {
-        return find(rawValue.unicodeScalars, unicodeScaler) != nil
+        return rawValue.unicodeScalars.indexOf(unicodeScaler) != nil
     }
 }
 
@@ -23,7 +23,7 @@ public func percentEncodeUnicodeScalar(scalar: UnicodeScalar) -> String {
 
 public func percentEncodeString(string: String,
     allowCharacters allowed: [CharacterClass]) -> String {
-        return map(string.unicodeScalars, { (scalar) -> String in
+        return string.unicodeScalars.map({ (scalar) -> String in
             return allowed.reduce(false, combine: { (result, characterClass) in
                 result ||
                     characterClass.contains(scalar) } ) ?
