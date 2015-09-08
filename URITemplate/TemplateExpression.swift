@@ -65,7 +65,7 @@ public enum TemplateExpression: CustomDebugStringConvertible, URITemplateExpanda
     }
 
     private func objectIsListOfKeyValuePairs(value: AnyObject?) -> Bool {
-        if let keyValuePairs = value as? [[AnyObject]] {
+        if let _ = value as? [[AnyObject]] {
             return true
         }
 
@@ -88,7 +88,7 @@ public enum TemplateExpression: CustomDebugStringConvertible, URITemplateExpanda
                             switch modifier {
                             case .Composite:
                                 if let keyValuePairs = values as? [[AnyObject]] {
-                                    for pair in keyValuePairs {
+                                    for _ in keyValuePairs {
                                         if keyValuePairs.count >= 2 {
                                             return true
                                         }
