@@ -49,7 +49,6 @@ class ParsingTests: XCTestCase {
     func testParseVariableSpecifierNoModifier() {
         let variableSpecifierString = "term"
         let expectedVariableName = "term"
-        let expectedPrefixLength = 1
         let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
@@ -60,7 +59,6 @@ class ParsingTests: XCTestCase {
     func testParseCompositeModifier() {
         let variableSpecifierString = "terms*"
         let expectedVariableName = "terms"
-        let expectedPrefixLength = 1
         let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
