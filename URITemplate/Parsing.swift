@@ -136,7 +136,7 @@ public func consumeExpression(templateSlice: ArraySlice<Character>) -> ConsumeRe
 }
 
 public func consumeExpression(string: String) -> ConsumeResult? {
-    return consumeExpression(Remainder(string))
+    return consumeExpression(Remainder(string.characters))
 }
 
 public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResult? {
@@ -159,14 +159,14 @@ public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResul
         remainder = templateSlice[__reviewIndex__(literalSlice.count ..< templateSlice.count)]
     }
     else {
-        remainder = ArraySlice(arrayLiteral: "")
+        remainder = ArraySlice("".characters)
     }
 
     return (Token.Literal(String(literalSlice)), remainder)
 }
 
 public func consumeLiteral(string: String) -> ConsumeResult? {
-    return consumeLiteral(ArraySlice<Character>(string))
+    return consumeLiteral(ArraySlice<Character>(string.characters))
 }
 
 public func consumeToken(templateSlice: ArraySlice<Character>) -> (Token, Remainder)? {
@@ -189,5 +189,5 @@ public func tokenize(templateSlice: ArraySlice<Character>, tokens: [Token] = [])
 }
 
 public func tokenize(templateString: String) -> [Token] {
-    return tokenize(ArraySlice<Character>(templateString))
+    return tokenize(ArraySlice<Character>(templateString.characters))
 }

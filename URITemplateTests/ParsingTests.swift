@@ -16,7 +16,7 @@ class ParsingTests: XCTestCase {
         let variableSpecifierString = "term:1"
         let expectedVariableName = "term"
         let expectedPrefixLength = 1
-        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
             "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
@@ -39,7 +39,7 @@ class ParsingTests: XCTestCase {
     func testParseVariableSpecifierWithTooLongPrefixModifier() {
         let variableSpecifierString = "term:10000"
         let expectedVariableName = "term:10000"
-        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
             "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
@@ -50,7 +50,7 @@ class ParsingTests: XCTestCase {
         let variableSpecifierString = "term"
         let expectedVariableName = "term"
         let expectedPrefixLength = 1
-        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
             "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
@@ -61,7 +61,7 @@ class ParsingTests: XCTestCase {
         let variableSpecifierString = "terms*"
         let expectedVariableName = "terms"
         let expectedPrefixLength = 1
-        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
             "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
@@ -83,7 +83,7 @@ class ParsingTests: XCTestCase {
     func testParseVariableSpecifierWithPrefixModifierAndCompositeModifier() {
         let variableSpecifierString = "term:1*"
         let expectedVariableName = "term:1*"
-        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString))
+        let result = parseVariableSpecifier(ArraySlice<Character>(variableSpecifierString.characters))
 
         XCTAssert(expectedVariableName == result.name,
             "expected \"\(expectedVariableName)\"; got \"\(result.name)\"")
@@ -315,34 +315,34 @@ class ParsingTests: XCTestCase {
     // MARK: - consumeToken: Reserved
 
     func testConsumeTokenEmptyReserved() {
-        let result = consumeToken(ArraySlice("{+}"))
+        let result = consumeToken(ArraySlice("{+}".characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{+}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenReserved() {
         let template = "{+hello}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsReserved(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenReservedWithLiteral() {
         let template = "{+abc}def"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeTokenFirstOfTwoReserveds() {
         let template = "{+abc}{+def}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsReserved(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
 
     func testConsumeTokenLiteralAndReserved() {
-        let result = consumeToken(ArraySlice("abc{+def}"))
+        let result = consumeToken(ArraySlice("abc{+def}".characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{+def}"))
     }
@@ -351,33 +351,33 @@ class ParsingTests: XCTestCase {
 
     func testConsumeTokenSimpleString() {
         let template = "{hello}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsSimpleString(result, withText: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenSimpleStringWithLiteral() {
         let template = "{abc}def"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "def"))
     }
 
     func testConsumeTokenFirstOfTwoSimpleStrings() {
         let template = "{abc}{def}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsSimpleString(result, withText: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
 
     func testConsumeTokenLiteralAndSimpleString() {
-        let result = consumeToken(ArraySlice("abc{def}"))
+        let result = consumeToken(ArraySlice("abc{def}".characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "abc"))
         XCTAssert(consumeResult(result, hasRemainder: "{def}"))
     }
 
     func testConsumeTokenEmptySimpleString() {
-        let result = consumeToken(ArraySlice("{}"))
+        let result = consumeToken(ArraySlice("{}".characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
@@ -386,76 +386,76 @@ class ParsingTests: XCTestCase {
 
     func testConsumeTokenOnlyOpenExpression() {
         let template = "{"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenOnlyCloseExpression() {
         let template = "}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralOnlySucceed() {
         let template = "hello"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralWithSimpleString() {
         let template = "hello{there}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello"))
         XCTAssert(consumeResult(result, hasRemainder: "{there}"))
     }
 
     func testConsumeTokenLiteralEmpty() {
         let template = ""
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(result == nil)
     }
 
     func testConsumeTokenLiteralWithStrayExpressionOpen() {
         let template = "hello{there"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenBeginLiteralWithStrayExpressionOpen() {
         let template = "{hello"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "{hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenEndLiteralWithStrayExpressionOpen() {
         let template = "hello{"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello{"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenLiteralWithStrayExpressionClose() {
         let template = "hello}there"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}there"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenBeginLiteralWithStrayExpressionClose() {
         let template = "}hello"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "}hello"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
 
     func testConsumeTokenEndLiteralWithStrayExpressionClose() {
         let template = "hello}"
-        let result = consumeToken(ArraySlice(template))
+        let result = consumeToken(ArraySlice(template.characters))
         XCTAssert(consumeResultIsLiteral(result, withValue: "hello}"))
         XCTAssert(consumeResult(result, hasRemainder: ""))
     }
