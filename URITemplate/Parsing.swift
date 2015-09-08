@@ -26,8 +26,10 @@ func findExpressionBoundary(templateSlice: ArraySlice<Character>,
 
 func findExpressionBoundary(templateSlice: ArraySlice<Character>) -> (start: Int, end: Int)? {
     if let s = findExpressionBoundary(templateSlice, character: ExpressionBoundary.Start) {
-        if let e = findExpressionBoundary(templateSlice[templateSlice.startIndex + 1..<templateSlice.endIndex], character: .End) {
-            return (start: s, end: e)
+        if let e = findExpressionBoundary(
+            templateSlice[templateSlice.startIndex + 1 ..< templateSlice.endIndex],
+            character: .End) {
+                return (start: s, end: e)
         }
     }
 
@@ -67,36 +69,38 @@ public func parseExpressionBody(templateSlice: ArraySlice<Character>) -> Token? 
         return nil
     }
 
-    if let expressionOperator = ExpressionOperator(rawValue: templateSlice[templateSlice.startIndex]) {
-        if templateSlice.count < 2 {
-            return nil
-        }
+    if let expressionOperator = ExpressionOperator(rawValue:
+        templateSlice[templateSlice.startIndex]) {
+            if templateSlice.count < 2 {
+                return nil
+            }
 
-        let specifierSlices = splitVariableSpecifiers(templateSlice[templateSlice.startIndex + 1 ..< templateSlice.endIndex])
-        let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
+            let specifierSlices = splitVariableSpecifiers(
+                templateSlice[templateSlice.startIndex + 1 ..< templateSlice.endIndex])
+            let variableSpecifiers = specifierSlices.map({ parseVariableSpecifier($0) })
 
-        switch expressionOperator {
-        case .Reserved:
-            return Token.Expression(TemplateExpression.Reserved(variableSpecifiers))
+            switch expressionOperator {
+            case .Reserved:
+                return Token.Expression(.Reserved(variableSpecifiers))
 
-        case .Fragment:
-            return Token.Expression(TemplateExpression.Fragment(variableSpecifiers))
+            case .Fragment:
+                return Token.Expression(.Fragment(variableSpecifiers))
 
-        case .Label:
-            return Token.Expression(TemplateExpression.Label(variableSpecifiers))
+            case .Label:
+                return Token.Expression(.Label(variableSpecifiers))
 
-        case .PathSegment:
-            return Token.Expression(TemplateExpression.PathSegment(variableSpecifiers))
+            case .PathSegment:
+                return Token.Expression(.PathSegment(variableSpecifiers))
 
-        case .PathStyle:
-            return Token.Expression(TemplateExpression.PathStyle(variableSpecifiers))
+            case .PathStyle:
+                return Token.Expression(.PathStyle(variableSpecifiers))
 
-        case .FormStyleQuery:
-            return Token.Expression(TemplateExpression.FormStyleQuery(variableSpecifiers))
+            case .FormStyleQuery:
+                return Token.Expression(.FormStyleQuery(variableSpecifiers))
 
-        case .FormStyleQueryContinuation:
-            return Token.Expression(TemplateExpression.FormStyleQueryContinuation(variableSpecifiers))
-        }
+            case .FormStyleQueryContinuation:
+                return Token.Expression(.FormStyleQueryContinuation(variableSpecifiers))
+            }
     }
 
     let specifierSlices = splitVariableSpecifiers(templateSlice)
@@ -131,8 +135,9 @@ public func consumeLiteral(templateSlice: ArraySlice<Character>) -> ConsumeResul
 
     let literalSlice: ArraySlice<Character>
 
-    if let boundary = findExpressionBoundary(templateSlice[(templateSlice.startIndex + 1) ..< templateSlice.endIndex]) {
-        literalSlice = templateSlice[templateSlice.startIndex ..< boundary.start]
+    if let boundary = findExpressionBoundary(
+        templateSlice[(templateSlice.startIndex + 1) ..< templateSlice.endIndex]) {
+            literalSlice = templateSlice[templateSlice.startIndex ..< boundary.start]
     }
     else {
         literalSlice = templateSlice
@@ -169,7 +174,7 @@ public func tokenize(templateSlice: ArraySlice<Character>, tokens: [Token] = [])
     if let (token, remainder) = consumeToken(templateSlice) {
         return tokenize(remainder, tokens: tokens + [token])
     }
-
+    
     return tokens
 }
 
