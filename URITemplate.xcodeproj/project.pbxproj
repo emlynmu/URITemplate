@@ -29,6 +29,7 @@
 		7562BE301B9349A600F81775 /* FormStyleQueryExpansionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE2F1B9349A600F81775 /* FormStyleQueryExpansionTests.swift */; };
 		7562BE321B934B9400F81775 /* FormStyleQueryContinuationExpansionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE311B934B9400F81775 /* FormStyleQueryContinuationExpansionTests.swift */; };
 		7562BE341B93549D00F81775 /* SimpleStringExpansionExplodeListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE331B93549D00F81775 /* SimpleStringExpansionExplodeListTests.swift */; };
+		7574F4911BB3EFBB00672434 /* OCRFC6570Level1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */; settings = {ASSET_TAGS = (); }; };
 		75AE80AD1B945FFF00AF525D /* FormStyleQueryContinuationExpansionExplodeListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE80AC1B945FFF00AF525D /* FormStyleQueryContinuationExpansionExplodeListTests.swift */; };
 		75BB06481B8B2B0D008C9ADC /* ValueModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06471B8B2B0D008C9ADC /* ValueModifiers.swift */; };
 		75BB064A1B8C7018008C9ADC /* VariableSpecifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06491B8C7018008C9ADC /* VariableSpecifier.swift */; };
@@ -79,6 +80,8 @@
 		7562BE2F1B9349A600F81775 /* FormStyleQueryExpansionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormStyleQueryExpansionTests.swift; sourceTree = "<group>"; };
 		7562BE311B934B9400F81775 /* FormStyleQueryContinuationExpansionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FormStyleQueryContinuationExpansionTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		7562BE331B93549D00F81775 /* SimpleStringExpansionExplodeListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleStringExpansionExplodeListTests.swift; sourceTree = "<group>"; };
+		7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCRFC6570Level1Tests.m; sourceTree = "<group>"; };
+		7574F4921BB3F31A00672434 /* URITemplateTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "URITemplateTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		75AE80AC1B945FFF00AF525D /* FormStyleQueryContinuationExpansionExplodeListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FormStyleQueryContinuationExpansionExplodeListTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		75BB06471B8B2B0D008C9ADC /* ValueModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueModifiers.swift; sourceTree = "<group>"; };
 		75BB06491B8C7018008C9ADC /* VariableSpecifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VariableSpecifier.swift; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				753A1DF21B9CA261000D91D1 /* RFC6570Level1Tests.swift */,
+				7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */,
 				753A1DF31B9CA261000D91D1 /* RFC6570Level2Tests.swift */,
 				753A1DF41B9CA261000D91D1 /* RFC6570Level3Tests.swift */,
 				753A1DF51B9CA261000D91D1 /* RFC6570Level4Tests.swift */,
@@ -216,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				75E93D461B76928E00BAB4E3 /* Info.plist */,
+				7574F4921BB3F31A00672434 /* URITemplateTests-Bridging-Header.h */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				7562BE281B933B5600F81775 /* ReservedExpansionTests.swift in Sources */,
 				753A1DF71B9CA261000D91D1 /* RFC6570Level1Tests.swift in Sources */,
 				7562BE201B9332D300F81775 /* FragmentTests.swift in Sources */,
+				7574F4911BB3EFBB00672434 /* OCRFC6570Level1Tests.m in Sources */,
 				7562BE2E1B9344A000F81775 /* PathStyleExpansionTests.swift in Sources */,
 				753781791B939584009EAB26 /* FragmentExpansionExplodeListTests.swift in Sources */,
 				7562BE2A1B933CC600F81775 /* LabelExpansionTests.swift in Sources */,
@@ -513,6 +519,7 @@
 		75E93D4F1B76928E00BAB4E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -522,17 +529,21 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nitemotif.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = URITemplateTests;
+				SWIFT_OBJC_BRIDGING_HEADER = "URITemplateTests/Supporting Files/URITemplateTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		75E93D501B76928E00BAB4E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "URITemplateTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nitemotif.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = URITemplateTests;
+				SWIFT_OBJC_BRIDGING_HEADER = "URITemplateTests/Supporting Files/URITemplateTests-Bridging-Header.h";
 			};
 			name = Release;
 		};

@@ -14,11 +14,15 @@ public protocol URITemplateExpandable {
     func expand(values: URITemplateValues) -> String
 }
 
-public struct URITemplate: URITemplateExpandable {
+public class URITemplate: NSObject, URITemplateExpandable {
     private let tokens: [Token]
 
-    public init(string: CustomStringConvertible) {
-        tokens = tokenize(string.description)
+    public init(string: String) {
+        tokens = tokenize(string)
+    }
+
+    public static func templateWithString(string: String) -> URITemplate {
+        return URITemplate(string: string)
     }
 
     public init(tokens: [Token]) {
