@@ -38,7 +38,7 @@
 		75CCD9381B7C005000A508F1 /* LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9371B7C005000A508F1 /* LabelTests.swift */; };
 		75CCD93A1B7C37E000A508F1 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9391B7C37E000A508F1 /* Token.swift */; };
 		75CCD93C1B7CA91100A508F1 /* ExpressionCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */; };
-		75CCEC4C1BB3F39500E46754 /* RFC6570Level2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4B1BB3F39500E46754 /* RFC6570Level2Tests.m */; settings = {ASSET_TAGS = (); }; };
+		75CCEC4C1BB3F39500E46754 /* OCRFC6570Level2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4B1BB3F39500E46754 /* OCRFC6570Level2Tests.m */; settings = {ASSET_TAGS = (); }; };
 		75E93D3B1B76928E00BAB4E3 /* URITemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E93D3A1B76928E00BAB4E3 /* URITemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75E93D411B76928E00BAB4E3 /* URITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E93D351B76928E00BAB4E3 /* URITemplate.framework */; };
 		75E93D5A1B7692A800BAB4E3 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D571B7692A800BAB4E3 /* URITemplate.swift */; };
@@ -91,7 +91,7 @@
 		75CCD9371B7C005000A508F1 /* LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LabelTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		75CCD9391B7C37E000A508F1 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Token.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ExpressionCharacters.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		75CCEC4B1BB3F39500E46754 /* RFC6570Level2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFC6570Level2Tests.m; sourceTree = "<group>"; };
+		75CCEC4B1BB3F39500E46754 /* OCRFC6570Level2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCRFC6570Level2Tests.m; sourceTree = "<group>"; };
 		75E93D351B76928E00BAB4E3 /* URITemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URITemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E93D391B76928E00BAB4E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E93D3A1B76928E00BAB4E3 /* URITemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URITemplate.h; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 				753A1DF21B9CA261000D91D1 /* RFC6570Level1Tests.swift */,
 				7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */,
 				753A1DF31B9CA261000D91D1 /* RFC6570Level2Tests.swift */,
-				75CCEC4B1BB3F39500E46754 /* RFC6570Level2Tests.m */,
+				75CCEC4B1BB3F39500E46754 /* OCRFC6570Level2Tests.m */,
 				753A1DF41B9CA261000D91D1 /* RFC6570Level3Tests.swift */,
 				753A1DF51B9CA261000D91D1 /* RFC6570Level4Tests.swift */,
 				753A1DF61B9CA261000D91D1 /* RFC6570OverviewTests.swift */,
@@ -373,7 +373,7 @@
 				753781791B939584009EAB26 /* FragmentExpansionExplodeListTests.swift in Sources */,
 				7562BE2A1B933CC600F81775 /* LabelExpansionTests.swift in Sources */,
 				753781771B9394C8009EAB26 /* ReservedExpansionExplodeListTests.swift in Sources */,
-				75CCEC4C1BB3F39500E46754 /* RFC6570Level2Tests.m in Sources */,
+				75CCEC4C1BB3F39500E46754 /* OCRFC6570Level2Tests.m in Sources */,
 				753A1DFA1B9CA261000D91D1 /* RFC6570Level4Tests.swift in Sources */,
 				7562BE2C1B93421F00F81775 /* PathSegmentExpansionTests.swift in Sources */,
 				75CCD9321B7BFEDE00A508F1 /* SimpleStringTests.swift in Sources */,

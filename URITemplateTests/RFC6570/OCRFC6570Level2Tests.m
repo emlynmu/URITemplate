@@ -1,5 +1,5 @@
 //
-//  RFC6570Level2Tests.m
+//  OCRFC6570Level2Tests.m
 //  URITemplate
 //
 //  Created by Emlyn Murphy on 9/24/15.
@@ -14,13 +14,13 @@
 #import <XCTest/XCTest.h>
 #import <URITemplate/URITemplate.h>
 
-@interface RFC6570Level2Tests : XCTestCase
+@interface OCRFC6570Level2Tests : XCTestCase
 
 @property (nonatomic, strong) NSDictionary *values;
 
 @end
 
-@implementation RFC6570Level2Tests
+@implementation OCRFC6570Level2Tests
 
 - (void)setUp {
     [super setUp];
