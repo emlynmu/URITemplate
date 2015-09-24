@@ -5,6 +5,11 @@
 //  Created by Emlyn Murphy on 9/24/15.
 //  Copyright © 2015 Emlyn Murphy. All rights reserved.
 //
+//
+//  Level 2 examples from RFC 6570
+//
+//  URL: https://tools.ietf.org/html/rfc6570
+//
 
 #import <XCTest/XCTest.h>
 #import <URITemplate/URITemplate.h>
