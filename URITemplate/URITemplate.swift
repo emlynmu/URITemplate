@@ -17,7 +17,7 @@ public protocol URITemplateExpandable {
 public struct URITemplate: URITemplateExpandable {
     private let tokens: [Token]
 
-    public init(_ value: Printable) {
+    public init(_ value: CustomStringConvertible) {
         tokens = tokenize(value.description)
     }
 
@@ -26,6 +26,6 @@ public struct URITemplate: URITemplateExpandable {
     }
 
     public func expand(values: URITemplateValues) -> String {
-        return join("", tokens.map({ $0.expand(values) }))
+        return tokens.map({ $0.expand(values) }).joinWithSeparator("")
     }
 }

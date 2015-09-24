@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ValueModifier: DebugPrintable {
+public enum ValueModifier: CustomDebugStringConvertible {
     case Prefix(Int)
     case Composite
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct VariableSpecifier: DebugPrintable {
+public struct VariableSpecifier: CustomDebugStringConvertible {
     public let name: String
     public let valueModifier: ValueModifier?
 
@@ -100,7 +100,7 @@ public struct VariableSpecifier: DebugPrintable {
             case .Prefix(let length):
                 let valueString = value.description
                 let startIndex = valueString.startIndex
-                let endIndex = advance(startIndex, min(length, count(valueString)))
+                let endIndex = startIndex.advancedBy(min(length, valueString.characters.count))
                 modifiedValue = valueString[startIndex ..< endIndex]
 
             default:
@@ -116,25 +116,25 @@ public struct VariableSpecifier: DebugPrintable {
     }
 
     private func extractKeyValuePairs(keyValuePairs: [[AnyObject]]) -> [(String, String)] {
-        return keyValuePairs.filter({ count($0) >= 2 }).map({ ($0[0].description, $0[1].description) })
+        return keyValuePairs.filter({ $0.count >= 2 }).map({ ($0[0].description, $0[1].description) })
     }
 
     private func explodeKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
         let separator = listSeparator(expression, keyValuePairs: true)
 
-        return separator.join(extractKeyValuePairs(keyValuePairs).map({
+        return extractKeyValuePairs(keyValuePairs).map({
             return ($0.0 ?? "") + self.keyValueSeparatorWithExplodeModifier(true) +
                 percentEncodeString($0.1 ?? "",
                     allowCharacters: self.allowedCharactersForExpression(expression))
-        }))
+        }).joinWithSeparator(separator)
     }
 
     private func flattenKeyValuePairs(keyValuePairs: [[AnyObject]], inExpression expression: TemplateExpression) -> String {
-        return ",".join(extractKeyValuePairs(keyValuePairs).map({
+        return extractKeyValuePairs(keyValuePairs).map({
             return $0.0 + self.keyValueSeparatorWithExplodeModifier(false) +
                 percentEncodeString($0.1 ?? "",
                     allowCharacters: self.allowedCharactersForExpression(expression))
-        }))
+        }).joinWithSeparator(",")
     }
 
     public func expand(value: AnyObject?, inExpression expression: TemplateExpression) -> String {

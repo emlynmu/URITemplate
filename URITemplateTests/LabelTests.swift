@@ -42,11 +42,6 @@ class LabelTests: XCTestCase {
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
-    func testDomainNameLabelValueExpansion() {
-        let template = URITemplate("www{.host}.com")
-        let expected = "www.monkey.com"
-    }
-
     func testEmpty() {
         let template = URITemplate("X{.empty}")
         let expected = "X."

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Token: DebugPrintable, URITemplateExpandable {
+public enum Token: CustomDebugStringConvertible, URITemplateExpandable {
     case Literal(String)
     case Expression(TemplateExpression)
 
