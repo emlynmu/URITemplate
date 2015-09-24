@@ -11,7 +11,7 @@ import URITemplate
 
 class ReservedTests: XCTestCase {
     func testReservedEncoding() {
-        let template = URITemplate("here?ref={+path}")
+        let template = URITemplate(string: "here?ref={+path}")
         let expected = "here?ref=/foo/bar"
         let result = template.expand(["path": "/foo/bar"])
 
@@ -19,7 +19,7 @@ class ReservedTests: XCTestCase {
     }
 
     func testSimpleStringEncoding() {
-        let template = URITemplate("here?ref={path}")
+        let template = URITemplate(string: "here?ref={path}")
         let expected = "here?ref=%2Ffoo%2Fbar"
         let result = template.expand(["path": "/foo/bar"])
 
@@ -27,7 +27,7 @@ class ReservedTests: XCTestCase {
     }
 
     func testMixedReservedEncoding() {
-        let template = URITemplate("here?ref={+path}{b}{+c}")
+        let template = URITemplate(string: "here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff/g/h/i"
         let result = template.expand(["path": "/foo/bar", "b": "/d/e/f", "c": "/g/h/i"])
 
@@ -35,7 +35,7 @@ class ReservedTests: XCTestCase {
     }
 
     func testMultipleMixedReservedEncoding() {
-        let template = URITemplate("here?ref={+path}{b}{+c}")
+        let template = URITemplate(string: "here?ref={+path}{b}{+c}")
         let expected = "here?ref=/foo/bar%2Fd%2Fe%2Ff,%2Fg%2Fh%2Fi/j/k/l"
         let result = template.expand(["path": "/foo/bar", "b": ["/d/e/f", "/g/h/i"], "c": "/j/k/l"])
 

@@ -37,7 +37,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - String expansion with value modifiers
 
     func testStringExpansionWithValueModifiers1() {
-        let template = URITemplate("{var:3}")
+        let template = URITemplate(string: "{var:3}")
         let expected = "val"
         let result = template.expand(values)
 
@@ -45,7 +45,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testStringExpansionWithValueModifiers2() {
-        let template = URITemplate("{var:30}")
+        let template = URITemplate(string: "{var:30}")
         let expected = "value"
         let result = template.expand(values)
 
@@ -53,7 +53,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testStringExpansionWithValueModifiers3() {
-        let template = URITemplate("{list}")
+        let template = URITemplate(string: "{list}")
         let expected = "red,green,blue"
         let result = template.expand(values)
 
@@ -61,7 +61,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testStringExpansionWithValueModifiers4() {
-        let template = URITemplate("{list*}")
+        let template = URITemplate(string: "{list*}")
         let expected = "red,green,blue"
         let result = template.expand(values)
 
@@ -69,7 +69,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testStringExpansionWithValueModifiers5() {
-        let template = URITemplate("{keys}")
+        let template = URITemplate(string: "{keys}")
         let expected = "semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -77,7 +77,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testStringExpansionWithValueModifiers6() {
-        let template = URITemplate("{keys*}")
+        let template = URITemplate(string: "{keys*}")
         let expected = "semi=%3B,dot=.,comma=%2C"
         let result = template.expand(values)
 
@@ -87,7 +87,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Reserved expansion with value modifiers
 
     func testReservedExpansionWithValueModifiers1() {
-        let template = URITemplate("{+path:6}/here")
+        let template = URITemplate(string: "{+path:6}/here")
         let expected = "/foo/b/here"
         let result = template.expand(values)
 
@@ -95,7 +95,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testReservedExpansionWithValueModifiers2() {
-        let template = URITemplate("{+list}")
+        let template = URITemplate(string: "{+list}")
         let expected = "red,green,blue"
         let result = template.expand(values)
 
@@ -103,7 +103,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testReservedExpansionWithValueModifiers3() {
-        let template = URITemplate("{+list*}")
+        let template = URITemplate(string: "{+list*}")
         let expected = "red,green,blue"
         let result = template.expand(values)
 
@@ -111,7 +111,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testReservedExpansionWithValueModifiers4() {
-        let template = URITemplate("{+keys}")
+        let template = URITemplate(string: "{+keys}")
         let expected = "semi,;,dot,.,comma,,"
         let result = template.expand(values)
 
@@ -119,7 +119,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testReservedExpansionWithValueModifiers5() {
-        let template = URITemplate("{+keys*}")
+        let template = URITemplate(string: "{+keys*}")
         let expected = "semi=;,dot=.,comma=,"
         let result = template.expand(values)
 
@@ -129,7 +129,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Fragment expansion with value modifiers
 
     func testFragmentExpansionWithValueModifiers1() {
-        let template = URITemplate("{#path:6}/here")
+        let template = URITemplate(string: "{#path:6}/here")
         let expected = "#/foo/b/here"
         let result = template.expand(values)
 
@@ -137,7 +137,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFragmentExpansionWithValueModifiers2() {
-        let template = URITemplate("{#list}")
+        let template = URITemplate(string: "{#list}")
         let expected = "#red,green,blue"
         let result = template.expand(values)
 
@@ -145,7 +145,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFragmentExpansionWithValueModifiers3() {
-        let template = URITemplate("{#list*}")
+        let template = URITemplate(string: "{#list*}")
         let expected = "#red,green,blue"
         let result = template.expand(values)
 
@@ -153,7 +153,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFragmentExpansionWithValueModifiers4() {
-        let template = URITemplate("{#keys}")
+        let template = URITemplate(string: "{#keys}")
         let expected = "#semi,;,dot,.,comma,,"
         let result = template.expand(values)
 
@@ -161,7 +161,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFragmentExpansionWithValueModifiers5() {
-        let template = URITemplate("{#keys*}")
+        let template = URITemplate(string: "{#keys*}")
         let expected = "#semi=;,dot=.,comma=,"
         let result = template.expand(values)
 
@@ -171,7 +171,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Label expansion, dot-prefixed
 
     func testLabelExpansionDotPrefixed1() {
-        let template = URITemplate("X{.var:3}")
+        let template = URITemplate(string: "X{.var:3}")
         let expected = "X.val"
         let result = template.expand(values)
 
@@ -179,7 +179,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testLabelExpansionDotPrefixed2() {
-        let template = URITemplate("X{.list}")
+        let template = URITemplate(string: "X{.list}")
         let expected = "X.red,green,blue"
         let result = template.expand(values)
 
@@ -187,7 +187,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testLabelExpansionDotPrefixed3() {
-        let template = URITemplate("X{.list*}")
+        let template = URITemplate(string: "X{.list*}")
         let expected = "X.red.green.blue"
         let result = template.expand(values)
 
@@ -195,7 +195,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testLabelExpansionDotPrefixed4() {
-        let template = URITemplate("X{.keys}")
+        let template = URITemplate(string: "X{.keys}")
         let expected = "X.semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -203,7 +203,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testLabelExpansionDotPrefixed5() {
-        let template = URITemplate("X{.keys*}")
+        let template = URITemplate(string: "X{.keys*}")
         let expected = "X.semi=%3B.dot=..comma=%2C"
         let result = template.expand(values)
 
@@ -213,7 +213,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Path segments, slash-prefixed
 
     func testPathSegmentsSlashPrefixed1() {
-        let template = URITemplate("{/var:1,var}")
+        let template = URITemplate(string: "{/var:1,var}")
         let expected = "/v/value"
         let result = template.expand(values)
 
@@ -221,7 +221,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathSegmentsSlashPrefixed2() {
-        let template = URITemplate("{/list}")
+        let template = URITemplate(string: "{/list}")
         let expected = "/red,green,blue"
         let result = template.expand(values)
 
@@ -229,7 +229,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathSegmentsSlashPrefixed3() {
-        let template = URITemplate("{/list*}")
+        let template = URITemplate(string: "{/list*}")
         let expected = "/red/green/blue"
         let result = template.expand(values)
 
@@ -237,7 +237,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathSegmentsSlashPrefixed4() {
-        let template = URITemplate("{/list*,path:4}")
+        let template = URITemplate(string: "{/list*,path:4}")
         let expected = "/red/green/blue/%2Ffoo"
         let result = template.expand(values)
 
@@ -245,7 +245,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathSegmentsSlashPrefixed5() {
-        let template = URITemplate("{/keys}")
+        let template = URITemplate(string: "{/keys}")
         let expected = "/semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -253,7 +253,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathSegmentsSlashPrefixed6() {
-        let template = URITemplate("{/keys*}")
+        let template = URITemplate(string: "{/keys*}")
         let expected = "/semi=%3B/dot=./comma=%2C"
         let result = template.expand(values)
 
@@ -263,7 +263,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Path-style parameters, semicolon-prefixed
 
     func testPathStyleParametersSemicolonPrefixed1() {
-        let template = URITemplate("{;hello:5}")
+        let template = URITemplate(string: "{;hello:5}")
         let expected = ";hello=Hello"
         let result = template.expand(values)
 
@@ -271,7 +271,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathStyleParametersSemicolonPrefixed2() {
-        let template = URITemplate("{;list}")
+        let template = URITemplate(string: "{;list}")
         let expected = ";list=red,green,blue"
         let result = template.expand(values)
 
@@ -279,7 +279,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathStyleParametersSemicolonPrefixed3() {
-        let template = URITemplate("{;list*}")
+        let template = URITemplate(string: "{;list*}")
         let expected = ";list=red;list=green;list=blue"
         let result = template.expand(values)
 
@@ -287,7 +287,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathStyleParametersSemicolonPrefixed4() {
-        let template = URITemplate("{;keys}")
+        let template = URITemplate(string: "{;keys}")
         let expected = ";keys=semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -295,7 +295,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testPathStyleParametersSemicolonPrefixed5() {
-        let template = URITemplate("{;keys*}")
+        let template = URITemplate(string: "{;keys*}")
         let expected = ";semi=%3B;dot=.;comma=%2C"
         let result = template.expand(values)
 
@@ -305,7 +305,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Form-style query, ampersand-separated
 
     func testFormStyleQueryAmpersandSeparated1() {
-        let template = URITemplate("{?var:3}")
+        let template = URITemplate(string: "{?var:3}")
         let expected = "?var=val"
         let result = template.expand(values)
 
@@ -313,7 +313,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated2() {
-        let template = URITemplate("{?list}")
+        let template = URITemplate(string: "{?list}")
         let expected = "?list=red,green,blue"
         let result = template.expand(values)
 
@@ -321,7 +321,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated3() {
-        let template = URITemplate("{?list*}")
+        let template = URITemplate(string: "{?list*}")
         let expected = "?list=red&list=green&list=blue"
         let result = template.expand(values)
 
@@ -329,7 +329,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated4() {
-        let template = URITemplate("{?keys}")
+        let template = URITemplate(string: "{?keys}")
         let expected = "?keys=semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -337,7 +337,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated5() {
-        let template = URITemplate("{?keys*}")
+        let template = URITemplate(string: "{?keys*}")
         let expected = "?semi=%3B&dot=.&comma=%2C"
         let result = template.expand(values)
 
@@ -347,7 +347,7 @@ class RFC6570Level4Tests: XCTestCase {
     // MARK: - Form-style query continuation
 
     func testFormStyleQueryContinuation1() {
-        let template = URITemplate("{&var:3}")
+        let template = URITemplate(string: "{&var:3}")
         let expected = "&var=val"
         let result = template.expand(values)
 
@@ -355,7 +355,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation2() {
-        let template = URITemplate("{&list}")
+        let template = URITemplate(string: "{&list}")
         let expected = "&list=red,green,blue"
         let result = template.expand(values)
 
@@ -363,7 +363,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation3() {
-        let template = URITemplate("{&list*}")
+        let template = URITemplate(string: "{&list*}")
         let expected = "&list=red&list=green&list=blue"
         let result = template.expand(values)
 
@@ -371,7 +371,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation4() {
-        let template = URITemplate("{&keys}")
+        let template = URITemplate(string: "{&keys}")
         let expected = "&keys=semi,%3B,dot,.,comma,%2C"
         let result = template.expand(values)
 
@@ -379,7 +379,7 @@ class RFC6570Level4Tests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation5() {
-        let template = URITemplate("{&keys*}")
+        let template = URITemplate(string: "{&keys*}")
         let expected = "&semi=%3B&dot=.&comma=%2C"
         let result = template.expand(values)
 

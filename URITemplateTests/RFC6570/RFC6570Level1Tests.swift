@@ -28,7 +28,7 @@ class RFC6570Level1Tests: XCTestCase {
     }
 
     func testSimpleStringExpansion1() {
-        let template = URITemplate("{var}")
+        let template = URITemplate(string: "{var}")
         let expected = "value"
         let result = template.expand(values)
 
@@ -36,7 +36,7 @@ class RFC6570Level1Tests: XCTestCase {
     }
 
     func testSimpleStringExpansion2() {
-        let template = URITemplate("{hello}")
+        let template = URITemplate(string: "{hello}")
         let expected = "Hello%20World%21"
         let result = template.expand(values)
 

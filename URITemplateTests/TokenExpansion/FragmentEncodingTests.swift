@@ -13,7 +13,7 @@ import URITemplate
 
 class FragmentEncodingTests: XCTestCase {
     func testFragmentEncoding() {
-        let template = URITemplate("X{#var}")
+        let template = URITemplate(string: "X{#var}")
         let expected = "X#Hello%20World!"
         let result = template.expand(["var": "Hello World!"])
 
@@ -21,7 +21,7 @@ class FragmentEncodingTests: XCTestCase {
     }
 
     func testFragmentValueIncludesNumberSymbol() {
-        let template = URITemplate("fragment{#value}")
+        let template = URITemplate(string: "fragment{#value}")
         let expected = "fragment##1#2and#3"
         let result = template.expand(["value": "#1#2and#3"])
 
@@ -29,7 +29,7 @@ class FragmentEncodingTests: XCTestCase {
     }
 
     func testFragmentValueNeedsEncoding() {
-        let template = URITemplate("fragment{#value}")
+        let template = URITemplate(string: "fragment{#value}")
         let expected = "fragment#%5E1abc"
         let result = template.expand(["value": "^1abc"])
         

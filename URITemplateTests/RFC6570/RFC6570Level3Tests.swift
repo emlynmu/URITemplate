@@ -32,7 +32,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testMultipleVariableURITemplate1() {
-        let template = URITemplate("map?{x,y}")
+        let template = URITemplate(string: "map?{x,y}")
         let expected = "map?1024,768"
         let result = template.expand(values)
 
@@ -40,7 +40,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testMultipleVariableURITemplate2() {
-        let template = URITemplate("{x,hello,y}")
+        let template = URITemplate(string: "{x,hello,y}")
         let expected = "1024,Hello%20World%21,768"
         let result = template.expand(values)
 
@@ -48,7 +48,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testReservedMultipleVariablesURITemplate1() {
-        let template = URITemplate("{+x,hello,y}")
+        let template = URITemplate(string: "{+x,hello,y}")
         let expected = "1024,Hello%20World!,768"
         let result = template.expand(values)
 
@@ -56,7 +56,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testReservedMultipleVariablesURITemplate2() {
-        let template = URITemplate("{+path,x}/here")
+        let template = URITemplate(string: "{+path,x}/here")
         let expected = "/foo/bar,1024/here"
         let result = template.expand(values)
 
@@ -64,7 +64,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFragmentMultipleVariablesURITemplate1() {
-        let template = URITemplate("{#x,hello,y}")
+        let template = URITemplate(string: "{#x,hello,y}")
         let expected = "#1024,Hello%20World!,768"
         let result = template.expand(values)
 
@@ -72,7 +72,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFragmentMultipleVariablesURITemplate2() {
-        let template = URITemplate("{#x,hello,y}")
+        let template = URITemplate(string: "{#x,hello,y}")
         let expected = "#1024,Hello%20World!,768"
         let result = template.expand(values)
 
@@ -80,7 +80,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testLabelURITemplate1() {
-        let template = URITemplate("X{.var}")
+        let template = URITemplate(string: "X{.var}")
         let expected = "X.value"
         let result = template.expand(values)
 
@@ -88,7 +88,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testLabelURITemplate2() {
-        let template = URITemplate("X{.x,y}")
+        let template = URITemplate(string: "X{.x,y}")
         let expected = "X.1024.768"
         let result = template.expand(values)
 
@@ -96,7 +96,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testPathSegments1() {
-        let template = URITemplate("{/var}")
+        let template = URITemplate(string: "{/var}")
         let expected = "/value"
         let result = template.expand(values)
 
@@ -104,7 +104,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testPathSegments2() {
-        let template = URITemplate("{/var,x}/here")
+        let template = URITemplate(string: "{/var,x}/here")
         let expected = "/value/1024/here"
         let result = template.expand(values)
 
@@ -112,7 +112,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testPathStyleParameters1() {
-        let template = URITemplate("{;x,y}")
+        let template = URITemplate(string: "{;x,y}")
         let expected = ";x=1024;y=768"
         let result = template.expand(values)
 
@@ -120,7 +120,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testPathStyleParameters2() {
-        let template = URITemplate("{;x,y,empty}")
+        let template = URITemplate(string: "{;x,y,empty}")
         let expected = ";x=1024;y=768;empty"
         let result = template.expand(values)
 
@@ -128,7 +128,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated1() {
-        let template = URITemplate("{?x,y}")
+        let template = URITemplate(string: "{?x,y}")
         let expected = "?x=1024&y=768"
         let result = template.expand(values)
 
@@ -136,7 +136,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFormStyleQueryAmpersandSeparated2() {
-        let template = URITemplate("{?x,y,empty}")
+        let template = URITemplate(string: "{?x,y,empty}")
         let expected = "?x=1024&y=768&empty="
         let result = template.expand(values)
 
@@ -144,7 +144,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation1() {
-        let template = URITemplate("?fixed=yes{&x}")
+        let template = URITemplate(string: "?fixed=yes{&x}")
         let expected = "?fixed=yes&x=1024"
         let result = template.expand(values)
 
@@ -152,7 +152,7 @@ class RFC6570Level3ExampleTests: XCTestCase {
     }
 
     func testFormStyleQueryContinuation2() {
-        let template = URITemplate("{&x,y,empty}")
+        let template = URITemplate(string: "{&x,y,empty}")
         let expected = "&x=1024&y=768&empty="
         let result = template.expand(values)
 

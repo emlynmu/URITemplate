@@ -11,7 +11,7 @@ import URITemplate
 
 class LabelTests: XCTestCase {
     func testSimpleLabelExpansion() {
-        let template = URITemplate("{.who}")
+        let template = URITemplate(string: "{.who}")
         let expected = ".fred"
         let result = template.expand(["who": "fred"])
 
@@ -19,7 +19,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDoubleSimpleLabelExpansion() {
-        let template = URITemplate("{.who,who}")
+        let template = URITemplate(string: "{.who,who}")
         let expected = ".fred.fred"
         let result = template.expand(["who": "fred"])
 
@@ -27,7 +27,7 @@ class LabelTests: XCTestCase {
     }
 
     func testFileExtensionExpansion() {
-        let template = URITemplate("something{.ext}")
+        let template = URITemplate(string: "something{.ext}")
         let expected = "something.tar"
         let result = template.expand(["ext": "tar"])
 
@@ -35,7 +35,7 @@ class LabelTests: XCTestCase {
     }
 
     func testDoubleFileExtensionExpansion() {
-        let template = URITemplate("something{.ext*}")
+        let template = URITemplate(string: "something{.ext*}")
         let expected = "something.tar.gz"
         let result = template.expand(["ext": ["tar", "gz"]])
 
@@ -43,14 +43,14 @@ class LabelTests: XCTestCase {
     }
 
     func testEmpty() {
-        let template = URITemplate("X{.empty}")
+        let template = URITemplate(string: "X{.empty}")
         let expected = "X."
         let result = template.expand(["empty": ""])
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
     }
 
     func testUndefined() {
-        let template = URITemplate("X{.undefined}")
+        let template = URITemplate(string: "X{.undefined}")
         let expected = "X"
         let result = template.expand(["empty": ""])
         XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")

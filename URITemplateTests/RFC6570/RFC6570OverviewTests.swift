@@ -17,7 +17,7 @@ import URITemplate
 
 class RFC6570OverviewTests: XCTestCase {
     func testPersonalWebSpacesExample() {
-        let template = URITemplate("http://example.com/~{username}/")
+        let template = URITemplate(string: "http://example.com/~{username}/")
 
         let values1 = [ "username": "fred" ]
         let expected1 = "http://example.com/~fred/"
@@ -33,7 +33,7 @@ class RFC6570OverviewTests: XCTestCase {
     }
 
     func testDictionaryExample() {
-        let template = URITemplate("http://example.com/dictionary/{term:1}/{term}")
+        let template = URITemplate(string: "http://example.com/dictionary/{term:1}/{term}")
 
         let values1 = ["term": "cat"]
         let expected1 = "http://example.com/dictionary/c/cat"
@@ -49,7 +49,7 @@ class RFC6570OverviewTests: XCTestCase {
     }
 
     func testSearchExample() {
-        let template = URITemplate("http://example.com/search{?q,lang}")
+        let template = URITemplate(string: "http://example.com/search{?q,lang}")
 
         let values1 = ["q": "cat", "lang": "en"]
         let expected1 = "http://example.com/search?q=cat&lang=en"
@@ -65,7 +65,7 @@ class RFC6570OverviewTests: XCTestCase {
     }
 
     func testFormStyleFormStyleParameterExample() {
-        let template = URITemplate("http://www.example.com/foo{?query,number}")
+        let template = URITemplate(string: "http://www.example.com/foo{?query,number}")
         let expected = "http://www.example.com/foo?query=mycelium&number=100"
 
         let values = [

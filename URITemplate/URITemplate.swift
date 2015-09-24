@@ -17,8 +17,8 @@ public protocol URITemplateExpandable {
 public struct URITemplate: URITemplateExpandable {
     private let tokens: [Token]
 
-    public init(_ value: CustomStringConvertible) {
-        tokens = tokenize(value.description)
+    public init(string: CustomStringConvertible) {
+        tokens = tokenize(string.description)
     }
 
     public init(tokens: [Token]) {
