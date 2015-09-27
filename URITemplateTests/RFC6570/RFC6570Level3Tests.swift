@@ -26,8 +26,8 @@ class RFC6570Level3ExampleTests: XCTestCase {
             "hello": "Hello World!",
             "empty": "",
             "path": "/foo/bar",
-            "x": "1024",
-            "y": "768"
+            "x": 1024,
+            "y": 768
         ]
     }
 
