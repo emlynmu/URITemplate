@@ -312,14 +312,14 @@
 
 // MARK: - Form-style query, ampersand-separated
 
-//func testFormStyleQueryAmpersandSeparated1() {
-//    let template = URITemplate(string: "{?var:3}")
-//    let expected = "?var=val"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
+- (void)testFormStyleQueryAmpersandSeparated1 {
+    URITemplate *template = [URITemplate templateWithString:@"{?var:3}"];
+    NSString *expected = @"?var=val";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
 //func testFormStyleQueryAmpersandSeparated2() {
 //    let template = URITemplate(string: "{?list}")
 //    let expected = "?list=red,green,blue"
