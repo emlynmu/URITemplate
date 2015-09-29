@@ -270,45 +270,45 @@
 
 // MARK: - Path-style parameters, semicolon-prefixed
 
-//func testPathStyleParametersSemicolonPrefixed1() {
-//    let template = URITemplate(string: "{;hello:5}")
-//    let expected = ";hello=Hello"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testPathStyleParametersSemicolonPrefixed2() {
-//    let template = URITemplate(string: "{;list}")
-//    let expected = ";list=red,green,blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testPathStyleParametersSemicolonPrefixed3() {
-//    let template = URITemplate(string: "{;list*}")
-//    let expected = ";list=red;list=green;list=blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testPathStyleParametersSemicolonPrefixed4() {
-//    let template = URITemplate(string: "{;keys}")
-//    let expected = ";keys=semi,%3B,dot,.,comma,%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testPathStyleParametersSemicolonPrefixed5() {
-//    let template = URITemplate(string: "{;keys*}")
-//    let expected = ";semi=%3B;dot=.;comma=%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
+- (void)testPathStyleParametersSemicolonPrefixed1 {
+    URITemplate *template = [URITemplate templateWithString:@"{;hello:5}"];
+    NSString *expected = @";hello=Hello";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testPathStyleParametersSemicolonPrefixed2 {
+    URITemplate *template = [URITemplate templateWithString:@"{;list}"];
+    NSString *expected = @";list=red,green,blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testPathStyleParametersSemicolonPrefixed3 {
+    URITemplate *template = [URITemplate templateWithString:@"{;list*}"];
+    NSString *expected = @";list=red;list=green;list=blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testPathStyleParametersSemicolonPrefixed4 {
+    URITemplate *template = [URITemplate templateWithString:@"{;keys}"];
+    NSString *expected = @";keys=semi,%3B,dot,.,comma,%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testPathStyleParametersSemicolonPrefixed5 {
+    URITemplate *template = [URITemplate templateWithString:@"{;keys*}"];
+    NSString *expected = @";semi=%3B;dot=.;comma=%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
 
 // MARK: - Form-style query, ampersand-separated
 
