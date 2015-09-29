@@ -320,78 +320,78 @@
     XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
 }
 
-//func testFormStyleQueryAmpersandSeparated2() {
-//    let template = URITemplate(string: "{?list}")
-//    let expected = "?list=red,green,blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryAmpersandSeparated3() {
-//    let template = URITemplate(string: "{?list*}")
-//    let expected = "?list=red&list=green&list=blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryAmpersandSeparated4() {
-//    let template = URITemplate(string: "{?keys}")
-//    let expected = "?keys=semi,%3B,dot,.,comma,%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryAmpersandSeparated5() {
-//    let template = URITemplate(string: "{?keys*}")
-//    let expected = "?semi=%3B&dot=.&comma=%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
+- (void)testFormStyleQueryAmpersandSeparated2 {
+    URITemplate *template = [URITemplate templateWithString:@"{?list}"];
+    NSString *expected = @"?list=red,green,blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryAmpersandSeparated3 {
+    URITemplate *template = [URITemplate templateWithString:@"{?list*}"];
+    NSString *expected = @"?list=red&list=green&list=blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryAmpersandSeparated4 {
+    URITemplate *template = [URITemplate templateWithString:@"{?keys}"];
+    NSString *expected = @"?keys=semi,%3B,dot,.,comma,%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryAmpersandSeparated5 {
+    URITemplate *template = [URITemplate templateWithString:@"{?keys*}"];
+    NSString *expected = @"?semi=%3B&dot=.&comma=%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
 
 // MARK: - Form-style query continuation
 
-//func testFormStyleQueryContinuation1() {
-//    let template = URITemplate(string: "{&var:3}")
-//    let expected = "&var=val"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryContinuation2() {
-//    let template = URITemplate(string: "{&list}")
-//    let expected = "&list=red,green,blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryContinuation3() {
-//    let template = URITemplate(string: "{&list*}")
-//    let expected = "&list=red&list=green&list=blue"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryContinuation4() {
-//    let template = URITemplate(string: "{&keys}")
-//    let expected = "&keys=semi,%3B,dot,.,comma,%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
-//
-//func testFormStyleQueryContinuation5() {
-//    let template = URITemplate(string: "{&keys*}")
-//    let expected = "&semi=%3B&dot=.&comma=%2C"
-//    let result = template.expand(values)
-//
-//    XCTAssert(expected == result, "expected \"\(expected)\"; got \"\(result)\"")
-//}
+- (void)testFormStyleQueryContinuation1 {
+    URITemplate *template = [URITemplate templateWithString:@"{&var:3}"];
+    NSString *expected = @"&var=val";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryContinuation2 {
+    URITemplate *template = [URITemplate templateWithString:@"{&list}"];
+    NSString *expected = @"&list=red,green,blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryContinuation3 {
+    URITemplate *template = [URITemplate templateWithString:@"{&list*}"];
+    NSString *expected = @"&list=red&list=green&list=blue";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryContinuation4 {
+    URITemplate *template = [URITemplate templateWithString:@"{&keys}"];
+    NSString *expected = @"&keys=semi,%3B,dot,.,comma,%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
+
+- (void)testFormStyleQueryContinuation5 {
+    URITemplate *template = [URITemplate templateWithString:@"{&keys*}"];
+    NSString *expected = @"&semi=%3B&dot=.&comma=%2C";
+    NSString *result = [template expand:self.values];
+
+    XCTAssert([expected isEqualToString:result], @"expected \"%@\"; got \"%@\"", expected, result);
+}
 
 @end
