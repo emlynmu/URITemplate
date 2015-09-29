@@ -3,7 +3,7 @@
 //  URITemplate
 //
 //  Created by Emlyn Murphy on 8/24/15.
-//  Copyright (c) 2015 Emlyn Murphy. All rights reserved.
+//  Copyright © 2015 Emlyn Murphy. All rights reserved.
 //
 //
 //  Overview examples from RFC 6570
