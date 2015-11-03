@@ -29,8 +29,8 @@
 		7562BE301B9349A600F81775 /* FormStyleQueryExpansionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE2F1B9349A600F81775 /* FormStyleQueryExpansionTests.swift */; };
 		7562BE321B934B9400F81775 /* FormStyleQueryContinuationExpansionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE311B934B9400F81775 /* FormStyleQueryContinuationExpansionTests.swift */; };
 		7562BE341B93549D00F81775 /* SimpleStringExpansionExplodeListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562BE331B93549D00F81775 /* SimpleStringExpansionExplodeListTests.swift */; };
-		75712CC21BB8BAD300255647 /* OCRFC6570Level4Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75712CC11BB8BAD300255647 /* OCRFC6570Level4Tests.m */; settings = {ASSET_TAGS = (); }; };
-		7574F4911BB3EFBB00672434 /* OCRFC6570Level1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */; settings = {ASSET_TAGS = (); }; };
+		75712CC21BB8BAD300255647 /* OCRFC6570Level4Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75712CC11BB8BAD300255647 /* OCRFC6570Level4Tests.m */; };
+		7574F4911BB3EFBB00672434 /* OCRFC6570Level1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7574F4901BB3EFBB00672434 /* OCRFC6570Level1Tests.m */; };
 		75AE80AD1B945FFF00AF525D /* FormStyleQueryContinuationExpansionExplodeListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE80AC1B945FFF00AF525D /* FormStyleQueryContinuationExpansionExplodeListTests.swift */; };
 		75BB06481B8B2B0D008C9ADC /* ValueModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06471B8B2B0D008C9ADC /* ValueModifiers.swift */; };
 		75BB064A1B8C7018008C9ADC /* VariableSpecifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BB06491B8C7018008C9ADC /* VariableSpecifier.swift */; };
@@ -39,8 +39,8 @@
 		75CCD9381B7C005000A508F1 /* LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9371B7C005000A508F1 /* LabelTests.swift */; };
 		75CCD93A1B7C37E000A508F1 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD9391B7C37E000A508F1 /* Token.swift */; };
 		75CCD93C1B7CA91100A508F1 /* ExpressionCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCD93B1B7CA91100A508F1 /* ExpressionCharacters.swift */; };
-		75CCEC4C1BB3F39500E46754 /* OCRFC6570Level2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4B1BB3F39500E46754 /* OCRFC6570Level2Tests.m */; settings = {ASSET_TAGS = (); }; };
-		75CCEC4E1BB3F69600E46754 /* OCRFC6570Level3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4D1BB3F69600E46754 /* OCRFC6570Level3Tests.m */; settings = {ASSET_TAGS = (); }; };
+		75CCEC4C1BB3F39500E46754 /* OCRFC6570Level2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4B1BB3F39500E46754 /* OCRFC6570Level2Tests.m */; };
+		75CCEC4E1BB3F69600E46754 /* OCRFC6570Level3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCEC4D1BB3F69600E46754 /* OCRFC6570Level3Tests.m */; };
 		75E93D3B1B76928E00BAB4E3 /* URITemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E93D3A1B76928E00BAB4E3 /* URITemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75E93D411B76928E00BAB4E3 /* URITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E93D351B76928E00BAB4E3 /* URITemplate.framework */; };
 		75E93D5A1B7692A800BAB4E3 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E93D571B7692A800BAB4E3 /* URITemplate.swift */; };
@@ -503,6 +503,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "URITemplate/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nitemotif.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = URITemplate;
@@ -521,6 +522,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "URITemplate/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nitemotif.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = URITemplate;
